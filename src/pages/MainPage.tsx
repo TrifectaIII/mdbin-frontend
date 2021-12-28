@@ -9,6 +9,15 @@ import {
     makeStyles,
 } from '@material-ui/core';
 
+import CodeMirror from '@uiw/react-codemirror';
+import {
+    markdown,
+    markdownLanguage,
+} from '@codemirror/lang-markdown';
+import {
+    languages,
+} from '@codemirror/language-data';
+
 import {
     useAppSelector,
     useAppDispatch,
@@ -39,11 +48,7 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
     if (outputElement.current) outputElement.current.innerHTML = outputHTML;
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-
-        dispatch(updateText(event.target.value));
-
-    };
+    const handleChange = (value: string) => dispatch(updateText(value));
 
     return (
         <Box
@@ -52,10 +57,14 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
             flexDirection='column'
             className={classes.root}
         >
-            <TextField
-                variant='outlined'
-                multiline
+            <CodeMirror
                 onChange={handleChange}
+                extensions={[
+                    markdown({
+                        base: markdownLanguage,
+                        codeLanguages: languages,
+                    }),
+                ]}
             />
             <div ref={outputElement} />
         </Box>
