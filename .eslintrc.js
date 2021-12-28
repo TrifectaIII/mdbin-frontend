@@ -52,7 +52,7 @@ module.exports = {
         'computed-property-spacing': 'error',
         'consistent-return': 'error',
         'consistent-this': 'error',
-        'curly': 'error',
+        'curly': ['error', 'multi'],
         'default-case': 'error',
         'default-case-last': 'error',
         'default-param-last': 'error',

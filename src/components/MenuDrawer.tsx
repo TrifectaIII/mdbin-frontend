@@ -60,23 +60,21 @@ const MenuDrawer = (props: {}): JSX.Element => {
     Object.entries(navMap).
         forEach(([name, point], index) => {
 
-            if ('route' in point) {
+            if ('route' in point) navItems.push(<Link
+                to={point.route}
+                key={name}
+                className={classes.linkText}
+                onClick={() => dispatch(closeMenuDrawer())}
+            >
+                <ListItem>
+                    <ListItemIcon>
+                        <point.icon />
+                    </ListItemIcon>
+                    <ListItemText primary={name} />
+                </ListItem>
+            </Link>);
 
-                navItems.push(<Link
-                    to={point.route}
-                    key={name}
-                    className={classes.linkText}
-                    onClick={() => dispatch(closeMenuDrawer())}
-                >
-                    <ListItem>
-                        <ListItemIcon>
-                            <point.icon />
-                        </ListItemIcon>
-                        <ListItemText primary={name} />
-                    </ListItem>
-                </Link>);
-
-            } else {
+            else {
 
                 navItems.push(<ListItem
                     key={name}
@@ -113,11 +111,9 @@ const MenuDrawer = (props: {}): JSX.Element => {
             }
 
             // add a divider it its not the last point
-            if (index < Object.keys(navMap).length - 1) {
+            // eslint-disable-next-line max-len
+            if (index < Object.keys(navMap).length - 1) navItems.push(<Divider key={`div${index}`} />);
 
-                navItems.push(<Divider key={`div${index}`} />);
-
-            }
 
         });
 

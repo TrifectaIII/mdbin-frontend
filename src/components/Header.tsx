@@ -99,77 +99,72 @@ const Header = (props: {}): JSX.Element => {
     const navItems: JSX.Element[] = [];
     Object.entries(navMap).forEach(([name, point]) => {
 
-        if ('route' in point) {
+        if ('route' in point) navItems.push(<Link
+            to={point.route}
+            key={name}
+            className={clsx(
+                classes.white,
+                classes.noDec,
+            )}
+        >
+            <Button className={classes.navButton}>
+                <point.icon className={classes.spaceRight} />
+                <Typography variant='body1'>
+                    {name}
+                </Typography>
+            </Button>
+        </Link>);
 
-            navItems.push(<Link
-                to={point.route}
-                key={name}
-                className={clsx(
-                    classes.white,
-                    classes.noDec,
-                )}
+        else navItems.push(<React.Fragment key={name}>
+            <Button
+                onClick={(event) => states[name].setter(event.currentTarget)}
+                className={classes.navButton}
             >
-                <Button className={classes.navButton}>
-                    <point.icon className={classes.spaceRight} />
-                    <Typography variant='body1'>
-                        {name}
-                    </Typography>
-                </Button>
-            </Link>);
+                <point.icon className={classes.spaceRight} />
+                <Typography variant='body1'>
+                    {name}
+                </Typography>
+                <ExpandIcon />
+            </Button>
 
-        } else {
-
-            navItems.push(<React.Fragment key={name}>
-                <Button
-                    onClick={(event) => states[name].setter(event.currentTarget)}
-                    className={classes.navButton}
-                >
-                    <point.icon className={classes.spaceRight} />
-                    <Typography variant='body1'>
-                        {name}
-                    </Typography>
-                    <ExpandIcon />
-                </Button>
-
-                <Menu
-                    getContentAnchorEl={null}
-                    anchorEl={states[name].value}
-                    open={Boolean(states[name].value)}
-                    onClose={() => states[name].setter(null)}
-                    elevation={0}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                    }}
-                    keepMounted
-                >
-                    {Object.entries(point.children).
-                        map(([cName, cPoint]) => <Link
-                            to={cPoint.route}
-                            key={cName}
-                            className={clsx(
-                                classes.noDec,
-                                classes.textcolor,
-                            )}
+            <Menu
+                getContentAnchorEl={null}
+                anchorEl={states[name].value}
+                open={Boolean(states[name].value)}
+                onClose={() => states[name].setter(null)}
+                elevation={0}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                keepMounted
+            >
+                {Object.entries(point.children).
+                    map(([cName, cPoint]) => <Link
+                        to={cPoint.route}
+                        key={cName}
+                        className={clsx(
+                            classes.noDec,
+                            classes.textcolor,
+                        )}
+                    >
+                        <MenuItem
+                            onClick={() => states[name].setter(null)}
                         >
-                            <MenuItem
-                                onClick={() => states[name].setter(null)}
-                            >
-                                <ListItemIcon>
-                                    <cPoint.icon />
-                                </ListItemIcon>
-                                <ListItemText primary={cName} />
-                            </MenuItem>
-                        </Link>)
-                    }
-                </Menu>
-            </React.Fragment>);
+                            <ListItemIcon>
+                                <cPoint.icon />
+                            </ListItemIcon>
+                            <ListItemText primary={cName} />
+                        </MenuItem>
+                    </Link>)
+                }
+            </Menu>
+        </React.Fragment>);
 
-        }
 
     });
 

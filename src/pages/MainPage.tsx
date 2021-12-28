@@ -1,19 +1,22 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
     RouteComponentProps,
 } from 'react-router-dom';
 
 import {
-    Button,
-    ButtonGroup,
-    Typography,
+    TextField,
     Box,
     makeStyles,
 } from '@material-ui/core';
+
 import {
-    Apps as AppsIcon,
-    Error as ErrorIcon,
-} from '@material-ui/icons';
+    useAppSelector,
+    useAppDispatch,
+} from '../state/hooks';
+import {
+    selectOutputHTML,
+    updateText,
+} from '../state/textSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,6 +31,19 @@ const useStyles = makeStyles((theme) => ({
 const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
     const classes = useStyles();
+    const dispatch = useAppDispatch();
+
+    const outputHTML = useAppSelector(selectOutputHTML);
+
+    const outputElement = useRef<HTMLDivElement>(null);
+
+    if (outputElement.current) outputElement.current.innerHTML = outputHTML;
+
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+
+        dispatch(updateText(event.target.value));
+
+    };
 
     return (
         <Box
@@ -36,30 +52,12 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
             flexDirection='column'
             className={classes.root}
         >
-            <Typography
-                variant='h2'
-                align='center'
-            >
-                React-ReduxTK-Router-MUI-TS Template
-            </Typography>
-            <ButtonGroup
-                variant='contained'
-                className={classes.buttons}
-            >
-                {/* buttons which function as links */}
-                <Button
-                    onClick={() => props.history.push('/counter')}
-                    color='primary'
-                >
-                    <AppsIcon />Counter App
-                </Button>
-                <Button
-                    onClick={() => props.history.push('/nonexistent')}
-                    color='secondary'
-                >
-                    <ErrorIcon />Test 404 Page
-                </Button>
-            </ButtonGroup>
+            <TextField
+                variant='outlined'
+                multiline
+                onChange={handleChange}
+            />
+            <div ref={outputElement} />
         </Box>
     );
 
