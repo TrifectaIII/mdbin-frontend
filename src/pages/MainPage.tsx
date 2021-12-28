@@ -1,10 +1,9 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {
     RouteComponentProps,
 } from 'react-router-dom';
 
 import {
-    TextField,
     Box,
     makeStyles,
 } from '@material-ui/core';
@@ -22,6 +21,9 @@ import {
     useAppSelector,
     useAppDispatch,
 } from '../state/hooks';
+import {
+    selectDarkMode,
+} from '../state/globalSlice';
 import {
     selectOutputHTML,
     updateText,
@@ -42,13 +44,20 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
     const classes = useStyles();
     const dispatch = useAppDispatch();
 
-    const outputHTML = useAppSelector(selectOutputHTML);
+    const darkMode = useAppSelector(selectDarkMode);
 
-    const outputElement = useRef<HTMLDivElement>(null);
-
-    if (outputElement.current) outputElement.current.innerHTML = outputHTML;
-
+    // handler for updating state when text is changed
     const handleChange = (value: string) => dispatch(updateText(value));
+
+    // display rendered HTML from state
+    const outputHTML = useAppSelector(selectOutputHTML);
+    const outputElement = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+
+        if (outputElement.current) outputElement.current.innerHTML = outputHTML;
+
+    }, [outputHTML]);
+
 
     return (
         <Box
@@ -58,6 +67,7 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
             className={classes.root}
         >
             <CodeMirror
+                theme={darkMode ? 'dark' : 'light'}
                 onChange={handleChange}
                 extensions={[
                     markdown({
