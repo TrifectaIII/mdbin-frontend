@@ -22,6 +22,8 @@ import MenuDrawer from './components/MenuDrawer';
 import {useAppSelector} from './state/hooks';
 import {selectDarkMode} from './state/globalSlice';
 
+import './App.css';
+
 // helper function for generating themes
 const createAppTheme =
     (options: ThemeOptions): Theme => responsiveFontSizes(createTheme(options));

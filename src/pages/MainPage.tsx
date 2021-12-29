@@ -4,7 +4,8 @@ import {
 } from 'react-router-dom';
 
 import {
-    Box,
+    Container,
+    Grid,
     makeStyles,
 } from '@material-ui/core';
 
@@ -25,16 +26,20 @@ import {
     selectDarkMode,
 } from '../state/globalSlice';
 import {
+    selectInputMD,
     selectOutputHTML,
     updateText,
 } from '../state/textSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        marginTop: '3rem',
+        // marginTop: '3rem',
     },
-    buttons: {
-        marginTop: '3rem',
+    input: {
+
+    },
+    output: {
+
     },
 }));
 
@@ -47,6 +52,7 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
     const darkMode = useAppSelector(selectDarkMode);
 
     // handler for updating state when text is changed
+    const inputMD = useAppSelector(selectInputMD);
     const handleChange = (value: string) => dispatch(updateText(value));
 
     // display rendered HTML from state
@@ -60,24 +66,41 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
 
     return (
-        <Box
-            alignItems='center'
-            display='flex'
-            flexDirection='column'
+        <Grid
+            container
+            direction='row'
             className={classes.root}
         >
-            <CodeMirror
-                theme={darkMode ? 'dark' : 'light'}
-                onChange={handleChange}
-                extensions={[
-                    markdown({
-                        base: markdownLanguage,
-                        codeLanguages: languages,
-                    }),
-                ]}
-            />
-            <div ref={outputElement} />
-        </Box>
+            <Grid
+                item
+                xs={12}
+                md={6}
+            >
+                <CodeMirror
+                    height='200px'
+                    theme={darkMode ? 'dark' : 'light'}
+                    value={inputMD}
+                    onChange={handleChange}
+                    extensions={[
+                        markdown({
+                            base: markdownLanguage,
+                            codeLanguages: languages,
+                        }),
+                    ]}
+                    className={classes.input}
+                />
+            </Grid>
+            <Grid
+                item
+                xs={12}
+                md={6}
+            >
+                <Container
+                    ref={outputElement}
+                    className={classes.output}
+                ><div></div></Container>
+            </Grid>
+        </Grid>
     );
 
 };
