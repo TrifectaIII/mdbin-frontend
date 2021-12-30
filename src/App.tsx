@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 
 import {
-    Container,
     CssBaseline,
     ThemeProvider,
     createTheme,
@@ -15,8 +14,9 @@ import {
     ThemeOptions,
 } from '@material-ui/core';
 
-import Main from './pages/MainPage';
-import NotFound from './pages/NotFoundPage';
+import MainPage from './pages/MainPage';
+import NotFoundPage from './pages/NotFoundPage';
+import InfoPage from './pages/InfoPage';
 import Header from './components/Header';
 import MenuDrawer from './components/MenuDrawer';
 import {useAppSelector} from './state/hooks';
@@ -75,17 +75,19 @@ const App = (): JSX.Element => {
                 <MenuDrawer />
 
                 {/* route based on url */}
-                <Container>
-                    <Switch>
-                        {/* main page */}
-                        <Route
-                            exact path='/'
-                            component={Main}
-                        />
-                        {/* default to 404 */}
-                        <Route component={NotFound} />
-                    </Switch>
-                </Container>
+                <Switch>
+                    {/* main page */}
+                    <Route
+                        exact path='/'
+                        component={MainPage}
+                    />
+                    <Route
+                        exact path='/info'
+                        component={InfoPage}
+                    />
+                    {/* default to 404 */}
+                    <Route component={NotFoundPage} />
+                </Switch>
             </Router>
         </ThemeProvider>
     );

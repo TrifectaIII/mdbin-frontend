@@ -4,14 +4,10 @@ import {
 } from 'react-router-dom';
 
 import {
-    Box,
+    Typography,
+    Container,
     makeStyles,
 } from '@material-ui/core';
-
-// import {
-//     useAppSelector,
-//     useAppDispatch,
-// } from '../state/hooks';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,19 +15,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// An empty template page component
-const TemplatePage = (props: RouteComponentProps<{}>): JSX.Element => {
+// An information page
+const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
     const classes = useStyles();
 
     return (
-        <Box
+        <Container
             className={classes.root}
         >
-            Template Page
-        </Box>
+            <Typography variant='h1'>
+                Information
+            </Typography>
+        </Container>
     );
 
 };
 
-export default TemplatePage;
+export default InfoPage;
