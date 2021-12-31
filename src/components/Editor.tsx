@@ -14,7 +14,6 @@ import {
 
 import CodeMirror, {
     ReactCodeMirrorRef,
-    TransactionSpec,
 } from '@uiw/react-codemirror';
 import {
     markdown,
@@ -35,6 +34,9 @@ import {
     selectInputMD,
     updateText,
 } from '../state/textSlice';
+import {
+    insertAroundSelections,
+} from '../editing';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -66,25 +68,23 @@ const Editor = (props: {}): JSX.Element => {
 
     const insertBold = () => {
 
-        if (!codeMirrorRef.current) return;
-        const {view} = codeMirrorRef.current;
-        if (!view) return;
+        if (codeMirrorRef.current?.view) {
 
-        const transactionSpecs = view.state.selection.ranges.map((range) => view.state.update(
-            {changes: {
-                from: range.from,
-                insert: '**',
-            }},
-            {changes: {
-                from: range.to,
-                insert: '**',
-            }},
-        ));
+            const {view} = codeMirrorRef.current;
+            view.dispatch(insertAroundSelections(view, '**'));
 
-        const transaction = view.state.update(...transactionSpecs);
-        view.dispatch(transaction);
+        }
 
-        codeMirrorRef.current.editor?.focus();
+    };
+
+    const insertItalic = () => {
+
+        if (codeMirrorRef.current?.view) {
+
+            const {view} = codeMirrorRef.current;
+            view.dispatch(insertAroundSelections(view, '*'));
+
+        }
 
     };
 
@@ -98,13 +98,13 @@ const Editor = (props: {}): JSX.Element => {
                         <IconButton size='small' onClick={insertBold}>
                             <BoldIcon />
                         </IconButton>
-                        <IconButton size='small'>
+                        <IconButton size='small' onClick={insertItalic}>
                             <ItalicIcon />
                         </IconButton>
                     </Toolbar>
                 </Grid>
 
-                {/* CodeMirror */}
+                {/* CodeMirror Editor */}
                 <Grid item xs={12}>
                     <CodeMirror
                         theme={darkMode ? 'dark' : 'light'}
