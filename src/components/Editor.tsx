@@ -5,11 +5,19 @@ import {
     Box,
     Toolbar,
     IconButton,
+    Tooltip,
     makeStyles,
 } from '@material-ui/core';
 import {
     FormatBold as BoldIcon,
     FormatItalic as ItalicIcon,
+    FormatQuote as QuoteIcon,
+    FormatListBulleted as ListBulletedIcon,
+    FormatListNumbered as ListNumberedIcon,
+    FormatStrikethrough as StrikethroughIcon,
+    Remove as RuleIcon,
+    Code as CodeIcon,
+    DeleteForeverOutlined as ClearIcon,
 } from '@material-ui/icons';
 
 import CodeMirror, {
@@ -35,8 +43,9 @@ import {
     updateText,
 } from '../state/textSlice';
 import {
+    clearAll,
     insertAroundSelections,
-} from '../editing';
+} from '../cmEditing';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,8 +54,8 @@ const useStyles = makeStyles((theme) => ({
     codeMirror: {
 
     },
-    buttons: {
-
+    buttonBar: {
+        justifyContent: 'center',
     },
 }));
 
@@ -68,23 +77,25 @@ const Editor = (props: {}): JSX.Element => {
 
     const insertBold = () => {
 
-        if (codeMirrorRef.current?.view) {
-
-            const {view} = codeMirrorRef.current;
-            view.dispatch(insertAroundSelections(view, '**'));
-
-        }
+        if (!codeMirrorRef.current?.view) return;
+        const {view} = codeMirrorRef.current;
+        view.dispatch(insertAroundSelections(view, '**'));
 
     };
 
     const insertItalic = () => {
 
-        if (codeMirrorRef.current?.view) {
+        if (!codeMirrorRef.current?.view) return;
+        const {view} = codeMirrorRef.current;
+        view.dispatch(insertAroundSelections(view, '*'));
 
-            const {view} = codeMirrorRef.current;
-            view.dispatch(insertAroundSelections(view, '*'));
+    };
 
-        }
+    const handleClearAll = () => {
+
+        if (!codeMirrorRef.current?.view) return;
+        const {view} = codeMirrorRef.current;
+        view.dispatch(clearAll(view));
 
     };
 
@@ -94,13 +105,55 @@ const Editor = (props: {}): JSX.Element => {
 
                 {/* Toolbar With helper buttons */}
                 <Grid item xs={12}>
-                    <Toolbar variant='dense'>
-                        <IconButton size='small' onClick={insertBold}>
-                            <BoldIcon />
-                        </IconButton>
-                        <IconButton size='small' onClick={insertItalic}>
-                            <ItalicIcon />
-                        </IconButton>
+                    <Toolbar
+                        variant='dense'
+                        className={classes.buttonBar}
+                    >
+                        <Tooltip title='Bold'>
+                            <IconButton size='small' onClick={insertBold}>
+                                <BoldIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Italics'>
+                            <IconButton size='small' onClick={insertItalic}>
+                                <ItalicIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Strikethrough'>
+                            <IconButton size='small'>
+                                <StrikethroughIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Start Bulleted List'>
+                            <IconButton size='small'>
+                                <ListBulletedIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Start Numbered List'>
+                            <IconButton size='small'>
+                                <ListNumberedIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Start Block Quote'>
+                            <IconButton size='small'>
+                                <QuoteIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Start Code Block'>
+                            <IconButton size='small'>
+                                <CodeIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Insert Horizontal Rule'>
+                            <IconButton size='small'>
+                                <RuleIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Clear All'>
+                            <IconButton size='small' onClick={handleClearAll}>
+                                <ClearIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Toolbar>
                 </Grid>
 

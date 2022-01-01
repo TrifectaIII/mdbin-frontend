@@ -5,6 +5,7 @@ import {
     PayloadAction,
 } from '@reduxjs/toolkit';
 
+import initialText from '../initialText';
 import {
     RootState,
 } from './store';
@@ -15,9 +16,13 @@ export interface TextState {
     outputHTML: string;
 }
 
+const savedText = localStorage.getItem('editorText');
+
 const initialState: TextState = {
-    inputMD: '',
-    outputHTML: '',
+    inputMD: savedText || initialText,
+    outputHTML: savedText
+        ? DOMPurify.sanitize(marked.parse(savedText))
+        : DOMPurify.sanitize(marked.parse(initialText)),
 };
 
 export const textSlice = createSlice({
@@ -29,6 +34,7 @@ export const textSlice = createSlice({
 
             state.inputMD = action.payload;
             state.outputHTML = DOMPurify.sanitize(marked.parse(action.payload));
+            localStorage.setItem('editorText', action.payload);
 
         },
     },
