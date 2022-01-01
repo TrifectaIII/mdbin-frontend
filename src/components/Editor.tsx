@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 
 import {
     Grid,
@@ -42,6 +42,7 @@ import {
     selectInputMD,
     updateText,
 } from '../state/textSlice';
+import Confirm from './Confirm';
 import {
     clearAll,
     insertAroundSelections,
@@ -75,6 +76,7 @@ const Editor = (props: {}): JSX.Element => {
     const inputMD = useAppSelector(selectInputMD);
     const handleChange = (value: string) => dispatch(updateText(value));
 
+    // handler for inserting bolding characters
     const insertBold = () => {
 
         if (!codeMirrorRef.current?.view) return;
@@ -83,6 +85,7 @@ const Editor = (props: {}): JSX.Element => {
 
     };
 
+    // handler for inserting italics characters
     const insertItalic = () => {
 
         if (!codeMirrorRef.current?.view) return;
@@ -91,6 +94,11 @@ const Editor = (props: {}): JSX.Element => {
 
     };
 
+    const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
+    const openClearConfirm = () => setClearConfirmOpen(true);
+    const closeClearConfirm = () => setClearConfirmOpen(false);
+
+    // handler for clearing all text (called by Confirm)
     const handleClearAll = () => {
 
         if (!codeMirrorRef.current?.view) return;
@@ -150,7 +158,7 @@ const Editor = (props: {}): JSX.Element => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Clear All'>
-                            <IconButton size='small' onClick={handleClearAll}>
+                            <IconButton size='small' onClick={openClearConfirm}>
                                 <ClearIcon />
                             </IconButton>
                         </Tooltip>
@@ -174,6 +182,13 @@ const Editor = (props: {}): JSX.Element => {
                     />
                 </Grid>
             </Grid>
+            <Confirm
+                open={clearConfirmOpen}
+                title='Clear All'
+                content='Are you sure you want to clear all text?'
+                callBack={handleClearAll}
+                handleClose={closeClearConfirm}
+            />
         </Box>
     );
 
