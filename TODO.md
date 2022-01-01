@@ -1,7 +1,7 @@
 # TODO
 
+- buttons should retain focus on editor
 - rest of the button functions
-- Ensure button functions are consistent with other tools
 - finish info page
 - work on mobile switch view (instead of split like on desktop)
 - create publish pipeline with client side api

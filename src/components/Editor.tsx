@@ -94,6 +94,7 @@ const Editor = (props: {}): JSX.Element => {
 
     };
 
+    // state for clear all confirm dialog
     const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
     const openClearConfirm = () => setClearConfirmOpen(true);
     const closeClearConfirm = () => setClearConfirmOpen(false);
@@ -182,10 +183,12 @@ const Editor = (props: {}): JSX.Element => {
                     />
                 </Grid>
             </Grid>
+
+            {/* confirm dialog for clear all button */}
             <Confirm
                 open={clearConfirmOpen}
                 title='Clear All'
-                content='Are you sure you want to clear all text?'
+                content='Are you sure you want to delete all text?'
                 callBack={handleClearAll}
                 handleClose={closeClearConfirm}
             />
