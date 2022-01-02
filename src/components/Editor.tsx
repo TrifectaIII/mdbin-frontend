@@ -82,6 +82,7 @@ const Editor = (props: {}): JSX.Element => {
         if (!codeMirrorRef.current?.view) return;
         const {view} = codeMirrorRef.current;
         view.dispatch(insertAroundSelections(view, '**'));
+        view.focus();
 
     };
 
@@ -91,6 +92,7 @@ const Editor = (props: {}): JSX.Element => {
         if (!codeMirrorRef.current?.view) return;
         const {view} = codeMirrorRef.current;
         view.dispatch(insertAroundSelections(view, '*'));
+        view.focus();
 
     };
 
@@ -105,6 +107,7 @@ const Editor = (props: {}): JSX.Element => {
         if (!codeMirrorRef.current?.view) return;
         const {view} = codeMirrorRef.current;
         view.dispatch(clearAll(view));
+        view.focus();
 
     };
 
@@ -188,7 +191,7 @@ const Editor = (props: {}): JSX.Element => {
             <Confirm
                 open={clearConfirmOpen}
                 title='Clear All'
-                content='Are you sure you want to delete all text?'
+                content='Are you sure you want to delete everything?'
                 callBack={handleClearAll}
                 handleClose={closeClearConfirm}
             />

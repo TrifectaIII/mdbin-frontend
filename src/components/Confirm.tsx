@@ -32,8 +32,8 @@ const Confirm = (props: {
 
     const handleYes = () => {
 
-        props.callBack();
         props.handleClose();
+        props.callBack();
 
     };
 

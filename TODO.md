@@ -1,6 +1,5 @@
 # TODO
 
-- buttons should retain focus on editor
 - rest of the button functions
 - finish info page
 - work on mobile switch view (instead of split like on desktop)
