@@ -175,6 +175,7 @@ const Editor = (props: {}): JSX.Element => {
                         theme={darkMode ? 'dark' : 'light'}
                         value={inputMD}
                         onChange={handleChange}
+                        placeholder='Markdown goes here...'
                         extensions={[
                             markdown({
                                 base: markdownLanguage,
