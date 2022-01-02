@@ -24,16 +24,17 @@ const Confirm = (props: {
     open: boolean,
     title: string,
     content: string,
-    callBack: () => void,
+    callback: () => void,
     handleClose: () => void,
 }): JSX.Element => {
 
     const classes = useStyles();
 
+    // when user agrees, close confirm and execute the callBack
     const handleYes = () => {
 
         props.handleClose();
-        props.callBack();
+        props.callback();
 
     };
 

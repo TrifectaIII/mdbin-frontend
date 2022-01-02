@@ -107,7 +107,12 @@ const Editor = (props: {}): JSX.Element => {
         if (!codeMirrorRef.current?.view) return;
         const {view} = codeMirrorRef.current;
         view.dispatch(clearAll(view));
-        view.focus();
+        // not sure why I need this timeout instead of just calling the function
+        // but it doesn't work if I just call it directly.
+        // this behavior doesn't occur when this function is called by
+        // the button directly, so it has something to do with the
+        // Confirm dialog
+        setTimeout(() => view.focus(), 0);
 
     };
 
@@ -193,7 +198,7 @@ const Editor = (props: {}): JSX.Element => {
                 open={clearConfirmOpen}
                 title='Clear All'
                 content='Are you sure you want to delete everything?'
-                callBack={handleClearAll}
+                callback={handleClearAll}
                 handleClose={closeClearConfirm}
             />
         </Box>
