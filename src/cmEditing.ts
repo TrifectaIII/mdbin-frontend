@@ -13,21 +13,18 @@ interface RangeObject {
     head: number
 }
 
-// Insert bolding characters around all selections
-export const insertBold = (view: EditorView): void => {
-
-    const toInsert = '**';
+const insertAroundSelections = (view: EditorView, toInsert: string): void => {
 
     const spec: TransactionSpec = view.state.changeByRange((range) => {
 
-        const iterable = view.state.doc.iterRange(range.from, range.to);
-        while (!iterable.done) {
+        // const iterable = view.state.doc.iterRange(range.from, range.to);
+        // while (!iterable.done) {
 
-            console.log(iterable.value, iterable.done, iterable.lineBreak);
-            iterable.next();
-            if (iterable.done) console.log(iterable.value, iterable.done, iterable.lineBreak);
+        //     console.log(iterable.value, iterable.done, iterable.lineBreak);
+        //     iterable.next();
+        //     if (iterable.done) console.log(iterable.value, iterable.done, iterable.lineBreak);
 
-        }
+        // }
 
         const rangeObj = range.toJSON() as RangeObject;
         rangeObj.anchor += toInsert.length;
@@ -53,41 +50,7 @@ export const insertBold = (view: EditorView): void => {
 
 };
 
-// Insert italic characters around all selections
-export const insertItalic = (view: EditorView): void => {
-
-    const toInsert = '*';
-
-    const spec: TransactionSpec = view.state.changeByRange((range) => {
-
-        const rangeObj = range.toJSON() as RangeObject;
-        rangeObj.anchor += toInsert.length;
-        rangeObj.head += toInsert.length;
-
-        return {
-            range: SelectionRange.fromJSON(rangeObj),
-            changes: [
-                {
-                    from: range.from,
-                    insert: toInsert,
-                },
-                {
-                    from: range.to,
-                    insert: toInsert,
-                },
-            ],
-        };
-
-    });
-
-    view.dispatch(spec);
-
-};
-
-// insert the first line of a bulleted list
-export const insertBulletedList = (view: EditorView): void => {
-
-    const toInsert = '\n- ';
+const insertAfterSelections = (view: EditorView, toInsert: string): void => {
 
     const spec: TransactionSpec = view.state.changeByRange((range) => {
 
@@ -111,13 +74,45 @@ export const insertBulletedList = (view: EditorView): void => {
 
 };
 
-// undo an event
+// Insert bolding characters
+export const insertBold =
+    (view: EditorView): void => insertAroundSelections(view, '**');
+
+// Insert italic characters
+export const insertItalic =
+    (view: EditorView): void => insertAroundSelections(view, '*');
+
+// insert strikethrough characters
+export const insertStrikethrough =
+    (view: EditorView): void => insertAroundSelections(view, '~~');
+
+// insert the first line of a bulleted list
+export const insertBulletedList =
+    (view: EditorView): void => insertAfterSelections(view, '\n- ');
+
+// insert the first line of a numbered list
+export const insertNumberedList =
+    (view: EditorView): void => insertAfterSelections(view, '\n1. ');
+
+// insert the first line of a block quote
+export const insertBlockQuote =
+    (view: EditorView): void => insertAfterSelections(view, '\n> ');
+
+// insert the first line of a code block
+export const insertCodeBlock =
+    (view: EditorView): void => insertAfterSelections(view, '\n\t');
+
+// insert the first line of a code block
+export const insertHorizontalRule =
+    (view: EditorView): void => insertAfterSelections(view, '\n\n---\n\n');
+
+// execute an undo
 export const undoEvent = (view: EditorView): boolean => historyUndo({
     state: view.state,
     dispatch: view.dispatch,
 });
 
-// redo a previously undone event
+// execute a redo
 export const redoEvent = (view: EditorView): boolean => historyRedo({
     state: view.state,
     dispatch: view.dispatch,

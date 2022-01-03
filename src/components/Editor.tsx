@@ -50,7 +50,12 @@ import Confirm from './Confirm';
 import {
     insertBold,
     insertItalic,
+    insertStrikethrough,
     insertBulletedList,
+    insertNumberedList,
+    insertBlockQuote,
+    insertCodeBlock,
+    insertHorizontalRule,
     undoEvent,
     redoEvent,
     clearAll,
@@ -136,7 +141,7 @@ const Editor = (props: {}): JSX.Element => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Strikethrough'>
-                            <IconButton size='small'>
+                            <IconButton size='small' onClick={applyToView(insertStrikethrough)}>
                                 <StrikethroughIcon />
                             </IconButton>
                         </Tooltip>
@@ -146,22 +151,22 @@ const Editor = (props: {}): JSX.Element => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Start Numbered List'>
-                            <IconButton size='small'>
+                            <IconButton size='small' onClick={applyToView(insertNumberedList)}>
                                 <ListNumberedIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Start Block Quote'>
-                            <IconButton size='small'>
+                            <IconButton size='small' onClick={applyToView(insertBlockQuote)}>
                                 <QuoteIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Start Code Block'>
-                            <IconButton size='small'>
+                            <IconButton size='small' onClick={applyToView(insertCodeBlock)}>
                                 <CodeIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Insert Horizontal Rule'>
-                            <IconButton size='small'>
+                            <IconButton size='small' onClick={applyToView(insertHorizontalRule)}>
                                 <RuleIcon />
                             </IconButton>
                         </Tooltip>
