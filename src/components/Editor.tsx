@@ -1,4 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React, {
+    useRef,
+    useState,
+} from 'react';
 
 import {
     Grid,
@@ -18,18 +21,19 @@ import {
     Remove as RuleIcon,
     Code as CodeIcon,
     DeleteForeverOutlined as ClearIcon,
+    Undo as UndoIcon,
+    Redo as RedoIcon,
 } from '@material-ui/icons';
 
 import CodeMirror, {
+    EditorView,
     ReactCodeMirrorRef,
 } from '@uiw/react-codemirror';
 import {
     markdown,
     markdownLanguage,
 } from '@codemirror/lang-markdown';
-import {
-    languages,
-} from '@codemirror/language-data';
+import {languages} from '@codemirror/language-data';
 
 import {
     useAppSelector,
@@ -46,8 +50,10 @@ import Confirm from './Confirm';
 import {
     insertBold,
     insertItalic,
+    insertBulletedList,
+    undoEvent,
+    redoEvent,
     clearAll,
-    ApplyToView,
 } from '../cmEditing';
 
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +86,7 @@ const Editor = (props: {}): JSX.Element => {
 
     // returns a function which applies the parameter function
     // to the view if it exists, then returns focus to the view
-    const applyToView = (toApply: ApplyToView) => () => {
+    const applyToView = (toApply: (view: EditorView) => void) => () => {
 
         if (!codeMirrorRef.current?.view) return;
         const {view} = codeMirrorRef.current;
@@ -105,7 +111,7 @@ const Editor = (props: {}): JSX.Element => {
         // this behavior doesn't occur when this function is called by
         // the button directly, so it has something to do with the
         // Confirm dialog
-        setTimeout(() => view.focus(), 0);
+        setTimeout(() => view.focus());
 
     };
 
@@ -135,7 +141,7 @@ const Editor = (props: {}): JSX.Element => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Start Bulleted List'>
-                            <IconButton size='small'>
+                            <IconButton size='small' onClick={applyToView(insertBulletedList)}>
                                 <ListBulletedIcon />
                             </IconButton>
                         </Tooltip>
@@ -159,6 +165,16 @@ const Editor = (props: {}): JSX.Element => {
                                 <RuleIcon />
                             </IconButton>
                         </Tooltip>
+                        <Tooltip title='Undo'>
+                            <IconButton size='small' onClick={applyToView(undoEvent)}>
+                                <UndoIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Redo'>
+                            <IconButton size='small' onClick={applyToView(redoEvent)}>
+                                <RedoIcon />
+                            </IconButton>
+                        </Tooltip>
                         <Tooltip title='Clear All'>
                             <IconButton size='small' onClick={openClearConfirm}>
                                 <ClearIcon />
@@ -179,6 +195,7 @@ const Editor = (props: {}): JSX.Element => {
                                 base: markdownLanguage,
                                 codeLanguages: languages,
                             }),
+                            EditorView.lineWrapping,
                         ]}
                         className={classes.codeMirror}
                         ref={codeMirrorRef}
