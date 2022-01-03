@@ -44,8 +44,10 @@ import {
 } from '../state/textSlice';
 import Confirm from './Confirm';
 import {
+    insertBold,
+    insertItalic,
     clearAll,
-    insertAroundSelections,
+    ApplyToView,
 } from '../cmEditing';
 
 const useStyles = makeStyles((theme) => ({
@@ -76,22 +78,13 @@ const Editor = (props: {}): JSX.Element => {
     const inputMD = useAppSelector(selectInputMD);
     const handleChange = (value: string) => dispatch(updateText(value));
 
-    // handler for inserting bolding characters
-    const insertBold = () => {
+    // returns a function which applies the parameter function
+    // to the view if it exists, then returns focus to the view
+    const applyToView = (toApply: ApplyToView) => () => {
 
         if (!codeMirrorRef.current?.view) return;
         const {view} = codeMirrorRef.current;
-        view.dispatch(insertAroundSelections(view, '**'));
-        view.focus();
-
-    };
-
-    // handler for inserting italics characters
-    const insertItalic = () => {
-
-        if (!codeMirrorRef.current?.view) return;
-        const {view} = codeMirrorRef.current;
-        view.dispatch(insertAroundSelections(view, '*'));
+        toApply(view);
         view.focus();
 
     };
@@ -106,7 +99,7 @@ const Editor = (props: {}): JSX.Element => {
 
         if (!codeMirrorRef.current?.view) return;
         const {view} = codeMirrorRef.current;
-        view.dispatch(clearAll(view));
+        clearAll(view);
         // not sure why I need this timeout instead of just calling the function
         // but it doesn't work if I just call it directly.
         // this behavior doesn't occur when this function is called by
@@ -127,12 +120,12 @@ const Editor = (props: {}): JSX.Element => {
                         className={classes.buttonBar}
                     >
                         <Tooltip title='Bold'>
-                            <IconButton size='small' onClick={insertBold}>
+                            <IconButton size='small' onClick={applyToView(insertBold)}>
                                 <BoldIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Italics'>
-                            <IconButton size='small' onClick={insertItalic}>
+                            <IconButton size='small' onClick={applyToView(insertItalic)}>
                                 <ItalicIcon />
                             </IconButton>
                         </Tooltip>
