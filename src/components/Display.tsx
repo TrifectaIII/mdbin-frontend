@@ -13,7 +13,7 @@ import {
 } from '../state/hooks';
 import {
     selectOutputHTML,
-} from '../state/textSlice';
+} from '../state/editSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {

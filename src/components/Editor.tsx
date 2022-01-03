@@ -5,7 +5,6 @@ import React, {
 
 import {
     Grid,
-    Box,
     Toolbar,
     IconButton,
     Tooltip,
@@ -45,7 +44,7 @@ import {
 import {
     selectInputMD,
     updateText,
-} from '../state/textSlice';
+} from '../state/editSlice';
 import Confirm from './Confirm';
 import {
     insertBold,
@@ -63,10 +62,10 @@ import {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-
+        height: '100%',
     },
-    codeMirror: {
-
+    codeMirrorGrid: {
+        height: '100%',
     },
     buttonBar: {
         justifyContent: 'center',
@@ -121,8 +120,8 @@ const Editor = (props: {}): JSX.Element => {
     };
 
     return (
-        <Box className={classes.root}>
-            <Grid container>
+        <>
+            <Grid container className={classes.root}>
 
                 {/* Toolbar With helper buttons */}
                 <Grid item xs={12}>
@@ -131,57 +130,90 @@ const Editor = (props: {}): JSX.Element => {
                         className={classes.buttonBar}
                     >
                         <Tooltip title='Bold'>
-                            <IconButton size='small' onClick={applyToView(insertBold)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(insertBold)}
+                            >
                                 <BoldIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Italics'>
-                            <IconButton size='small' onClick={applyToView(insertItalic)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(insertItalic)}
+                            >
                                 <ItalicIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Strikethrough'>
-                            <IconButton size='small' onClick={applyToView(insertStrikethrough)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(insertStrikethrough)}
+                            >
                                 <StrikethroughIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Start Bulleted List'>
-                            <IconButton size='small' onClick={applyToView(insertBulletedList)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(insertBulletedList)}
+                            >
                                 <ListBulletedIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Start Numbered List'>
-                            <IconButton size='small' onClick={applyToView(insertNumberedList)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(insertNumberedList)}
+                            >
                                 <ListNumberedIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Start Block Quote'>
-                            <IconButton size='small' onClick={applyToView(insertBlockQuote)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(insertBlockQuote)}
+                            >
                                 <QuoteIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Start Code Block'>
-                            <IconButton size='small' onClick={applyToView(insertCodeBlock)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(insertCodeBlock)}
+                            >
                                 <CodeIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Insert Horizontal Rule'>
-                            <IconButton size='small' onClick={applyToView(insertHorizontalRule)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(insertHorizontalRule)}
+                            >
                                 <RuleIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Undo'>
-                            <IconButton size='small' onClick={applyToView(undoEvent)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(undoEvent)}
+                            >
                                 <UndoIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Redo'>
-                            <IconButton size='small' onClick={applyToView(redoEvent)}>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(redoEvent)}
+                            >
                                 <RedoIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Clear All'>
-                            <IconButton size='small' onClick={openClearConfirm}>
+                            <IconButton
+                                size='small'
+                                onClick={openClearConfirm}
+                            >
                                 <ClearIcon />
                             </IconButton>
                         </Tooltip>
@@ -189,7 +221,10 @@ const Editor = (props: {}): JSX.Element => {
                 </Grid>
 
                 {/* CodeMirror Editor */}
-                <Grid item xs={12}>
+                <Grid
+                    item xs={12}
+                    className={classes.codeMirrorGrid}
+                >
                     <CodeMirror
                         theme={darkMode ? 'dark' : 'light'}
                         value={inputMD}
@@ -202,7 +237,6 @@ const Editor = (props: {}): JSX.Element => {
                             }),
                             EditorView.lineWrapping,
                         ]}
-                        className={classes.codeMirror}
                         ref={codeMirrorRef}
                     />
                 </Grid>
@@ -216,7 +250,7 @@ const Editor = (props: {}): JSX.Element => {
                 callback={handleClearAll}
                 handleClose={closeClearConfirm}
             />
-        </Box>
+        </>
     );
 
 };

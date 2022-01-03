@@ -5,13 +5,13 @@ import {
 } from '@reduxjs/toolkit';
 
 import globalReducer from './globalSlice';
-import textReducer from './textSlice';
+import editReducer from './editSlice';
 
 // Store containing all state slices
 export const store = configureStore({
     reducer: {
         global: globalReducer,
-        text: textReducer,
+        edit: editReducer,
     },
 });
 

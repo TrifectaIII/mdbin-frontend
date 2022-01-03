@@ -13,7 +13,7 @@ import Display from '../components/Display';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-
+        height: '100%',
     },
 }));
 

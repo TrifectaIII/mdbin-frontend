@@ -1,5 +1,7 @@
 import DOMPurify from 'dompurify';
-import {marked} from 'marked';
+import {
+    marked,
+} from 'marked';
 import {
     createSlice,
     PayloadAction,
@@ -11,22 +13,24 @@ import {
 } from './store';
 
 // Slice of state for counter page
-export interface TextState {
+export interface EditState {
     inputMD: string;
     outputHTML: string;
 }
 
+// get any saved edit text from localstorage
 const savedText = localStorage.getItem('editorText');
 
-const initialState: TextState = {
+// initial state is saved text, or default if nothing was saved
+const initialState: EditState = {
     inputMD: savedText || initialText,
     outputHTML: savedText
         ? DOMPurify.sanitize(marked.parse(savedText))
         : DOMPurify.sanitize(marked.parse(initialText)),
 };
 
-export const textSlice = createSlice({
-    name: 'text',
+export const editSlice = createSlice({
+    name: 'edit',
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
@@ -40,9 +44,11 @@ export const textSlice = createSlice({
     },
 });
 
-export const {updateText} = textSlice.actions;
+export const {updateText} = editSlice.actions;
 
-export const selectInputMD = (state: RootState): string => state.text.inputMD;
-export const selectOutputHTML = (state: RootState): string => state.text.outputHTML;
+export const selectInputMD =
+    (state: RootState): string => state.edit.inputMD;
+export const selectOutputHTML =
+    (state: RootState): string => state.edit.outputHTML;
 
-export default textSlice.reducer;
+export default editSlice.reducer;

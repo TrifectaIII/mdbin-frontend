@@ -19,8 +19,12 @@ import NotFoundPage from './pages/NotFoundPage';
 import InfoPage from './pages/InfoPage';
 import Header from './components/Header';
 import MenuDrawer from './components/MenuDrawer';
-import {useAppSelector} from './state/hooks';
-import {selectDarkMode} from './state/globalSlice';
+import {
+    useAppSelector,
+} from './state/hooks';
+import {
+    selectDarkMode,
+} from './state/globalSlice';
 
 import './App.css';
 
