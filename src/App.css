@@ -1,7 +1,11 @@
 html, body {
     height: 100%;
 }
-/* #root, .cm-theme-light, .cm-theme-dark, .cm-editor {
+
+#root {
     height: 100%;
-    max-height: 100%;
+}
+
+/* .cm-theme-light, .cm-theme-dark, .cm-editor {
+    height: 100%;
 } */
