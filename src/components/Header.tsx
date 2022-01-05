@@ -36,6 +36,7 @@ import {
     MobileOnly,
     DesktopOnly,
 } from './utilities';
+import useWindowSize from '../hooks/useWindowSize';
 import {
     useAppSelector,
     useAppDispatch,
@@ -84,14 +85,13 @@ const Header = (props: {}): JSX.Element => {
     const DarkModeIcon = darkMode ? SunIcon : MoonIcon;
 
     // ref and effect for figuring out toolbar height
+    const windowSize = useWindowSize();
     const toolbarRef = useRef<HTMLDivElement>(null);
-    const toolbarHeight = toolbarRef.current?.offsetHeight;
-    console.log(toolbarHeight);
     useEffect(() => {
 
-        dispatch(setToolbarHeight(toolbarHeight || 0));
+        dispatch(setToolbarHeight(toolbarRef.current?.offsetHeight || 0));
 
-    }, [toolbarRef.current]);
+    }, [windowSize.width, windowSize.height, toolbarRef.current]);
 
     // Generate state for any nav group menus
     const states: {
