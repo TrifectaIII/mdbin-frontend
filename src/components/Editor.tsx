@@ -68,10 +68,11 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
     },
     codeMirrorGrid: {
-        // height: '100%',
+
     },
     buttonBar: {
         justifyContent: 'center',
+        backgroundColor: '#282c34',
     },
 }));
 
@@ -93,31 +94,16 @@ const Editor = (props: {}): JSX.Element => {
 
     // calculate height of codemirror editor
     // based on size of window and other elements
-    const buttonRef = useRef<HTMLDivElement>(null);
+    const buttonsRef = useRef<HTMLDivElement>(null);
     const windowSize = useWindowSize();
     const toolbarHeight = useAppSelector(selectToolbarHeight);
     const [editorHeight, setEditorHeight] = useState<number>(0);
     useEffect(() => {
 
-        setEditorHeight(windowSize.height - toolbarHeight - (buttonRef.current?.offsetHeight || 0));
+        const buttonsHeight = buttonsRef.current?.offsetHeight || 0;
+        setEditorHeight(windowSize.height - toolbarHeight - buttonsHeight);
 
-    }, [
-        toolbarHeight,
-        windowSize.width,
-        windowSize.height,
-        buttonRef.current,
-    ]);
-
-    // returns a function which applies the parameter function
-    // to the view if it exists, then returns focus to the view
-    const applyToView = (toApply: (view: EditorView) => void) => () => {
-
-        if (!codeMirrorRef.current?.view) return;
-        const {view} = codeMirrorRef.current;
-        toApply(view);
-        view.focus();
-
-    };
+    }, [toolbarHeight, windowSize.width, windowSize.height, buttonsRef.current]);
 
     // state for clear all confirm dialog
     const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
@@ -139,6 +125,17 @@ const Editor = (props: {}): JSX.Element => {
 
     };
 
+    // returns a function which applies the parameter function
+    // to the view if it exists, then returns focus to the view
+    const applyToView = (toApply: (view: EditorView) => void) => () => {
+
+        if (!codeMirrorRef.current?.view) return;
+        const {view} = codeMirrorRef.current;
+        toApply(view);
+        view.focus();
+
+    };
+
     return (
         <>
             <Grid container className={classes.root}>
@@ -148,7 +145,7 @@ const Editor = (props: {}): JSX.Element => {
                     <Toolbar
                         variant='dense'
                         className={classes.buttonBar}
-                        ref={buttonRef}
+                        ref={buttonsRef}
                     >
                         <Tooltip title='Bold'>
                             <IconButton
