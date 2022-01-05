@@ -1,5 +1,11 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, {
+    useState,
+    useRef,
+    useEffect,
+} from 'react';
+import {
+    Link,
+} from 'react-router-dom';
 
 import {
     Button,
@@ -23,7 +29,9 @@ import {
 } from '@material-ui/icons';
 import clsx from 'clsx';
 
-import {navMap} from '../Navigation';
+import {
+    navMap,
+} from '../Navigation';
 import {
     MobileOnly,
     DesktopOnly,
@@ -36,6 +44,7 @@ import {
     selectDarkMode,
     toggleDarkMode,
     openMenuDrawer,
+    setToolbarHeight,
 } from '../state/globalSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +82,16 @@ const Header = (props: {}): JSX.Element => {
     const darkMode = useAppSelector(selectDarkMode);
 
     const DarkModeIcon = darkMode ? SunIcon : MoonIcon;
+
+    // ref and effect for figuring out toolbar height
+    const toolbarRef = useRef<HTMLDivElement>(null);
+    const toolbarHeight = toolbarRef.current?.offsetHeight;
+    console.log(toolbarHeight);
+    useEffect(() => {
+
+        dispatch(setToolbarHeight(toolbarHeight || 0));
+
+    }, [toolbarRef.current]);
 
     // Generate state for any nav group menus
     const states: {
@@ -227,7 +246,7 @@ const Header = (props: {}): JSX.Element => {
                 </Toolbar>
             </AppBar>
             {/* toolbar for ofsetting page elements when bar is fixed */}
-            <Toolbar />
+            <Toolbar ref={toolbarRef}/>
         </>
     );
 

@@ -44,7 +44,9 @@ export const editSlice = createSlice({
     },
 });
 
-export const {updateText} = editSlice.actions;
+export const {
+    updateText,
+} = editSlice.actions;
 
 export const selectInputMD =
     (state: RootState): string => state.edit.inputMD;
