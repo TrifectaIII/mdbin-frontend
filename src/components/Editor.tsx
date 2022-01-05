@@ -1,6 +1,7 @@
 import React, {
     useRef,
     useState,
+    useEffect,
 } from 'react';
 
 import {
@@ -40,12 +41,14 @@ import {
 } from '../state/hooks';
 import {
     selectDarkMode,
+    selectToolbarHeight,
 } from '../state/globalSlice';
 import {
     selectInputMD,
     updateText,
 } from '../state/editSlice';
 import Confirm from './Confirm';
+import useWindowSize from '../hooks/useWindowSize';
 import {
     insertBold,
     insertItalic,
@@ -65,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
     },
     codeMirrorGrid: {
-        height: '100%',
+        // height: '100%',
     },
     buttonBar: {
         justifyContent: 'center',
@@ -87,6 +90,23 @@ const Editor = (props: {}): JSX.Element => {
     // handler for updating state when text is changed
     const inputMD = useAppSelector(selectInputMD);
     const handleChange = (value: string) => dispatch(updateText(value));
+
+    // calculate height of codemirror editor
+    // based on size of window and other elements
+    const buttonRef = useRef<HTMLDivElement>(null);
+    const windowSize = useWindowSize();
+    const toolbarHeight = useAppSelector(selectToolbarHeight);
+    const [editorHeight, setEditorHeight] = useState<number>(0);
+    useEffect(() => {
+
+        setEditorHeight(windowSize.height - toolbarHeight - (buttonRef.current?.offsetHeight || 0));
+
+    }, [
+        toolbarHeight,
+        windowSize.width,
+        windowSize.height,
+        buttonRef.current,
+    ]);
 
     // returns a function which applies the parameter function
     // to the view if it exists, then returns focus to the view
@@ -128,6 +148,7 @@ const Editor = (props: {}): JSX.Element => {
                     <Toolbar
                         variant='dense'
                         className={classes.buttonBar}
+                        ref={buttonRef}
                     >
                         <Tooltip title='Bold'>
                             <IconButton
@@ -227,6 +248,7 @@ const Editor = (props: {}): JSX.Element => {
                 >
                     <CodeMirror
                         theme={darkMode ? 'dark' : 'light'}
+                        height={`${editorHeight}px`}
                         value={inputMD}
                         onChange={handleChange}
                         placeholder='Markdown goes here...'

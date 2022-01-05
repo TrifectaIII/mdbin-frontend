@@ -26,11 +26,11 @@ const useWindowSize = (): WindowSize => {
 
     useEffect(() => {
 
-        // set up a listener
-        window.addEventListener('resize', handleResize);
-
         // execute the function once to start
         handleResize();
+
+        // set up a resize listener
+        window.addEventListener('resize', handleResize);
 
         // return a cleanup function to remove the listener
         return () => window.removeEventListener('resize', handleResize);
