@@ -11,13 +11,13 @@ import {
 export interface GlobalState {
     darkMode: boolean;
     menuDrawerOpen: boolean;
-    toolbarHeight: number;
+    headerHeight: number;
 }
 
 const initialState: GlobalState = {
     darkMode: !localStorage.getItem('lightMode'),
     menuDrawerOpen: false,
-    toolbarHeight: 0,
+    headerHeight: 0,
 };
 
 export const globalSlice = createSlice({
@@ -41,9 +41,9 @@ export const globalSlice = createSlice({
             state.menuDrawerOpen = false;
 
         },
-        setToolbarHeight: (state, action: PayloadAction<number>) => {
+        setHeaderHeight: (state, action: PayloadAction<number>) => {
 
-            state.toolbarHeight = action.payload;
+            state.headerHeight = action.payload;
 
         },
     },
@@ -54,7 +54,7 @@ export const {
     toggleDarkMode,
     openMenuDrawer,
     closeMenuDrawer,
-    setToolbarHeight,
+    setHeaderHeight,
 } = globalSlice.actions;
 
 // selectors
@@ -62,7 +62,7 @@ export const selectDarkMode =
     (state: RootState): boolean => state.global.darkMode;
 export const selectMenuDrawerOpen =
     (state: RootState): boolean => state.global.menuDrawerOpen;
-export const selectToolbarHeight =
-    (state: RootState): number => state.global.toolbarHeight;
+export const selectHeaderHeight =
+    (state: RootState): number => state.global.headerHeight;
 
 export default globalSlice.reducer;

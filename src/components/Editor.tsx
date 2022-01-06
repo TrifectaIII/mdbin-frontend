@@ -41,10 +41,11 @@ import {
 } from '../state/hooks';
 import {
     selectDarkMode,
-    selectToolbarHeight,
+    selectHeaderHeight,
 } from '../state/globalSlice';
 import {
     selectInputMD,
+    selectSwitchHeight,
     updateText,
 } from '../state/editSlice';
 import Confirm from './Confirm';
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 
     },
     buttonBar: {
-        justifyContent: 'center',
+        justifyContent: 'space-around',
     },
 }));
 
@@ -95,14 +96,21 @@ const Editor = (props: {}): JSX.Element => {
     // based on size of window and other elements
     const buttonsRef = useRef<HTMLDivElement>(null);
     const windowSize = useWindowSize();
-    const toolbarHeight = useAppSelector(selectToolbarHeight);
+    const headerHeight = useAppSelector(selectHeaderHeight);
+    const switchHeight = useAppSelector(selectSwitchHeight);
     const [editorHeight, setEditorHeight] = useState<number>(0);
     useEffect(() => {
 
         const buttonsHeight = buttonsRef.current?.offsetHeight || 0;
-        setEditorHeight(windowSize.height - toolbarHeight - buttonsHeight);
+        setEditorHeight(windowSize.height - headerHeight - buttonsHeight - switchHeight);
 
-    }, [toolbarHeight, windowSize.width, windowSize.height, buttonsRef.current]);
+    }, [
+        headerHeight,
+        switchHeight,
+        windowSize.width,
+        windowSize.height,
+        buttonsRef.current,
+    ]);
 
     // state for clear all confirm dialog
     const [clearConfirmOpen, setClearConfirmOpen] = useState(false);

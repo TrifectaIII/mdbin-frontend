@@ -15,10 +15,11 @@ import {
 } from '../state/hooks';
 import {
     selectDarkMode,
-    selectToolbarHeight,
+    selectHeaderHeight,
 } from '../state/globalSlice';
 import {
     selectOutputHTML,
+    selectSwitchHeight,
 } from '../state/editSlice';
 import useWindowSize from '../hooks/useWindowSize';
 
@@ -28,22 +29,28 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// rendered markdown display component
-const Display = (props: {}): JSX.Element => {
+// rendered markdown preview component
+const Preview = (props: {}): JSX.Element => {
 
     const classes = useStyles();
 
     const darkMode = useAppSelector(selectDarkMode);
 
     // figure out proper height of div
-    const toolbarHeight = useAppSelector(selectToolbarHeight);
+    const headerHeight = useAppSelector(selectHeaderHeight);
+    const switchHeight = useAppSelector(selectSwitchHeight);
     const windowSize = useWindowSize();
-    const [displayHeight, setDisplayHeight] = useState<number>(0);
+    const [previewHeight, setPreviewHeight] = useState<number>(0);
     useEffect(() => {
 
-        setDisplayHeight(windowSize.height - toolbarHeight);
+        setPreviewHeight(windowSize.height - headerHeight - switchHeight);
 
-    }, [windowSize.width, windowSize.height, toolbarHeight]);
+    }, [
+        windowSize.width,
+        windowSize.height,
+        headerHeight,
+        switchHeight,
+    ]);
 
     // display rendered HTML from state
     const outputHTML = useAppSelector(selectOutputHTML);
@@ -59,10 +66,12 @@ const Display = (props: {}): JSX.Element => {
             className={clsx(
                 classes.root,
                 'markdown-body',
-                darkMode ? 'markdown-dark' : 'markdown-light',
+                darkMode
+                    ? 'markdown-dark'
+                    : 'markdown-light',
             )}
             style={{
-                height: `${displayHeight}px`,
+                height: `${previewHeight}px`,
             }}
         >
             <div ref={outputElement} />
@@ -71,4 +80,4 @@ const Display = (props: {}): JSX.Element => {
 
 };
 
-export default Display;
+export default Preview;

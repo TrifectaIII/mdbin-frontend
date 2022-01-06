@@ -45,7 +45,7 @@ import {
     selectDarkMode,
     toggleDarkMode,
     openMenuDrawer,
-    setToolbarHeight,
+    setHeaderHeight,
 } from '../state/globalSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -84,12 +84,12 @@ const Header = (props: {}): JSX.Element => {
 
     const DarkModeIcon = darkMode ? SunIcon : MoonIcon;
 
-    // ref and effect for figuring out toolbar height
+    // ref and effect for figuring out header height
     const windowSize = useWindowSize();
     const toolbarRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
 
-        dispatch(setToolbarHeight(toolbarRef.current?.offsetHeight || 0));
+        dispatch(setHeaderHeight(toolbarRef.current?.offsetHeight || 0));
 
     }, [windowSize.width, windowSize.height, toolbarRef.current]);
 
