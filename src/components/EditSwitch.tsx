@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         width: '50%',
+        height: '100%',
+        marginLeft: '5px',
+        marginRight: '5px',
     },
 }));
 
@@ -63,6 +66,8 @@ const EditSwitch = (props: {}): JSX.Element => {
             <Toolbar
                 className={classes.root}
                 ref={switchRef}
+                variant='dense'
+                disableGutters
             >
                 <Button
                     onClick={() => dispatch(switchToEditor())}
@@ -71,11 +76,11 @@ const EditSwitch = (props: {}): JSX.Element => {
                     variant={
                         mobileSwitch === 'editor'
                             ? 'contained'
-                            : 'text'
+                            : 'outlined'
                     }
                     className={classes.button}
                 >
-                Edit
+                    Edit
                 </Button>
                 <Button
                     onClick={() => dispatch(switchToPreview())}
@@ -84,11 +89,11 @@ const EditSwitch = (props: {}): JSX.Element => {
                     variant={
                         mobileSwitch === 'preview'
                             ? 'contained'
-                            : 'text'
+                            : 'outlined'
                     }
                     className={classes.button}
                 >
-                Preview
+                    Preview
                 </Button>
             </Toolbar>
         </MobileOnly>
