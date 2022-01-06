@@ -1,7 +1,9 @@
 import React, {
     useRef,
     useEffect,
+    useState,
 } from 'react';
+import clsx from 'clsx';
 
 import {
     Container,
@@ -12,18 +14,17 @@ import {
     useAppSelector,
 } from '../state/hooks';
 import {
+    selectDarkMode,
+    selectToolbarHeight,
+} from '../state/globalSlice';
+import {
     selectOutputHTML,
 } from '../state/editSlice';
+import useWindowSize from '../hooks/useWindowSize';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-
-    },
-    codeMirror: {
-
-    },
-    buttons: {
-
+        overflowY: 'auto',
     },
 }));
 
@@ -31,6 +32,18 @@ const useStyles = makeStyles((theme) => ({
 const Display = (props: {}): JSX.Element => {
 
     const classes = useStyles();
+
+    const darkMode = useAppSelector(selectDarkMode);
+
+    // figure out proper height of div
+    const toolbarHeight = useAppSelector(selectToolbarHeight);
+    const windowSize = useWindowSize();
+    const [displayHeight, setDisplayHeight] = useState<number>(0);
+    useEffect(() => {
+
+        setDisplayHeight(windowSize.height - toolbarHeight);
+
+    }, [windowSize.width, windowSize.height, toolbarHeight]);
 
     // display rendered HTML from state
     const outputHTML = useAppSelector(selectOutputHTML);
@@ -43,7 +56,14 @@ const Display = (props: {}): JSX.Element => {
 
     return (
         <Container
-            className={classes.root}
+            className={clsx(
+                classes.root,
+                'markdown-body',
+                darkMode ? 'markdown-dark' : 'markdown-light',
+            )}
+            style={{
+                height: `${displayHeight}px`,
+            }}
         >
             <div ref={outputElement} />
         </Container>

@@ -72,7 +72,6 @@ const useStyles = makeStyles((theme) => ({
     },
     buttonBar: {
         justifyContent: 'center',
-        backgroundColor: '#282c34',
     },
 }));
 
@@ -146,6 +145,9 @@ const Editor = (props: {}): JSX.Element => {
                         variant='dense'
                         className={classes.buttonBar}
                         ref={buttonsRef}
+                        style={{
+                            backgroundColor: darkMode ? '#282c34' : '#fafafa',
+                        }}
                     >
                         <Tooltip title='Bold'>
                             <IconButton
