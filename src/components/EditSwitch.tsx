@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// rendered markdown display component
+// component to switch between editor and preview on mobile
 const EditSwitch = (props: {}): JSX.Element => {
 
     const classes = useStyles();
