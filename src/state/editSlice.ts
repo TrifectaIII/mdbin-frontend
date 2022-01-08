@@ -7,7 +7,7 @@ import {
     PayloadAction,
 } from '@reduxjs/toolkit';
 
-import initialText from '../initialText';
+import initialText from '../markdown/initialText';
 import {
     RootState,
 } from './store';

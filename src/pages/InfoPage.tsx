@@ -1,14 +1,29 @@
-import React from 'react';
+import DOMPurify from 'dompurify';
+import {
+    marked,
+} from 'marked';
+
+import React, {
+    useRef,
+    useEffect,
+} from 'react';
 import {
     RouteComponentProps,
 } from 'react-router-dom';
+import clsx from 'clsx';
 
 import {
-    Typography,
     Container,
     makeStyles,
-    Link,
 } from '@material-ui/core';
+
+import {
+    useAppSelector,
+} from '../state/hooks';
+import {
+    selectDarkMode,
+} from '../state/globalSlice';
+import infoText from '../markdown/infoText';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,26 +36,31 @@ const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
     const classes = useStyles();
 
+    const darkMode = useAppSelector(selectDarkMode);
+
+    // render markdown into html
+    const infoHTML = DOMPurify.sanitize(marked.parse(infoText));
+
+    // drop html into element
+    const infoRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+
+        if (infoRef.current) infoRef.current.innerHTML = infoHTML;
+
+    }, [infoRef.current]);
+
     return (
         <Container
-            className={classes.root}
+            ref={infoRef}
+            className={clsx(
+                classes.root,
+                'markdown-body',
+                darkMode
+                    ? 'markdown-dark'
+                    : 'markdown-light',
+            )}
         >
-            <Typography variant='h1'>
-                Information
-            </Typography>
-            <hr />
-            <Link
-                href='https://www.markdownguide.org/cheat-sheet/'
-                color='secondary'
-            >
-                <Typography variant='h3'>
-                    Markdown Cheatsheet
-                </Typography>
-            </Link>
-            <Typography variant='body1'>
-                All of the basic syntax and some of the extended syntax will work.
-                Try things out!
-            </Typography>
+            <></>
         </Container>
     );
 

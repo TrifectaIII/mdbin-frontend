@@ -20,6 +20,7 @@ import {
     FormatStrikethrough as StrikethroughIcon,
     Remove as RuleIcon,
     Code as CodeIcon,
+    Link as LinkIcon,
     DeleteForeverOutlined as ClearIcon,
     Undo as UndoIcon,
     Redo as RedoIcon,
@@ -58,11 +59,12 @@ import {
     insertNumberedList,
     insertBlockQuote,
     insertCodeBlock,
+    insertLink,
     insertHorizontalRule,
     undoEvent,
     redoEvent,
     clearAll,
-} from '../cmEditing';
+} from '../markdown/mdEditing';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -211,6 +213,14 @@ const Editor = (props: {}): JSX.Element => {
                                 onClick={applyToView(insertCodeBlock)}
                             >
                                 <CodeIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Insert Link'>
+                            <IconButton
+                                size='small'
+                                onClick={applyToView(insertLink)}
+                            >
+                                <LinkIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title='Insert Horizontal Rule'>

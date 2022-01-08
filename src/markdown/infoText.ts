@@ -1,4 +1,5 @@
-# mdbin
+export default
+`# mdbin
 
 A pastebin-type tool for easily creating and sharing 
 documents with [Markdown](https://www.markdownguide.org/).
@@ -28,3 +29,4 @@ documents with [Markdown](https://www.markdownguide.org/).
 - [DOMPurify](https://github.com/cure53/DOMPurify)
 
 - [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
+`;

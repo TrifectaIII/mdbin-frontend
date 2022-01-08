@@ -54,12 +54,12 @@ const Preview = (props: {}): JSX.Element => {
 
     // display rendered HTML from state
     const outputHTML = useAppSelector(selectOutputHTML);
-    const outputElement = useRef<HTMLDivElement>(null);
+    const outputRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
 
-        if (outputElement.current) outputElement.current.innerHTML = outputHTML;
+        if (outputRef.current) outputRef.current.innerHTML = outputHTML;
 
-    }, [outputHTML]);
+    }, [outputHTML, outputRef.current]);
 
     return (
         <Container
@@ -74,7 +74,7 @@ const Preview = (props: {}): JSX.Element => {
                 height: `${previewHeight}px`,
             }}
         >
-            <div ref={outputElement} />
+            <div ref={outputRef} />
         </Container>
     );
 

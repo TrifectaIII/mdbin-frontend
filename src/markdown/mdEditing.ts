@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import {
     EditorView,
     SelectionRange,
@@ -50,12 +51,17 @@ const insertAroundSelections = (view: EditorView, toInsert: string): void => {
 
 };
 
-const insertAfterSelections = (view: EditorView, toInsert: string): void => {
+const insertAfterSelections = (
+    view: EditorView,
+    toInsert: string,
+    selectOffset = 0,
+): void => {
 
     const spec: TransactionSpec = view.state.changeByRange((range) => {
 
         const rangeObj = range.toJSON() as RangeObject;
-        rangeObj.anchor = Math.max(rangeObj.anchor, rangeObj.head) + toInsert.length;
+        rangeObj.anchor =
+            Math.max(rangeObj.anchor, rangeObj.head) + toInsert.length + selectOffset;
         rangeObj.head = rangeObj.anchor;
 
         return {
@@ -101,6 +107,10 @@ export const insertBlockQuote =
 // insert the first line of a code block
 export const insertCodeBlock =
     (view: EditorView): void => insertAfterSelections(view, '\n\t');
+
+// insert the bounding characters for a link
+export const insertLink =
+    (view: EditorView): void => insertAfterSelections(view, '[]()', -3);
 
 // insert the first line of a code block
 export const insertHorizontalRule =

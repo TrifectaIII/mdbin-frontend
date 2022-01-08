@@ -27,7 +27,7 @@ import {
 } from './state/globalSlice';
 
 import './App.css';
-import './github-markdown.css';
+import './markdown/github-markdown.css';
 
 // helper function for generating themes
 const createAppTheme =
