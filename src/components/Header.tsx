@@ -1,7 +1,5 @@
 import React, {
     useState,
-    useRef,
-    useEffect,
 } from 'react';
 import {
     Link,
@@ -37,9 +35,6 @@ import {
     DesktopOnly,
 } from './utilities';
 import {
-    useWindowSize,
-} from '../hooks/UseSize';
-import {
     useAppSelector,
     useAppDispatch,
 } from '../state/hooks';
@@ -47,7 +42,6 @@ import {
     selectDarkMode,
     toggleDarkMode,
     openMenuDrawer,
-    setHeaderHeight,
 } from '../state/globalSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -83,17 +77,6 @@ const Header = (props: {}): JSX.Element => {
 
     const dispatch = useAppDispatch();
     const darkMode = useAppSelector(selectDarkMode);
-
-    const DarkModeIcon = darkMode ? SunIcon : MoonIcon;
-
-    // ref and effect for figuring out header height
-    const windowSize = useWindowSize();
-    const headerRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-
-        dispatch(setHeaderHeight(headerRef.current?.offsetHeight || 0));
-
-    }, [windowSize.width, windowSize.height, headerRef.current]);
 
     // Generate state for any nav group menus
     const states: {
@@ -190,66 +173,62 @@ const Header = (props: {}): JSX.Element => {
     });
 
     return (
-        <>
-            <AppBar
-                position='fixed'
-                className={classes.root}
-            >
-                <Toolbar>
+        <AppBar
+            position='fixed'
+            className={classes.root}
+        >
+            <Toolbar>
 
-                    <MobileOnly>
+                <MobileOnly>
 
-                        <IconButton
-                            edge='start'
-                            className={classes.white}
-                            onClick={() => dispatch(openMenuDrawer())}
-                        >
-                            <MenuIcon color='inherit' />
-                        </IconButton>
-
-                    </MobileOnly>
-
-                    <Link
-                        to='/'
-                        className={clsx(
-                            classes.noDec,
-                            classes.white,
-                        )}
+                    <IconButton
+                        edge='start'
+                        className={classes.white}
+                        onClick={() => dispatch(openMenuDrawer())}
                     >
-                        <Button className={classes.navButton}>
-                            <Typography variant='h5'>
-                                mdbin
-                            </Typography>
-                        </Button>
-                    </Link>
+                        <MenuIcon color='inherit' />
+                    </IconButton>
 
-                    <DesktopOnly>
-                        <Box
-                            display='flex'
-                        >
-                            {navItems}
-                        </Box>
-                    </DesktopOnly>
+                </MobileOnly>
 
-                    {/* right side */}
-                    <Tooltip
-                        title={darkMode ? 'Light Mode' : 'Dark Mode'}
-                        className={classes.rightSide}
+                <Link
+                    to='/'
+                    className={clsx(
+                        classes.noDec,
+                        classes.white,
+                    )}
+                >
+                    <Button className={classes.navButton}>
+                        <Typography variant='h5'>
+                            mdbin
+                        </Typography>
+                    </Button>
+                </Link>
+
+                <DesktopOnly>
+                    <Box
+                        display='flex'
                     >
-                        <IconButton
-                            edge='end'
-                            className={classes.white}
-                            onClick={() => dispatch(toggleDarkMode())}
-                        >
-                            <DarkModeIcon />
-                        </IconButton>
-                    </Tooltip>
+                        {navItems}
+                    </Box>
+                </DesktopOnly>
 
-                </Toolbar>
-            </AppBar>
-            {/* toolbar for ofsetting page elements when bar is fixed */}
-            <Toolbar ref={headerRef}/>
-        </>
+                {/* right side */}
+                <Tooltip
+                    title={darkMode ? 'Light Mode' : 'Dark Mode'}
+                    className={classes.rightSide}
+                >
+                    <IconButton
+                        edge='end'
+                        className={classes.white}
+                        onClick={() => dispatch(toggleDarkMode())}
+                    >
+                        {darkMode ? <SunIcon /> : <MoonIcon />}
+                    </IconButton>
+                </Tooltip>
+
+            </Toolbar>
+        </AppBar>
     );
 
 };
@@ -258,4 +237,5 @@ export default Header;
 
 // placeholder component for properly offsetting pages
 export const PlaceholderHeader =
-    (props: {ref: () => void}): JSX.Element => <Toolbar ref={props.ref} />;
+    (props: {innerRef?: (node: HTMLDivElement | null) => void})
+    : JSX.Element => <Toolbar ref={props.innerRef} />;

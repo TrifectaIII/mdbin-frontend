@@ -1,8 +1,4 @@
-import React, {
-    useRef,
-    useEffect,
-    useState,
-} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import {
@@ -15,15 +11,11 @@ import {
 } from '../state/hooks';
 import {
     selectDarkMode,
-    selectHeaderHeight,
 } from '../state/globalSlice';
 import {
-    selectOutputHTML,
-    selectModeSwitchHeight,
+    selectText,
 } from '../state/editSlice';
-import {
-    useWindowSize,
-} from '../hooks/UseSize';
+import renderMD from '../markdown/renderMD';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,36 +24,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // rendered markdown preview component
-const Preview = (props: {}): JSX.Element => {
+const Preview = (props: {
+    verticalSpace: number,
+}): JSX.Element => {
 
     const classes = useStyles();
 
+    // global dark mode determines markdown styling
     const darkMode = useAppSelector(selectDarkMode);
 
-    // figure out proper height of div
-    const headerHeight = useAppSelector(selectHeaderHeight);
-    const switchHeight = useAppSelector(selectModeSwitchHeight);
-    const windowSize = useWindowSize();
-    const [previewHeight, setPreviewHeight] = useState<number>(0);
-    useEffect(() => {
+    // get text from the editor
+    const text = useAppSelector(selectText);
 
-        setPreviewHeight(windowSize.height - headerHeight - switchHeight);
+    // height of preview can take the rest of the screen
+    const previewHeight = props.verticalSpace;
 
-    }, [
-        windowSize.width,
-        windowSize.height,
-        headerHeight,
-        switchHeight,
-    ]);
-
-    // display rendered HTML from state
-    const outputHTML = useAppSelector(selectOutputHTML);
-    const outputRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-
-        if (outputRef.current) outputRef.current.innerHTML = outputHTML;
-
-    }, [outputHTML, outputRef.current]);
 
     return (
         <Container
@@ -76,7 +53,11 @@ const Preview = (props: {}): JSX.Element => {
                 height: `${previewHeight}px`,
             }}
         >
-            <div ref={outputRef} />
+            <div
+                dangerouslySetInnerHTML={{
+                    __html: renderMD(text),
+                }}
+            />
         </Container>
     );
 

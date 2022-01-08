@@ -1,7 +1,3 @@
-import DOMPurify from 'dompurify';
-import {
-    marked,
-} from 'marked';
 import {
     createSlice,
     PayloadAction,
@@ -12,28 +8,24 @@ import {
     RootState,
 } from './store';
 
+type Mode = 'editor' | 'preview';
+
 // Slice of state for counter page
 export interface EditState {
-    inputMD: string;
-    outputHTML: string;
-    modeSwitch: 'editor' | 'preview';
-    modeSwitchHeight: number;
+    text: string;
+    mode: Mode;
 }
 
 // get any saved edit text from localstorage
 const savedText =
     localStorage.getItem('editorText');
-const savedMobileSwitch =
-    localStorage.getItem('mobileSwitch') as 'editor' | 'preview';
+const savedMode =
+    localStorage.getItem('editorMode') as Mode;
 
 // initial state is saved text, or default if nothing was saved
 const initialState: EditState = {
-    inputMD: savedText || initialText,
-    outputHTML: savedText
-        ? DOMPurify.sanitize(marked.parse(savedText))
-        : DOMPurify.sanitize(marked.parse(initialText)),
-    modeSwitch: savedMobileSwitch || 'editor',
-    modeSwitchHeight: 0,
+    text: savedText || initialText,
+    mode: savedMode || 'editor',
 };
 
 export const editSlice = createSlice({
@@ -43,26 +35,14 @@ export const editSlice = createSlice({
     reducers: {
         updateText: (state, action: PayloadAction<string>) => {
 
-            state.inputMD = action.payload;
-            state.outputHTML = DOMPurify.sanitize(marked.parse(action.payload));
+            state.text = action.payload;
             localStorage.setItem('editorText', action.payload);
 
         },
-        switchModeToEditor: (state) => {
+        switchMode: (state, action: PayloadAction<Mode>) => {
 
-            state.modeSwitch = 'editor';
-            localStorage.setItem('mobileSwitch', 'editor');
-
-        },
-        switchModeToPreview: (state) => {
-
-            state.modeSwitch = 'preview';
-            localStorage.setItem('mobileSwitch', 'preview');
-
-        },
-        setModeSwitchHeight: (state, action: PayloadAction<number>) => {
-
-            state.modeSwitchHeight = action.payload;
+            state.mode = action.payload;
+            localStorage.setItem('mobileSwitch', action.payload);
 
         },
     },
@@ -70,18 +50,12 @@ export const editSlice = createSlice({
 
 export const {
     updateText,
-    switchModeToEditor,
-    switchModeToPreview,
-    setModeSwitchHeight,
+    switchMode,
 } = editSlice.actions;
 
-export const selectInputMD =
-    (state: RootState): string => state.edit.inputMD;
-export const selectOutputHTML =
-    (state: RootState): string => state.edit.outputHTML;
-export const selectModeSwitch =
-    (state: RootState): 'editor' | 'preview' => state.edit.modeSwitch;
-export const selectModeSwitchHeight =
-    (state: RootState): number => state.edit.modeSwitchHeight;
+export const selectText =
+    (state: RootState): string => state.edit.text;
+export const selectMode =
+    (state: RootState): Mode => state.edit.mode;
 
 export default editSlice.reducer;

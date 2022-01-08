@@ -1,7 +1,6 @@
 import React, {
     useRef,
     useState,
-    useEffect,
 } from 'react';
 
 import {
@@ -42,16 +41,14 @@ import {
 } from '../state/hooks';
 import {
     selectDarkMode,
-    selectHeaderHeight,
 } from '../state/globalSlice';
 import {
-    selectInputMD,
-    selectModeSwitchHeight,
+    selectText,
     updateText,
 } from '../state/editSlice';
 import Confirm from './Confirm';
 import {
-    useWindowSize,
+    useElementSize,
 } from '../hooks/UseSize';
 import {
     insertBold,
@@ -81,7 +78,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // markdown editor component
-const Editor = (props: {}): JSX.Element => {
+const Editor = (props: {
+    verticalSpace: number,
+}): JSX.Element => {
 
     const classes = useStyles();
     const dispatch = useAppDispatch();
@@ -92,29 +91,15 @@ const Editor = (props: {}): JSX.Element => {
     // ref for codemirror component
     const codeMirrorRef = useRef<ReactCodeMirrorRef>(null);
 
+    // text from state
+    const text = useAppSelector(selectText);
     // handler for updating state when text is changed
-    const inputMD = useAppSelector(selectInputMD);
     const handleChange = (value: string) => dispatch(updateText(value));
 
     // calculate height of codemirror editor
     // based on size of window and other elements
-    const buttonsRef = useRef<HTMLDivElement>(null);
-    const windowSize = useWindowSize();
-    const headerHeight = useAppSelector(selectHeaderHeight);
-    const switchHeight = useAppSelector(selectModeSwitchHeight);
-    const [editorHeight, setEditorHeight] = useState<number>(0);
-    useEffect(() => {
-
-        const buttonsHeight = buttonsRef.current?.offsetHeight || 0;
-        setEditorHeight(windowSize.height - headerHeight - buttonsHeight - switchHeight);
-
-    }, [
-        headerHeight,
-        switchHeight,
-        windowSize.width,
-        windowSize.height,
-        buttonsRef.current,
-    ]);
+    const [buttonsSize, buttonsRef] = useElementSize();
+    const editorHeight = props.verticalSpace - buttonsSize.height;
 
     // state for clear all confirm dialog
     const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
@@ -268,7 +253,7 @@ const Editor = (props: {}): JSX.Element => {
                     <CodeMirror
                         theme={darkMode ? 'dark' : 'light'}
                         height={`${editorHeight}px`}
-                        value={inputMD}
+                        value={text}
                         onChange={handleChange}
                         placeholder='Markdown goes here...'
                         extensions={[

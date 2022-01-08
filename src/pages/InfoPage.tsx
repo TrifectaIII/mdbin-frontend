@@ -1,12 +1,4 @@
-import DOMPurify from 'dompurify';
-import {
-    marked,
-} from 'marked';
-
-import React, {
-    useRef,
-    useEffect,
-} from 'react';
+import React from 'react';
 import {
     RouteComponentProps,
 } from 'react-router-dom';
@@ -25,13 +17,18 @@ import {
     selectDarkMode,
 } from '../state/globalSlice';
 import infoText from '../markdown/infoText';
+import {
+    PlaceholderHeader,
+} from '../components/Header';
+import renderMD from '../markdown/renderMD';
+import {
+    useElementSize,
+    useWindowSize,
+} from '../hooks/UseSize';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-
-    },
-    container: {
-
+        overflow: 'auto',
     },
 }));
 
@@ -42,33 +39,33 @@ const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
     const darkMode = useAppSelector(selectDarkMode);
 
-    // render markdown into html
-    const infoHTML = DOMPurify.sanitize(marked.parse(infoText));
-
-    // drop html into element and resize
-    const infoRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-
-        if (infoRef.current) infoRef.current.innerHTML = infoHTML;
-
-    }, [infoRef.current]);
+    // determine height of main element
+    const windowSize = useWindowSize();
+    const [headerSize, headerRef] = useElementSize();
+    const infoHeight = windowSize.height - headerSize.height;
 
     return (
-        <Box
-            className={clsx(
-                classes.root,
-                'markdown-body',
-                darkMode
-                    ? 'markdown-dark'
-                    : 'markdown-light',
-            )}
-        >
-            <Container
-                ref={infoRef}
-                className={classes.container}
+        <>
+            <PlaceholderHeader innerRef={headerRef} />
+            <Box
+                className={clsx(
+                    classes.root,
+                    'markdown-body',
+                    darkMode
+                        ? 'markdown-dark'
+                        : 'markdown-light',
+                )}
+                height={`${infoHeight}px`}
             >
-            </Container>
-        </Box>
+                <Container>
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: renderMD(infoText),
+                        }}
+                    />
+                </Container>
+            </Box>
+        </>
     );
 
 };

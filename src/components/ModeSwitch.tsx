@@ -1,7 +1,4 @@
-import React, {
-    useRef,
-    useEffect,
-} from 'react';
+import React from 'react';
 
 import {
     Toolbar,
@@ -18,17 +15,12 @@ import {
     useAppDispatch,
 } from '../state/hooks';
 import {
-    selectModeSwitch,
-    switchModeToEditor,
-    switchModeToPreview,
-    setModeSwitchHeight,
+    selectMode,
+    switchMode,
 } from '../state/editSlice';
 import {
     MobileOnly,
 } from './utilities';
-import {
-    useWindowSize,
-} from '../hooks/UseSize';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,39 +36,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // component to switch between editor and preview on mobile
-const ModeSwitch = (props: {}): JSX.Element => {
+const ModeSwitch = (props: {
+    innerRef: (node: HTMLDivElement| null) => void,
+}): JSX.Element => {
 
     const classes = useStyles();
     const dispatch = useAppDispatch();
 
-    const mobileSwitch = useAppSelector(selectModeSwitch);
-
-    const windowSize = useWindowSize();
-    const switchRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-
-        dispatch(setModeSwitchHeight(switchRef.current?.offsetHeight || 0));
-
-    }, [
-        windowSize.width,
-        windowSize.height,
-        switchRef.current,
-    ]);
+    const mode = useAppSelector(selectMode);
 
     return (
         <MobileOnly>
             <Toolbar
                 className={classes.root}
-                ref={switchRef}
+                ref={props.innerRef}
                 variant='dense'
                 disableGutters
             >
                 <Button
-                    onClick={() => dispatch(switchModeToEditor())}
+                    onClick={() => dispatch(switchMode('editor'))}
                     startIcon={<EditorIcon />}
                     color='primary'
                     variant={
-                        mobileSwitch === 'editor'
+                        mode === 'editor'
                             ? 'contained'
                             : 'outlined'
                     }
@@ -85,11 +67,11 @@ const ModeSwitch = (props: {}): JSX.Element => {
                     Edit
                 </Button>
                 <Button
-                    onClick={() => dispatch(switchModeToPreview())}
+                    onClick={() => dispatch(switchMode('preview'))}
                     startIcon={<PreviewIcon />}
                     color='secondary'
                     variant={
-                        mobileSwitch === 'preview'
+                        mode === 'preview'
                             ? 'contained'
                             : 'outlined'
                     }

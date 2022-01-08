@@ -13,12 +13,19 @@ import {
     useAppSelector,
 } from '../state/hooks';
 import {
-    selectModeSwitch,
+    selectMode,
 } from '../state/editSlice';
 
 import Editor from '../components/Editor';
 import Preview from '../components/Preview';
-import EditSwitch from '../components/ModeSwitch';
+import ModeSwitch from '../components/ModeSwitch';
+import {
+    PlaceholderHeader,
+} from '../components/Header';
+import {
+    useElementSize,
+    useWindowSize,
+} from '../hooks/UseSize';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,34 +38,56 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
     const classes = useStyles();
 
-    const mobileSwitch = useAppSelector(selectModeSwitch);
+    const mode = useAppSelector(selectMode);
+
+    // size of window & components
+    const windowSize = useWindowSize();
+    const [switchSize, switchRef] = useElementSize();
+    const [headerSize, headerRef] = useElementSize();
+
+    const verticalSpace =
+        windowSize.height - (switchSize.height + headerSize.height);
 
     return (
-        <Grid
-            container
-            direction='row'
-            className={classes.root}
-        >
-            <Grid item xs={12}>
-                <EditSwitch />
+        <>
+            {/* placeholder header for offsets */}
+            <PlaceholderHeader
+                innerRef={headerRef}
+            />
+
+            {/* main contents */}
+            <Grid
+                container
+                direction='row'
+                className={classes.root}
+            >
+                <Grid item xs={12}>
+                    <ModeSwitch
+                        innerRef={switchRef}
+                    />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Hidden
+                        smDown={mode === 'preview'}
+                        implementation='css'
+                    >
+                        <Editor
+                            verticalSpace={verticalSpace}
+                        />
+                    </Hidden>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Hidden
+                        smDown={mode === 'editor'}
+                        implementation='css'
+                    >
+                        <Preview
+                            verticalSpace={verticalSpace}
+                        />
+                    </Hidden>
+                </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-                <Hidden
-                    smDown={mobileSwitch === 'preview'}
-                    implementation='css'
-                >
-                    <Editor />
-                </Hidden>
-            </Grid>
-            <Grid item xs={12} md={6}>
-                <Hidden
-                    smDown={mobileSwitch === 'editor'}
-                    implementation='css'
-                >
-                    <Preview />
-                </Hidden>
-            </Grid>
-        </Grid>
+        </>
     );
 
 };
