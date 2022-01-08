@@ -1,6 +1,7 @@
 import React, {
     useRef,
     useState,
+    useLayoutEffect,
 } from 'react';
 
 import {
@@ -44,6 +45,7 @@ import {
 } from '../state/globalSlice';
 import {
     selectText,
+    selectMode,
     updateText,
 } from '../state/editSlice';
 import Confirm from './Confirm';
@@ -91,15 +93,16 @@ const Editor = (props: {
     // ref for codemirror component
     const codeMirrorRef = useRef<ReactCodeMirrorRef>(null);
 
-    // text from state
+    // text from state & update handler
     const text = useAppSelector(selectText);
-    // handler for updating state when text is changed
     const handleChange = (value: string) => dispatch(updateText(value));
 
     // calculate height of codemirror editor
-    // based on size of window and other elements
-    const [buttonsSize, buttonsRef] = useElementSize();
+    const [buttonsSize, buttonsRef, updateButtonsSize] = useElementSize();
     const editorHeight = props.verticalSpace - buttonsSize.height;
+    // manually update useElementSize state when mode changes
+    const mode = useAppSelector(selectMode);
+    useLayoutEffect(() => updateButtonsSize(), [mode]);
 
     // state for clear all confirm dialog
     const [clearConfirmOpen, setClearConfirmOpen] = useState(false);

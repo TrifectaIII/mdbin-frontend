@@ -1,5 +1,6 @@
 import {
     useEffect,
+    useLayoutEffect,
     useState,
 } from 'react';
 
@@ -46,23 +47,32 @@ export const useWindowSize = (): Size => {
 export const useElementSize = <T extends HTMLElement = HTMLDivElement>(): [
     size: Size,
     ref: (node: T | null) => void,
+    manualUpdate: () => void,
 ] => {
 
+    // state to hold size
     const [elementSize, setElementSize] = useState<Size>({
         width: 0,
         height: 0,
     });
+
+    // state to hold ref to element
     const [ref, setRef] = useState<T | null>(null);
 
-    useEffect(() => {
+    // function to update state based on element ref
+    const updateSize = () => setElementSize({
+        width: ref?.offsetWidth || 0,
+        height: ref?.offsetHeight || 0,
+    });
 
-        setElementSize({
-            width: ref?.offsetWidth || 0,
-            height: ref?.offsetHeight || 0,
-        });
+    // call update function when element changes
+    useLayoutEffect(
+        updateSize,
+        [ref?.offsetWidth, ref?.offsetHeight, ref],
+    );
 
-    }, [ref?.offsetWidth, ref?.offsetHeight]);
-
-    return [elementSize, setRef];
+    // return the size, the ref setter
+    // and the update function for manual updates
+    return [elementSize, setRef, updateSize];
 
 };
