@@ -1,7 +1,6 @@
 import React, {
     useRef,
     useState,
-    useLayoutEffect,
 } from 'react';
 
 import {
@@ -98,11 +97,10 @@ const Editor = (props: {
     const handleChange = (value: string) => dispatch(updateText(value));
 
     // calculate height of codemirror editor
-    const [buttonsSize, buttonsRef, updateButtonsSize] = useElementSize();
-    const editorHeight = props.verticalSpace - buttonsSize.height;
-    // manually update useElementSize state when mode changes
+    // pass mode as a dependency so the size updates properly
     const mode = useAppSelector(selectMode);
-    useLayoutEffect(() => updateButtonsSize(), [mode]);
+    const [buttonsSize, buttonsRef] = useElementSize(mode);
+    const editorHeight = props.verticalSpace - buttonsSize.height;
 
     // state for clear all confirm dialog
     const [clearConfirmOpen, setClearConfirmOpen] = useState(false);

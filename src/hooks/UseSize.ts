@@ -2,6 +2,7 @@ import {
     useEffect,
     useLayoutEffect,
     useState,
+    DependencyList,
 } from 'react';
 
 // type of return object
@@ -44,7 +45,9 @@ export const useWindowSize = (): Size => {
 };
 
 // tracks the height of an element using a ref
-export const useElementSize = <T extends HTMLElement = HTMLDivElement>(): [
+export const useElementSize = <T extends HTMLElement = HTMLDivElement>(
+    ...dependencies: DependencyList
+): [
     size: Size,
     ref: (node: T | null) => void,
     manualUpdate: () => void,
@@ -68,7 +71,7 @@ export const useElementSize = <T extends HTMLElement = HTMLDivElement>(): [
     // call update function when element changes
     useLayoutEffect(
         updateSize,
-        [ref?.offsetWidth, ref?.offsetHeight, ref],
+        [ref?.offsetWidth, ref?.offsetHeight, ref, ...dependencies],
     );
 
     // return the size, the ref setter
