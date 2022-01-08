@@ -36,7 +36,9 @@ import {
     MobileOnly,
     DesktopOnly,
 } from './utilities';
-import useWindowSize from '../hooks/useWindowSize';
+import {
+    useWindowSize,
+} from '../hooks/UseSize';
 import {
     useAppSelector,
     useAppDispatch,
@@ -86,12 +88,12 @@ const Header = (props: {}): JSX.Element => {
 
     // ref and effect for figuring out header height
     const windowSize = useWindowSize();
-    const toolbarRef = useRef<HTMLDivElement>(null);
+    const headerRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
 
-        dispatch(setHeaderHeight(toolbarRef.current?.offsetHeight || 0));
+        dispatch(setHeaderHeight(headerRef.current?.offsetHeight || 0));
 
-    }, [windowSize.width, windowSize.height, toolbarRef.current]);
+    }, [windowSize.width, windowSize.height, headerRef.current]);
 
     // Generate state for any nav group menus
     const states: {
@@ -246,10 +248,15 @@ const Header = (props: {}): JSX.Element => {
                 </Toolbar>
             </AppBar>
             {/* toolbar for ofsetting page elements when bar is fixed */}
-            <Toolbar ref={toolbarRef}/>
+            <Toolbar ref={headerRef}/>
         </>
     );
 
 };
 
 export default Header;
+
+// placeholder component for properly offsetting pages
+export const PlaceholderHeader = (props: {
+    ref: () => void,
+}): JSX.Element => <Toolbar ref={props.ref} />;

@@ -18,15 +18,17 @@ import {
     useAppDispatch,
 } from '../state/hooks';
 import {
-    selectMobileSwitch,
-    switchToEditor,
-    switchToPreview,
-    setSwitchHeight,
+    selectModeSwitch,
+    switchModeToEditor,
+    switchModeToPreview,
+    setModeSwitchHeight,
 } from '../state/editSlice';
 import {
     MobileOnly,
 } from './utilities';
-import useWindowSize from '../hooks/useWindowSize';
+import {
+    useWindowSize,
+} from '../hooks/UseSize';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,18 +44,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // component to switch between editor and preview on mobile
-const EditSwitch = (props: {}): JSX.Element => {
+const ModeSwitch = (props: {}): JSX.Element => {
 
     const classes = useStyles();
     const dispatch = useAppDispatch();
 
-    const mobileSwitch = useAppSelector(selectMobileSwitch);
+    const mobileSwitch = useAppSelector(selectModeSwitch);
 
     const windowSize = useWindowSize();
     const switchRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
 
-        dispatch(setSwitchHeight(switchRef.current?.offsetHeight || 0));
+        dispatch(setModeSwitchHeight(switchRef.current?.offsetHeight || 0));
 
     }, [
         windowSize.width,
@@ -70,7 +72,7 @@ const EditSwitch = (props: {}): JSX.Element => {
                 disableGutters
             >
                 <Button
-                    onClick={() => dispatch(switchToEditor())}
+                    onClick={() => dispatch(switchModeToEditor())}
                     startIcon={<EditorIcon />}
                     color='primary'
                     variant={
@@ -83,7 +85,7 @@ const EditSwitch = (props: {}): JSX.Element => {
                     Edit
                 </Button>
                 <Button
-                    onClick={() => dispatch(switchToPreview())}
+                    onClick={() => dispatch(switchModeToPreview())}
                     startIcon={<PreviewIcon />}
                     color='secondary'
                     variant={
@@ -101,4 +103,4 @@ const EditSwitch = (props: {}): JSX.Element => {
 
 };
 
-export default EditSwitch;
+export default ModeSwitch;

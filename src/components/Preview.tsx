@@ -19,9 +19,11 @@ import {
 } from '../state/globalSlice';
 import {
     selectOutputHTML,
-    selectSwitchHeight,
+    selectModeSwitchHeight,
 } from '../state/editSlice';
-import useWindowSize from '../hooks/useWindowSize';
+import {
+    useWindowSize,
+} from '../hooks/UseSize';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,7 +40,7 @@ const Preview = (props: {}): JSX.Element => {
 
     // figure out proper height of div
     const headerHeight = useAppSelector(selectHeaderHeight);
-    const switchHeight = useAppSelector(selectSwitchHeight);
+    const switchHeight = useAppSelector(selectModeSwitchHeight);
     const windowSize = useWindowSize();
     const [previewHeight, setPreviewHeight] = useState<number>(0);
     useEffect(() => {

@@ -13,6 +13,7 @@ import {
 import clsx from 'clsx';
 
 import {
+    Box,
     Container,
     makeStyles,
 } from '@material-ui/core';
@@ -27,7 +28,10 @@ import infoText from '../markdown/infoText';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        marginTop: '3rem',
+
+    },
+    container: {
+
     },
 }));
 
@@ -41,7 +45,7 @@ const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
     // render markdown into html
     const infoHTML = DOMPurify.sanitize(marked.parse(infoText));
 
-    // drop html into element
+    // drop html into element and resize
     const infoRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
 
@@ -50,8 +54,7 @@ const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
     }, [infoRef.current]);
 
     return (
-        <Container
-            ref={infoRef}
+        <Box
             className={clsx(
                 classes.root,
                 'markdown-body',
@@ -60,8 +63,12 @@ const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
                     : 'markdown-light',
             )}
         >
-            <></>
-        </Container>
+            <Container
+                ref={infoRef}
+                className={classes.container}
+            >
+            </Container>
+        </Box>
     );
 
 };

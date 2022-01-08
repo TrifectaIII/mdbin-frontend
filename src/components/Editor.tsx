@@ -46,11 +46,13 @@ import {
 } from '../state/globalSlice';
 import {
     selectInputMD,
-    selectSwitchHeight,
+    selectModeSwitchHeight,
     updateText,
 } from '../state/editSlice';
 import Confirm from './Confirm';
-import useWindowSize from '../hooks/useWindowSize';
+import {
+    useWindowSize,
+} from '../hooks/UseSize';
 import {
     insertBold,
     insertItalic,
@@ -99,7 +101,7 @@ const Editor = (props: {}): JSX.Element => {
     const buttonsRef = useRef<HTMLDivElement>(null);
     const windowSize = useWindowSize();
     const headerHeight = useAppSelector(selectHeaderHeight);
-    const switchHeight = useAppSelector(selectSwitchHeight);
+    const switchHeight = useAppSelector(selectModeSwitchHeight);
     const [editorHeight, setEditorHeight] = useState<number>(0);
     useEffect(() => {
 

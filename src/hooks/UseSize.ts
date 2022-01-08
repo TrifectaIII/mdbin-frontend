@@ -4,16 +4,16 @@ import {
 } from 'react';
 
 // type of return object
-export interface WindowSize {
+export interface Size {
     width: number;
     height: number;
 }
 
 // uses state and effect hooks to track window size
-const useWindowSize = (): WindowSize => {
+export const useWindowSize = (): Size => {
 
     // state to track size
-    const [windowSize, setWindowSize] = useState<WindowSize>({
+    const [windowSize, setWindowSize] = useState<Size>({
         width: 0,
         height: 0,
     });
@@ -42,4 +42,26 @@ const useWindowSize = (): WindowSize => {
 
 };
 
-export default useWindowSize;
+// tracks the height of an element using a ref
+export const useElementSize = <T extends HTMLElement = HTMLDivElement>(): [
+    size: Size,
+    ref: (node: T | null) => void,
+] => {
+
+    const [elementSize, setElementSize] = useState<Size>({
+        width: 0,
+        height: 0,
+    });
+    const [ref, setRef] = useState<T | null>(null);
+    useEffect(() => {
+
+        setElementSize({
+            width: ref?.offsetWidth || 0,
+            height: ref?.offsetHeight || 0,
+        });
+
+    }, [ref?.offsetWidth, ref?.offsetHeight]);
+
+    return [elementSize, setRef];
+
+};

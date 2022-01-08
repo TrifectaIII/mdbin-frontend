@@ -13,12 +13,12 @@ import {
     useAppSelector,
 } from '../state/hooks';
 import {
-    selectMobileSwitch,
+    selectModeSwitch,
 } from '../state/editSlice';
 
 import Editor from '../components/Editor';
 import Preview from '../components/Preview';
-import EditSwitch from '../components/EditSwitch';
+import EditSwitch from '../components/ModeSwitch';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,7 +31,7 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
     const classes = useStyles();
 
-    const mobileSwitch = useAppSelector(selectMobileSwitch);
+    const mobileSwitch = useAppSelector(selectModeSwitch);
 
     return (
         <Grid
