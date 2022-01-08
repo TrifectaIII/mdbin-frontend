@@ -257,6 +257,5 @@ const Header = (props: {}): JSX.Element => {
 export default Header;
 
 // placeholder component for properly offsetting pages
-export const PlaceholderHeader = (props: {
-    ref: () => void,
-}): JSX.Element => <Toolbar ref={props.ref} />;
+export const PlaceholderHeader =
+    (props: {ref: () => void}): JSX.Element => <Toolbar ref={props.ref} />;

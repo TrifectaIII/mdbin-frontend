@@ -53,6 +53,7 @@ export const useElementSize = <T extends HTMLElement = HTMLDivElement>(): [
         height: 0,
     });
     const [ref, setRef] = useState<T | null>(null);
+
     useEffect(() => {
 
         setElementSize({
