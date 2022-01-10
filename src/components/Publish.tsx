@@ -22,6 +22,9 @@ import {
 import {
     selectDarkMode,
 } from '../state/globalSlice';
+import {
+    recaptchaSiteKey,
+} from '../constants';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,6 +45,7 @@ const Publish = (props: {
 
     const handleClose = () => {
 
+        // remove verification before closing
         setVerified(false);
         props.handleClose();
 
@@ -65,7 +69,8 @@ const Publish = (props: {
                     type='image'
                     size='normal'
                     onChange={() => setVerified(true)}
-                    sitekey='6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+                    // test key for now
+                    sitekey={recaptchaSiteKey}
                 />
             </DialogContent>
             <DialogActions>
