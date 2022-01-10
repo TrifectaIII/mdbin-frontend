@@ -3,8 +3,12 @@ import {
 } from '@reduxjs/toolkit';
 
 import {
+    AppThunk,
     RootState,
 } from './store';
+import {
+    saveToLocal,
+} from './editSlice';
 
 // Slice of global state
 export interface GlobalState {
@@ -31,7 +35,6 @@ export const globalSlice = createSlice({
                 'lightMode',
                 state.darkMode ? '' : 'on',
             );
-
 
         },
         openMenuDrawer: (state) => {
@@ -72,5 +75,17 @@ export const selectDarkMode =
     (state: RootState): boolean => state.global.darkMode;
 export const selectMenuDrawerOpen =
     (state: RootState): boolean => state.global.menuDrawerOpen;
+export const selectCookieAuth =
+    (state: RootState): boolean => state.global.cookieAuth;
+
+// thunks which dispatch the reducers
+export const allowCookies =
+    (): AppThunk => (dispatch, getState) => {
+
+        dispatch(globalSlice.actions.allowCookies());
+        dispatch(saveToLocal());
+
+    };
+
 
 export default globalSlice.reducer;

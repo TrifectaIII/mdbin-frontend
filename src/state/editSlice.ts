@@ -5,8 +5,12 @@ import {
 
 import initialText from '../markdown/initialText';
 import {
+    AppThunk,
     RootState,
 } from './store';
+import {
+    selectCookieAuth,
+} from './globalSlice';
 
 type Mode = 'editor' | 'preview';
 
@@ -36,26 +40,64 @@ export const editSlice = createSlice({
         updateText: (state, action: PayloadAction<string>) => {
 
             state.text = action.payload;
-            localStorage.setItem('editorText', action.payload);
 
         },
         switchMode: (state, action: PayloadAction<Mode>) => {
 
             state.mode = action.payload;
-            localStorage.setItem('mobileSwitch', action.payload);
 
         },
     },
 });
 
-export const {
-    updateText,
-    switchMode,
-} = editSlice.actions;
+// export reducers as actions
+// export const {
+//     updateText,
+//     switchMode,
+// } = editSlice.actions;
 
+// selectors
 export const selectText =
     (state: RootState): string => state.edit.text;
 export const selectMode =
     (state: RootState): Mode => state.edit.mode;
+
+// thunks which dispatch the reducers
+export const updateText =
+    (text: string): AppThunk => (dispatch, getState) => {
+
+        dispatch(editSlice.actions.updateText(text));
+        if (selectCookieAuth(getState())) localStorage.setItem(
+            'editorText',
+            text,
+        );
+
+    };
+
+export const switchMode =
+    (mode: Mode): AppThunk => (dispatch, getState) => {
+
+        dispatch(editSlice.actions.switchMode(mode));
+        if (selectCookieAuth(getState())) localStorage.setItem(
+            'editorMode',
+            mode,
+        );
+
+    };
+
+export const saveToLocal =
+    (): AppThunk => (dispatch, getState) => {
+
+        localStorage.setItem(
+            'editorText',
+            selectText(getState()),
+        );
+
+        localStorage.setItem(
+            'editorMode',
+            selectMode(getState()),
+        );
+
+    };
 
 export default editSlice.reducer;
