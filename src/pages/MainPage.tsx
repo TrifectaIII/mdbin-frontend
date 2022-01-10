@@ -13,7 +13,7 @@ import {
     useAppSelector,
 } from '../state/hooks';
 import {
-    selectMode,
+    selectEditMode,
 } from '../state/editSlice';
 
 import Editor from '../components/Editor';
@@ -38,7 +38,7 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
     const classes = useStyles();
 
-    const mode = useAppSelector(selectMode);
+    const editMode = useAppSelector(selectEditMode);
 
     // size of window & components
     const windowSize = useWindowSize();
@@ -68,7 +68,7 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Hidden
-                        smDown={mode === 'preview'}
+                        smDown={editMode === 'preview'}
                         implementation='css'
                     >
                         <Editor
@@ -78,7 +78,7 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Hidden
-                        smDown={mode === 'editor'}
+                        smDown={editMode === 'editor'}
                         implementation='css'
                     >
                         <Preview

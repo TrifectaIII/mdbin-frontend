@@ -26,9 +26,9 @@ import {
     selectDarkMode,
 } from '../state/globalSlice';
 import {
-    selectText,
-    selectMode,
-    updateText,
+    selectEditText,
+    selectEditMode,
+    updateEditText,
 } from '../state/editSlice';
 import EditorButtons from './EditorButtons';
 import Confirm from './Confirm';
@@ -66,13 +66,13 @@ const Editor = (props: {
     const codeMirrorRef = useRef<ReactCodeMirrorRef>(null);
 
     // text from state & update handler
-    const text = useAppSelector(selectText);
-    const handleChange = (value: string) => dispatch(updateText(value));
+    const editText = useAppSelector(selectEditText);
+    const handleChange = (value: string) => dispatch(updateEditText(value));
 
     // calculate height of codemirror editor
     // pass mode as a dependency so the size updates properly
-    const mode = useAppSelector(selectMode);
-    const [buttonsSize, buttonsRef] = useElementSize(mode);
+    const editMode = useAppSelector(selectEditMode);
+    const [buttonsSize, buttonsRef] = useElementSize(editMode);
     const editorHeight = props.verticalSpace - buttonsSize.height;
 
     // state for clear all confirm dialog
@@ -127,7 +127,7 @@ const Editor = (props: {
                     <CodeMirror
                         theme={darkMode ? 'dark' : 'light'}
                         height={`${editorHeight}px`}
-                        value={text}
+                        value={editText}
                         onChange={handleChange}
                         placeholder='Markdown goes here...'
                         extensions={[

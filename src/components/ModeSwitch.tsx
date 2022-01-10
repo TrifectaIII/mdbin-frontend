@@ -15,8 +15,8 @@ import {
     useAppDispatch,
 } from '../state/hooks';
 import {
-    selectMode,
-    switchMode,
+    selectEditMode,
+    switchEditMode,
 } from '../state/editSlice';
 import {
     MobileOnly,
@@ -43,7 +43,7 @@ const ModeSwitch = (props: {
     const classes = useStyles();
     const dispatch = useAppDispatch();
 
-    const mode = useAppSelector(selectMode);
+    const editMode = useAppSelector(selectEditMode);
 
     return (
         <MobileOnly>
@@ -54,11 +54,11 @@ const ModeSwitch = (props: {
                 disableGutters
             >
                 <Button
-                    onClick={() => dispatch(switchMode('editor'))}
+                    onClick={() => dispatch(switchEditMode('editor'))}
                     startIcon={<EditorIcon />}
                     color='primary'
                     variant={
-                        mode === 'editor'
+                        editMode === 'editor'
                             ? 'contained'
                             : 'outlined'
                     }
@@ -67,11 +67,11 @@ const ModeSwitch = (props: {
                     Edit
                 </Button>
                 <Button
-                    onClick={() => dispatch(switchMode('preview'))}
+                    onClick={() => dispatch(switchEditMode('preview'))}
                     startIcon={<PreviewIcon />}
                     color='secondary'
                     variant={
-                        mode === 'preview'
+                        editMode === 'preview'
                             ? 'contained'
                             : 'outlined'
                     }

@@ -22,9 +22,9 @@ export interface EditState {
 
 // get any saved edit text from localstorage
 const savedText =
-    localStorage.getItem('editorText');
+    localStorage.getItem('editText');
 const savedMode =
-    localStorage.getItem('editorMode') as Mode;
+    localStorage.getItem('editMode') as Mode;
 
 // initial state is saved text, or default if nothing was saved
 const initialState: EditState = {
@@ -37,12 +37,12 @@ export const editSlice = createSlice({
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        updateText: (state, action: PayloadAction<string>) => {
+        updateEditText: (state, action: PayloadAction<string>) => {
 
             state.text = action.payload;
 
         },
-        switchMode: (state, action: PayloadAction<Mode>) => {
+        switchEditMode: (state, action: PayloadAction<Mode>) => {
 
             state.mode = action.payload;
 
@@ -57,29 +57,29 @@ export const editSlice = createSlice({
 // } = editSlice.actions;
 
 // selectors
-export const selectText =
+export const selectEditText =
     (state: RootState): string => state.edit.text;
-export const selectMode =
+export const selectEditMode =
     (state: RootState): Mode => state.edit.mode;
 
 // thunks which dispatch the reducers
-export const updateText =
+export const updateEditText =
     (text: string): AppThunk => (dispatch, getState) => {
 
-        dispatch(editSlice.actions.updateText(text));
+        dispatch(editSlice.actions.updateEditText(text));
         if (selectCookieAuth(getState())) localStorage.setItem(
-            'editorText',
+            'editText',
             text,
         );
 
     };
 
-export const switchMode =
+export const switchEditMode =
     (mode: Mode): AppThunk => (dispatch, getState) => {
 
-        dispatch(editSlice.actions.switchMode(mode));
+        dispatch(editSlice.actions.switchEditMode(mode));
         if (selectCookieAuth(getState())) localStorage.setItem(
-            'editorMode',
+            'editMode',
             mode,
         );
 
@@ -89,13 +89,13 @@ export const saveToLocal =
     (): AppThunk => (dispatch, getState) => {
 
         localStorage.setItem(
-            'editorText',
-            selectText(getState()),
+            'editText',
+            selectEditText(getState()),
         );
 
         localStorage.setItem(
-            'editorMode',
-            selectMode(getState()),
+            'editMode',
+            selectEditMode(getState()),
         );
 
     };
