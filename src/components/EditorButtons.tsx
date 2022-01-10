@@ -70,7 +70,10 @@ const EditorButtons = (props: {
             className={classes.root}
             ref={props.innerRef}
             style={{
-                backgroundColor: darkMode ? '#282c34' : '#fafafa',
+                // colors match github css style
+                backgroundColor: darkMode
+                    ? '#282c34'
+                    : '#fafafa',
             }}
         >
             <Tooltip title='Bold'>

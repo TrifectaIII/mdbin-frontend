@@ -88,14 +88,13 @@ const Preview = (props: {
                         />
                     </Container>
                 </Grid>
-                <Grid
-                    item xs={12}
-                >
+                <Grid item xs={12}>
                     <Toolbar
                         ref={buttonRef}
                         variant='dense'
                         disableGutters
                         style={{
+                            // colors match github css style
                             backgroundColor: darkMode
                                 ? '#0d1117'
                                 : '#ffffff',
