@@ -1,13 +1,13 @@
 import React, {
     useState,
 } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 import {
+    TextField,
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogContentText,
+    // DialogContentText,
     DialogActions,
     Button,
     makeStyles,
@@ -16,6 +16,10 @@ import {
     Publish as PublishIcon,
     Close as CancelIcon,
 } from '@material-ui/icons';
+
+import ReCAPTCHA from 'react-google-recaptcha';
+import isEmail from 'validator/lib/isEmail';
+
 import {
     useAppSelector,
 } from '../state/hooks';
@@ -41,12 +45,22 @@ const Publish = (props: {
 
     const darkMode = useAppSelector(selectDarkMode);
 
+    // state for captcha verification
     const [verified, setVerified] = useState<boolean>(false);
+
+    // state for email input
+    const [email, setEmail] = useState<string>('');
+
+    // flags for completed form
+    const emailValid = isEmail(email);
+    const emailError = !emailValid && Boolean(email.length);
+    const formComplete = emailValid && verified;
 
     const handleClose = () => {
 
         // remove verification before closing
         setVerified(false);
+        setEmail('');
         props.handleClose();
 
     };
@@ -61,9 +75,17 @@ const Publish = (props: {
                 Publish
             </DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    Do you want to publish?
-                </DialogContentText>
+                <TextField
+                    fullWidth
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    type='email'
+                    label='Email'
+                    color='secondary'
+                    variant='filled'
+                    error={emailError}
+                    helperText={emailError ? 'Invalid Email' : ''}
+                />
                 <ReCAPTCHA
                     theme={darkMode ? 'dark' : 'light'}
                     type='image'
@@ -78,7 +100,7 @@ const Publish = (props: {
                     color='primary'
                     variant='contained'
                     startIcon={<PublishIcon />}
-                    disabled={!verified}
+                    disabled={!formComplete}
                 >
                     Publish
                 </Button>
