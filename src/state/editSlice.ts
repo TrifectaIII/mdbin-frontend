@@ -20,16 +20,10 @@ export interface EditState {
     mode: Mode;
 }
 
-// get any saved edit text from localstorage
-const savedText =
-    localStorage.getItem('editText');
-const savedMode =
-    localStorage.getItem('editMode') as Mode;
-
-// initial state is saved text, or default if nothing was saved
+// fetch data from local, or start with defaults
 const initialState: EditState = {
-    text: savedText || initialText,
-    mode: savedMode || 'editor',
+    text: localStorage.getItem('editText') || initialText,
+    mode: localStorage.getItem('editMode') as Mode || 'editor',
 };
 
 export const editSlice = createSlice({

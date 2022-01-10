@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import {
     Check as YesIcon,
-    Clear as NoIcon,
+    Close as NoIcon,
 } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({

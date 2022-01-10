@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+    useState,
+} from 'react';
 import clsx from 'clsx';
 
 import {
@@ -26,6 +28,7 @@ import renderMD from '../markdown/renderMD';
 import {
     useElementSize,
 } from '../hooks/UseSize';
+import Publish from './Publish';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,6 +64,9 @@ const Preview = (props: {
     const [buttonSize, buttonRef] = useElementSize(editMode);
     const previewHeight = props.verticalSpace - buttonSize.height;
 
+    const [publishOpen, setPublishOpen] = useState<boolean>(false);
+    const openPublish = () => setPublishOpen(true);
+    const closePublish = () => setPublishOpen(false);
 
     return (
         <>
@@ -105,12 +111,18 @@ const Preview = (props: {
                             variant='contained'
                             color='primary'
                             startIcon={<PublishIcon />}
+                            onClick={openPublish}
                         >
                             Publish
                         </Button>
                     </Toolbar>
                 </Grid>
             </Grid>
+
+            <Publish
+                open={publishOpen}
+                handleClose={closePublish}
+            />
         </>
     );
 
