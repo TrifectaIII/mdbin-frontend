@@ -1,8 +1,7 @@
 # TODO
 
 - rest of the button functions
-- finish info page
-- figure out mobile view issues
+- cookie authorization popup
 
 - create publish pipeline with client side api
 - create page for viewing already-published documents

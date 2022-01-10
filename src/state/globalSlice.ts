@@ -10,11 +10,13 @@ import {
 export interface GlobalState {
     darkMode: boolean;
     menuDrawerOpen: boolean;
+    cookieAuth: boolean;
 }
 
 const initialState: GlobalState = {
     darkMode: !localStorage.getItem('lightMode'),
     menuDrawerOpen: false,
+    cookieAuth: Boolean(localStorage.getItem('cookieAuth')),
 };
 
 export const globalSlice = createSlice({
@@ -25,7 +27,11 @@ export const globalSlice = createSlice({
         toggleDarkMode: (state) => {
 
             state.darkMode = !state.darkMode;
-            localStorage.setItem('lightMode', state.darkMode ? '' : 'on');
+            if (state.cookieAuth) localStorage.setItem(
+                'lightMode',
+                state.darkMode ? '' : 'on',
+            );
+
 
         },
         openMenuDrawer: (state) => {
@@ -36,6 +42,19 @@ export const globalSlice = createSlice({
         closeMenuDrawer: (state) => {
 
             state.menuDrawerOpen = false;
+
+        },
+        allowCookies: (state) => {
+
+            state.cookieAuth = true;
+            localStorage.setItem(
+                'cookieAuth',
+                'allow',
+            );
+            localStorage.setItem(
+                'lightMode',
+                state.darkMode ? '' : 'on',
+            );
 
         },
     },

@@ -5,25 +5,8 @@ import React, {
 
 import {
     Grid,
-    Toolbar,
-    IconButton,
-    Tooltip,
     makeStyles,
 } from '@material-ui/core';
-import {
-    FormatBold as BoldIcon,
-    FormatItalic as ItalicIcon,
-    FormatQuote as QuoteIcon,
-    FormatListBulleted as ListBulletedIcon,
-    FormatListNumbered as ListNumberedIcon,
-    FormatStrikethrough as StrikethroughIcon,
-    Remove as RuleIcon,
-    Code as CodeIcon,
-    Link as LinkIcon,
-    DeleteForeverOutlined as ClearIcon,
-    Undo as UndoIcon,
-    Redo as RedoIcon,
-} from '@material-ui/icons';
 
 import CodeMirror, {
     EditorView,
@@ -47,22 +30,12 @@ import {
     selectMode,
     updateText,
 } from '../state/editSlice';
+import EditorButtons from './EditorButtons';
 import Confirm from './Confirm';
 import {
     useElementSize,
 } from '../hooks/UseSize';
 import {
-    insertBold,
-    insertItalic,
-    insertStrikethrough,
-    insertBulletedList,
-    insertNumberedList,
-    insertBlockQuote,
-    insertCodeBlock,
-    insertLink,
-    insertHorizontalRule,
-    undoEvent,
-    redoEvent,
     clearAll,
 } from '../markdown/mdEditing';
 
@@ -122,7 +95,7 @@ const Editor = (props: {
 
     };
 
-    // returns a function which applies the parameter function
+    // returns a function which applies the input function
     // to the view if it exists, then returns focus to the view
     const applyToView = (toApply: (view: EditorView) => void) => () => {
 
@@ -139,111 +112,11 @@ const Editor = (props: {
 
                 {/* Toolbar With helper buttons */}
                 <Grid item xs={12}>
-                    <Toolbar
-                        variant='dense'
-                        className={classes.buttonBar}
-                        ref={buttonsRef}
-                        style={{
-                            backgroundColor: darkMode ? '#282c34' : '#fafafa',
-                        }}
-                    >
-                        <Tooltip title='Bold'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(insertBold)}
-                            >
-                                <BoldIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Italics'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(insertItalic)}
-                            >
-                                <ItalicIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Strikethrough'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(insertStrikethrough)}
-                            >
-                                <StrikethroughIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Start Bulleted List'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(insertBulletedList)}
-                            >
-                                <ListBulletedIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Start Numbered List'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(insertNumberedList)}
-                            >
-                                <ListNumberedIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Start Block Quote'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(insertBlockQuote)}
-                            >
-                                <QuoteIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Start Code Block'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(insertCodeBlock)}
-                            >
-                                <CodeIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Insert Link'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(insertLink)}
-                            >
-                                <LinkIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Insert Horizontal Rule'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(insertHorizontalRule)}
-                            >
-                                <RuleIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Undo'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(undoEvent)}
-                            >
-                                <UndoIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Redo'>
-                            <IconButton
-                                size='small'
-                                onClick={applyToView(redoEvent)}
-                            >
-                                <RedoIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title='Clear All'>
-                            <IconButton
-                                size='small'
-                                onClick={openClearConfirm}
-                            >
-                                <ClearIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </Toolbar>
+                    <EditorButtons
+                        applyToView={applyToView}
+                        clearAllFunc={openClearConfirm}
+                        innerRef={buttonsRef}
+                    />
                 </Grid>
 
                 {/* CodeMirror Editor */}
