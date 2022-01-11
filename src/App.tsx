@@ -19,6 +19,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import InfoPage from './pages/InfoPage';
 import Header from './components/Header';
 import MenuDrawer from './components/MenuDrawer';
+import CookiePermission from './components/CookiePermission';
 import {
     useAppSelector,
 } from './state/hooks';
@@ -75,9 +76,10 @@ const App = (): JSX.Element => {
             <CssBaseline />
 
             <Router>
-                {/* include header and menu on every page */}
+                {/* include some components on every page */}
                 <Header />
                 <MenuDrawer />
+                <CookiePermission />
 
                 {/* route based on url */}
                 <Switch>

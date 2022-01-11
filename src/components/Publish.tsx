@@ -46,7 +46,7 @@ const Publish = (props: {
     const darkMode = useAppSelector(selectDarkMode);
 
     // state for captcha verification
-    const [verified, setVerified] = useState<boolean>(false);
+    const [verified, setVerified] = useState<string | null>(null);
 
     // state for email input
     const [email, setEmail] = useState<string>('');
@@ -54,14 +54,23 @@ const Publish = (props: {
     // flags for completed form
     const emailValid = isEmail(email);
     const emailError = !emailValid && Boolean(email.length);
-    const formComplete = emailValid && verified;
+    const formComplete = emailValid && Boolean(verified);
 
     const handleClose = () => {
 
-        // remove verification before closing
-        setVerified(false);
+        // clear state before closing
+        setVerified(null);
         setEmail('');
         props.handleClose();
+
+    };
+
+    const handlePublish = () => {
+
+        if (!formComplete) return;
+        // eslint-disable-next-line no-console
+        console.log('Publishing!');
+        handleClose();
 
     };
 
@@ -84,19 +93,20 @@ const Publish = (props: {
                     color='secondary'
                     variant='filled'
                     error={emailError}
-                    helperText={emailError ? 'Invalid Email' : ''}
+                    helperText={emailError ? 'Invalid Email' : ' '}
                 />
                 <ReCAPTCHA
                     theme={darkMode ? 'dark' : 'light'}
                     type='image'
                     size='normal'
-                    onChange={() => setVerified(true)}
+                    onChange={(token) => setVerified(token)}
                     // test key for now
                     sitekey={recaptchaSiteKey}
                 />
             </DialogContent>
             <DialogActions>
                 <Button
+                    onClick={handlePublish}
                     color='primary'
                     variant='contained'
                     startIcon={<PublishIcon />}
