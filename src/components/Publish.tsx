@@ -98,7 +98,7 @@ const Publish = (props: {
                 <ReCAPTCHA
                     theme={darkMode ? 'dark' : 'light'}
                     type='image'
-                    size='normal'
+                    size='compact'
                     onChange={(token) => setVerified(token)}
                     // test key for now
                     sitekey={recaptchaSiteKey}

@@ -7,6 +7,7 @@ import {
     Grid,
     Paper,
     Button,
+    ButtonGroup,
     Snackbar,
     makeStyles,
 } from '@material-ui/core';
@@ -28,8 +29,14 @@ const useStyles = makeStyles((theme) => ({
     root: {
 
     },
-    buttons: {
+    grid: {
+
+    },
+    buttonGroup: {
         width: '100%',
+    },
+    button: {
+        width: '50%',
     },
 }));
 
@@ -64,6 +71,7 @@ const CookiePermission = (props: {}): JSX.Element => {
                 container
                 component={Paper}
                 alignItems='center'
+                className={classes.grid}
             >
                 <Grid item xs={12} md={8}>
                     <Typography
@@ -73,27 +81,28 @@ const CookiePermission = (props: {}): JSX.Element => {
                         Do you want to enable this feature?
                     </Typography>
                 </Grid>
-                <Grid item xs={12} md={2}>
-                    <Button
-                        onClick={handleAccept}
-                        startIcon={<AcceptIcon />}
-                        color='primary'
+                <Grid item xs={12} md={4}>
+                    <ButtonGroup
                         variant='contained'
-                        className={classes.buttons}
+                        className={classes.buttonGroup}
                     >
-                        Accept
-                    </Button>
-                </Grid>
-                <Grid item xs={12} md={2}>
-                    <Button
-                        onClick={() => setOpen(false)}
-                        startIcon={<RejectIcon />}
-                        color='secondary'
-                        variant='contained'
-                        className={classes.buttons}
-                    >
-                        Close
-                    </Button>
+                        <Button
+                            onClick={handleAccept}
+                            startIcon={<AcceptIcon />}
+                            color='primary'
+                            className={classes.button}
+                        >
+                            Accept
+                        </Button>
+                        <Button
+                            onClick={() => setOpen(false)}
+                            startIcon={<RejectIcon />}
+                            color='secondary'
+                            className={classes.button}
+                        >
+                            Close
+                        </Button>
+                    </ButtonGroup>
                 </Grid>
             </Grid>
         </Snackbar>
