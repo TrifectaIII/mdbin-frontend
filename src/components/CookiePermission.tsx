@@ -3,15 +3,16 @@ import React, {
 } from 'react';
 
 import {
+    Typography,
     Grid,
     Paper,
     Button,
-    IconButton,
     Snackbar,
     makeStyles,
 } from '@material-ui/core';
 import {
-    Close as CloseIcon,
+    Check as AcceptIcon,
+    Close as RejectIcon,
 } from '@material-ui/icons';
 
 import {
@@ -26,6 +27,9 @@ import {
 const useStyles = makeStyles((theme) => ({
     root: {
 
+    },
+    buttons: {
+        width: '100%',
     },
 }));
 
@@ -59,20 +63,37 @@ const CookiePermission = (props: {}): JSX.Element => {
             <Grid
                 container
                 component={Paper}
+                alignItems='center'
             >
-                <Grid item xs={12}>
+                <Grid item xs={12} md={8}>
+                    <Typography
+                        variant='body1'
+                    >
+                        This site uses the localStorage API to save your work.
+                        Do you want to enable this feature?
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={2}>
                     <Button
                         onClick={handleAccept}
+                        startIcon={<AcceptIcon />}
+                        color='primary'
+                        variant='contained'
+                        className={classes.buttons}
                     >
-                    Accept
+                        Accept
                     </Button>
                 </Grid>
-                <Grid item xs={12}>
-                    <IconButton
+                <Grid item xs={12} md={2}>
+                    <Button
                         onClick={() => setOpen(false)}
+                        startIcon={<RejectIcon />}
+                        color='secondary'
+                        variant='contained'
+                        className={classes.buttons}
                     >
-                        <CloseIcon />
-                    </IconButton>
+                        Close
+                    </Button>
                 </Grid>
             </Grid>
         </Snackbar>
