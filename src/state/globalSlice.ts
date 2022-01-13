@@ -73,8 +73,10 @@ export const {
 // selectors
 export const selectDarkMode =
     (state: RootState): boolean => state.global.darkMode;
+
 export const selectMenuDrawerOpen =
     (state: RootState): boolean => state.global.menuDrawerOpen;
+
 export const selectCookieAuth =
     (state: RootState): boolean => state.global.cookieAuth;
 

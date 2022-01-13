@@ -53,6 +53,7 @@ export const editSlice = createSlice({
 // selectors
 export const selectEditText =
     (state: RootState): string => state.edit.text;
+
 export const selectEditMode =
     (state: RootState): Mode => state.edit.mode;
 

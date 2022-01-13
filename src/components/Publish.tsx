@@ -7,7 +7,6 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    // DialogContentText,
     DialogActions,
     Button,
     makeStyles,
@@ -22,6 +21,7 @@ import isEmail from 'validator/lib/isEmail';
 
 import {
     useAppSelector,
+    useAppDispatch,
 } from '../state/hooks';
 import {
     selectDarkMode,
@@ -29,6 +29,11 @@ import {
 import {
     recaptchaSiteKey,
 } from '../constants';
+import {
+    selectDocumentKey,
+    selectRequestStatus,
+    publishDocument,
+} from '../state/publishSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,8 +47,13 @@ const Publish = (props: {
 }): JSX.Element => {
 
     const classes = useStyles();
+    const dispatch = useAppDispatch();
 
     const darkMode = useAppSelector(selectDarkMode);
+
+    // select the current publish request status from state
+    const requestStatus = useAppSelector(selectRequestStatus);
+    const documentKey = useAppSelector(selectDocumentKey);
 
     // state for captcha verification
     const [verified, setVerified] = useState<string | null>(null);
@@ -58,6 +68,7 @@ const Publish = (props: {
 
     const handleClose = () => {
 
+        if (requestStatus !== 'idle') return;
         // clear state before closing
         setVerified(null);
         setEmail('');
@@ -68,9 +79,8 @@ const Publish = (props: {
     const handlePublish = () => {
 
         if (!formComplete) return;
-        // eslint-disable-next-line no-console
-        console.log('Publishing!');
-        handleClose();
+        if (requestStatus !== 'idle') return;
+        dispatch(publishDocument());
 
     };
 
