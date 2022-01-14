@@ -11,6 +11,7 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
+    DialogContentText,
     DialogActions,
     Button,
     CircularProgress,
@@ -19,6 +20,7 @@ import {
 import {
     Publish as PublishIcon,
     Close as CancelIcon,
+    Refresh as ResetIcon,
 } from '@material-ui/icons';
 
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -38,6 +40,7 @@ import {
     selectDocumentKey,
     selectRequestStatus,
     publishDocument,
+    resetPublish,
 } from '../state/publishSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,15 +63,6 @@ const Publish = (props: {
     // select the current publish request status from state
     const requestStatus = useAppSelector(selectRequestStatus);
     const documentKey = useAppSelector(selectDocumentKey);
-
-    // redirect when publish request is complete
-    useEffect(() => {
-
-        if (requestStatus !== 'success') return;
-        if (!documentKey) return;
-        history.push(documentKey);
-
-    }, [requestStatus, documentKey]);
 
     // state for captcha verification
     const [verified, setVerified] = useState<string | null>(null);
@@ -99,6 +93,7 @@ const Publish = (props: {
 
     };
 
+    // content when request is idle (not sent yet)
     const idleContent = <>
         <DialogContent>
             <TextField
@@ -117,7 +112,6 @@ const Publish = (props: {
                 type='image'
                 size='compact'
                 onChange={(token) => setVerified(token)}
-                // test key for now
                 sitekey={recaptchaSiteKey}
             />
         </DialogContent>
@@ -142,9 +136,36 @@ const Publish = (props: {
         </DialogActions>
     </>;
 
+    // content when request is pending (loading circle)
     const pendingContent = <DialogContent>
         <CircularProgress />
     </DialogContent>;
+
+    // content when request has failed
+    const errorContent = <DialogContent>
+        <DialogContentText>
+            Error: Publish Request Failed.
+        </DialogContentText>
+        <DialogActions>
+            <Button
+                onClick={() => dispatch(resetPublish())}
+                color='primary'
+                variant='contained'
+                startIcon={<ResetIcon />}
+            >
+                Publish
+            </Button>
+        </DialogActions>
+    </DialogContent>;
+
+    // redirect when publish request is complete
+    useEffect(() => {
+
+        if (requestStatus !== 'success') return;
+        if (!documentKey) return;
+        history.push(`view/${documentKey}`);
+
+    }, [requestStatus, documentKey]);
 
     return (
         <Dialog
@@ -155,8 +176,9 @@ const Publish = (props: {
             <DialogTitle>
                 Publish
             </DialogTitle>
-            {requestStatus === 'idle' ? idleContent : ''}
-            {requestStatus === 'pending' ? pendingContent : ''}
+            {requestStatus === 'idle' ? idleContent : <></>}
+            {requestStatus === 'pending' ? pendingContent : <></>}
+            {requestStatus === 'error' ? errorContent : <></>}
         </Dialog>
     );
 

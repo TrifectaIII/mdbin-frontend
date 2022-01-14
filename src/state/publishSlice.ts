@@ -44,7 +44,6 @@ const publishDocumentAsync = createAsyncThunk(
     },
 );
 
-
 export const publishSlice = createSlice({
     name: 'publish',
     initialState,
@@ -88,6 +87,7 @@ export const {
 // selectors
 export const selectRequestStatus =
     (state: RootState): RequestStatus => state.publish.requestStatus;
+
 export const selectDocumentKey =
     (state: RootState): string | null => state.publish.documentKey;
 
