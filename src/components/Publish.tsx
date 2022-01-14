@@ -1,6 +1,10 @@
 import React, {
     useState,
+    useEffect,
 } from 'react';
+import {
+    useHistory,
+} from 'react-router-dom';
 
 import {
     TextField,
@@ -9,6 +13,7 @@ import {
     DialogContent,
     DialogActions,
     Button,
+    CircularProgress,
     makeStyles,
 } from '@material-ui/core';
 import {
@@ -48,12 +53,22 @@ const Publish = (props: {
 
     const classes = useStyles();
     const dispatch = useAppDispatch();
+    const history = useHistory();
 
     const darkMode = useAppSelector(selectDarkMode);
 
     // select the current publish request status from state
     const requestStatus = useAppSelector(selectRequestStatus);
     const documentKey = useAppSelector(selectDocumentKey);
+
+    // redirect when publish request is complete
+    useEffect(() => {
+
+        if (requestStatus !== 'success') return;
+        if (!documentKey) return;
+        history.push(documentKey);
+
+    }, [requestStatus, documentKey]);
 
     // state for captcha verification
     const [verified, setVerified] = useState<string | null>(null);
@@ -84,6 +99,53 @@ const Publish = (props: {
 
     };
 
+    const idleContent = <>
+        <DialogContent>
+            <TextField
+                fullWidth
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                type='email'
+                label='Email'
+                color='secondary'
+                variant='filled'
+                error={emailError}
+                helperText={emailError ? 'Invalid Email' : ' '}
+            />
+            <ReCAPTCHA
+                theme={darkMode ? 'dark' : 'light'}
+                type='image'
+                size='compact'
+                onChange={(token) => setVerified(token)}
+                // test key for now
+                sitekey={recaptchaSiteKey}
+            />
+        </DialogContent>
+        <DialogActions>
+            <Button
+                onClick={handlePublish}
+                color='primary'
+                variant='contained'
+                startIcon={<PublishIcon />}
+                disabled={!formComplete}
+            >
+                Publish
+            </Button>
+            <Button
+                onClick={handleClose}
+                color='secondary'
+                variant='contained'
+                startIcon={<CancelIcon />}
+            >
+                Cancel
+            </Button>
+        </DialogActions>
+    </>;
+
+    const pendingContent = <DialogContent>
+        <CircularProgress />
+    </DialogContent>;
+
     return (
         <Dialog
             className={classes.root}
@@ -93,46 +155,8 @@ const Publish = (props: {
             <DialogTitle>
                 Publish
             </DialogTitle>
-            <DialogContent>
-                <TextField
-                    fullWidth
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    type='email'
-                    label='Email'
-                    color='secondary'
-                    variant='filled'
-                    error={emailError}
-                    helperText={emailError ? 'Invalid Email' : ' '}
-                />
-                <ReCAPTCHA
-                    theme={darkMode ? 'dark' : 'light'}
-                    type='image'
-                    size='compact'
-                    onChange={(token) => setVerified(token)}
-                    // test key for now
-                    sitekey={recaptchaSiteKey}
-                />
-            </DialogContent>
-            <DialogActions>
-                <Button
-                    onClick={handlePublish}
-                    color='primary'
-                    variant='contained'
-                    startIcon={<PublishIcon />}
-                    disabled={!formComplete}
-                >
-                    Publish
-                </Button>
-                <Button
-                    onClick={handleClose}
-                    color='secondary'
-                    variant='contained'
-                    startIcon={<CancelIcon />}
-                >
-                    Cancel
-                </Button>
-            </DialogActions>
+            {requestStatus === 'idle' ? idleContent : ''}
+            {requestStatus === 'pending' ? pendingContent : ''}
         </Dialog>
     );
 

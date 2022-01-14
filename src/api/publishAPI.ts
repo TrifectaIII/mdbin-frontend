@@ -5,7 +5,7 @@ Promise<{key: string}> => {
     // Wait some time to mimic latency
     await new Promise((resolve) => {
 
-        const ms = 500;
+        const ms = 5000;
         setTimeout(resolve, ms);
 
     });
