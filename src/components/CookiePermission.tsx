@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
 
     },
     grid: {
-
+        padding: '0.5rem',
+    },
+    text: {
+        padding: '1rem',
     },
     buttonGroup: {
         width: '100%',
@@ -76,6 +79,8 @@ const CookiePermission = (props: {}): JSX.Element => {
                 <Grid item xs={12} md={8}>
                     <Typography
                         variant='body1'
+                        align='center'
+                        className={classes.text}
                     >
                         This site uses the localStorage API to save your work.
                         Do you want to enable this feature?
