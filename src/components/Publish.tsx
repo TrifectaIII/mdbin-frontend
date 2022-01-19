@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 
 import {
+    Box,
     TextField,
     Dialog,
     DialogTitle,
@@ -96,24 +97,31 @@ const Publish = (props: {
     // content when request is idle (not sent yet)
     const idleContent = <>
         <DialogContent>
-            <TextField
-                fullWidth
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                type='email'
-                label='Email'
-                color='secondary'
-                variant='filled'
-                error={emailError}
-                helperText={emailError ? 'Invalid Email' : ' '}
-            />
-            <ReCAPTCHA
-                theme={darkMode ? 'dark' : 'light'}
-                type='image'
-                size='compact'
-                onChange={(token) => setVerified(token)}
-                sitekey={recaptchaSiteKey}
-            />
+            <Box
+                display='flex'
+                flexDirection='column'
+                justifyContent='center'
+                alignItems='center'
+            >
+                <TextField
+                    fullWidth
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    type='email'
+                    label='Email'
+                    color='secondary'
+                    variant='filled'
+                    error={emailError}
+                    helperText={emailError ? 'Invalid Email' : ' '}
+                />
+                <ReCAPTCHA
+                    theme={darkMode ? 'dark' : 'light'}
+                    type='image'
+                    size='normal'
+                    onChange={(token) => setVerified(token)}
+                    sitekey={recaptchaSiteKey}
+                />
+            </Box>
         </DialogContent>
         <DialogActions>
             <Button
