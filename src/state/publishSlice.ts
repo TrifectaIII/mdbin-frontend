@@ -8,6 +8,7 @@ import {
     AppThunk,
 } from './store';
 import {
+    PublishData,
     requestPublishDocument,
 } from '../api/publishAPI';
 import {
@@ -35,9 +36,9 @@ const initialState: PublishState = {
 // typically used to make async requests.
 const publishDocumentAsync = createAsyncThunk(
     'publish/publishDocument',
-    async (text: string) => {
+    async (data: PublishData) => {
 
-        const response = await requestPublishDocument(text);
+        const response = await requestPublishDocument(data);
         // The value we return becomes the `fulfilled` action payload
         return response.key;
 
@@ -93,10 +94,13 @@ export const selectDocumentKey =
 
 // thunk to fetch editor text directly
 export const publishDocument =
-    (): AppThunk => (dispatch, getState) => {
+    (creator: string): AppThunk => (dispatch, getState) => {
 
         const text = selectEditText(getState());
-        dispatch(publishDocumentAsync(text));
+        dispatch(publishDocumentAsync({
+            text,
+            creator,
+        }));
 
     };
 

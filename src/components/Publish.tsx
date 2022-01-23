@@ -90,7 +90,7 @@ const Publish = (props: {
 
         if (!formComplete) return;
         if (requestStatus !== 'idle') return;
-        dispatch(publishDocument());
+        dispatch(publishDocument(email));
 
     };
 
