@@ -172,6 +172,7 @@ const Publish = (props: {
         if (requestStatus !== 'success') return;
         if (!documentKey) return;
         history.push(`view/${documentKey}`);
+        dispatch(resetPublish());
 
     }, [requestStatus, documentKey]);
 
