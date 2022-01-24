@@ -5,10 +5,10 @@ import {
 import {
     AppThunk,
     RootState,
-} from './store';
+} from '../../state/store';
 import {
     saveToLocal,
-} from './editSlice';
+} from '../edit/editSlice';
 
 // Slice of global state
 export interface GlobalState {

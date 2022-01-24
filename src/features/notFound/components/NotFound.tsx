@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-    RouteComponentProps,
+    useHistory,
+    useLocation,
 } from 'react-router-dom';
 
 import {
-    Button,
-    ButtonGroup,
     Typography,
+    ButtonGroup,
+    Button,
     Box,
     makeStyles,
 } from '@material-ui/core';
@@ -29,10 +30,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// 404 not found error page
-const NotFoundPage = (props: RouteComponentProps<{}>): JSX.Element => {
+// component to switch between editor and preview on mobile
+const NotFound = (props: {
+
+}): JSX.Element => {
 
     const classes = useStyles();
+    const location = useLocation();
+    const history = useHistory();
 
     return (
         <Box
@@ -45,7 +50,7 @@ const NotFoundPage = (props: RouteComponentProps<{}>): JSX.Element => {
                 variant='h2'
                 align='center'
             >
-                404: Not Found
+        404: Not Found
             </Typography>
             <Typography
                 variant='body1'
@@ -53,7 +58,7 @@ const NotFoundPage = (props: RouteComponentProps<{}>): JSX.Element => {
                 className={classes.topGap}
             >
                 <code className={classes.route}>
-                    {props.location.pathname}
+                    {location.pathname}
                 </code> could not be found.
             </Typography>
             <ButtonGroup
@@ -61,10 +66,10 @@ const NotFoundPage = (props: RouteComponentProps<{}>): JSX.Element => {
                 className={classes.topGap}
             >
                 {/* buttons which function as links */}
-                <Button onClick={props.history.goBack} color='secondary'>
+                <Button onClick={history.goBack} color='secondary'>
                     <BackIcon /> Back
                 </Button>
-                <Button onClick={() => props.history.push('/')} color='primary'>
+                <Button onClick={() => history.push('/')} color='primary'>
                     <HomeIcon /> Home
                 </Button>
             </ButtonGroup>
@@ -74,4 +79,4 @@ const NotFoundPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
 };
 
-export default NotFoundPage;
+export default NotFound;

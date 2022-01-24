@@ -14,18 +14,21 @@ import {
     ThemeOptions,
 } from '@material-ui/core';
 
-import MainPage from './pages/MainPage';
-import NotFoundPage from './pages/NotFoundPage';
-import InfoPage from './pages/InfoPage';
-import Header from './components/Header';
-import MenuDrawer from './components/MenuDrawer';
-import CookiePermission from './components/CookiePermission';
+import MainPage from './features/edit/EditPage';
+import NotFoundPage from './features/notFound/NotFoundPage';
+import InfoPage from './features/info/InfoPage';
+import ViewPage from './features/view/ViewPage';
+
+import Header from './features/global/components/Header';
+import MenuDrawer from './features/global/components/MenuDrawer';
+import CookiePermission from './features/global/components/CookiePermission';
+
 import {
     useAppSelector,
 } from './state/hooks';
 import {
     selectDarkMode,
-} from './state/globalSlice';
+} from './features/global/globalSlice';
 
 import './App.css';
 import './markdown/github-markdown.css';
@@ -91,6 +94,10 @@ const App = (): JSX.Element => {
                     <Route
                         exact path='/info'
                         component={InfoPage}
+                    />
+                    <Route
+                        exact path='/view/:documentKey'
+                        component={ViewPage}
                     />
                     {/* default to 404 */}
                     <Route component={NotFoundPage} />

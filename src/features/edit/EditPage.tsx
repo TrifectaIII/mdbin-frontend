@@ -11,21 +11,21 @@ import {
 
 import {
     useAppSelector,
-} from '../state/hooks';
+} from '../../state/hooks';
 import {
     selectEditMode,
-} from '../state/editSlice';
+} from './editSlice';
 
-import Editor from '../components/Editor';
-import Preview from '../components/Preview';
-import ModeSwitch from '../components/ModeSwitch';
+import Editor from './components/Editor';
+import Preview from './components/Preview';
+import ModeSwitch from './components/ModeSwitch';
 import {
     PlaceholderHeader,
-} from '../components/Header';
+} from '../global/components/Header';
 import {
     useElementSize,
     useWindowSize,
-} from '../hooks/UseSize';
+} from '../../hooks/UseSize';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// main index page for empty route
-const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
+// main editing interface
+const EditPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
     const classes = useStyles();
 
@@ -92,4 +92,4 @@ const MainPage = (props: RouteComponentProps<{}>): JSX.Element => {
 
 };
 
-export default MainPage;
+export default EditPage;

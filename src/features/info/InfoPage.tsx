@@ -12,19 +12,19 @@ import {
 
 import {
     useAppSelector,
-} from '../state/hooks';
+} from '../../state/hooks';
 import {
     selectDarkMode,
-} from '../state/globalSlice';
-import infoText from '../markdown/infoText';
+} from '../global/globalSlice';
+import infoText from '../../markdown/infoText';
 import {
     PlaceholderHeader,
-} from '../components/Header';
-import renderMD from '../markdown/renderMD';
+} from '../global/components/Header';
+import renderMD from '../../markdown/renderMD';
 import {
     useElementSize,
     useWindowSize,
-} from '../hooks/UseSize';
+} from '../../hooks/UseSize';
 
 const useStyles = makeStyles((theme) => ({
     root: {

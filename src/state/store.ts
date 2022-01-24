@@ -4,9 +4,10 @@ import {
     Action,
 } from '@reduxjs/toolkit';
 
-import globalReducer from './globalSlice';
-import editReducer from './editSlice';
-import publishReducer from './publishSlice';
+import globalReducer from '../features/global/globalSlice';
+import editReducer from '../features/edit/editSlice';
+import publishReducer from '../features/publish/publishSlice';
+import viewReducer from '../features/view/viewSlice';
 
 // Store containing all state slices
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
         global: globalReducer,
         edit: editReducer,
         publish: publishReducer,
+        view: viewReducer,
     },
 });
 

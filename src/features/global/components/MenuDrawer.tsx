@@ -15,17 +15,17 @@ import {
     ArrowRightAlt as InnerIcon,
 } from '@material-ui/icons';
 
-import {navMap} from '../Navigation';
+import {navMap} from '../../../Navigation';
 import {MobileOnly} from './utilities';
 import {
     useAppSelector,
     useAppDispatch,
-} from '../state/hooks';
+} from '../../../state/hooks';
 import {
     selectMenuDrawerOpen,
     openMenuDrawer,
     closeMenuDrawer,
-} from '../state/globalSlice';
+} from '../globalSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {

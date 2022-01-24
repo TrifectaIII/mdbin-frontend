@@ -6,24 +6,22 @@ import {
 import {
     RootState,
     AppThunk,
-} from './store';
+} from '../../state/store';
 import {
     PublishData,
     requestPublishDocument,
-} from '../api/publishAPI';
+} from './publishAPI';
 import {
     selectEditText,
-} from './editSlice';
+} from '../edit/editSlice';
 
 type RequestStatus = 'idle' | 'pending' | 'success' | 'error';
 
-// Slice of state for counter page
 export interface PublishState {
     requestStatus: RequestStatus;
     documentKey: string | null;
 }
 
-// fetch data from local, or start with defaults
 const initialState: PublishState = {
     requestStatus: 'idle',
     documentKey: null,
@@ -86,22 +84,25 @@ export const {
 } = publishSlice.actions;
 
 // selectors
-export const selectRequestStatus =
+export const selectPublishRequestStatus =
     (state: RootState): RequestStatus => state.publish.requestStatus;
 
-export const selectDocumentKey =
+export const selectPublishDocumentKey =
     (state: RootState): string | null => state.publish.documentKey;
 
 // thunk to fetch editor text directly
-export const publishDocument =
-    (creator: string): AppThunk => (dispatch, getState) => {
+export const publishDocument = (
+    creator: string,
+    recaptchaToken: string,
+): AppThunk => (dispatch, getState) => {
 
-        const text = selectEditText(getState());
-        dispatch(publishDocumentAsync({
-            text,
-            creator,
-        }));
+    const text = selectEditText(getState());
+    dispatch(publishDocumentAsync({
+        text,
+        creator,
+        recaptchaToken,
+    }));
 
-    };
+};
 
 export default publishSlice.reducer;

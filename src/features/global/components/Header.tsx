@@ -29,7 +29,7 @@ import clsx from 'clsx';
 
 import {
     navMap,
-} from '../Navigation';
+} from '../../../Navigation';
 import {
     MobileOnly,
     DesktopOnly,
@@ -37,12 +37,12 @@ import {
 import {
     useAppSelector,
     useAppDispatch,
-} from '../state/hooks';
+} from '../../../state/hooks';
 import {
     selectDarkMode,
     toggleDarkMode,
     openMenuDrawer,
-} from '../state/globalSlice';
+} from '../globalSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {

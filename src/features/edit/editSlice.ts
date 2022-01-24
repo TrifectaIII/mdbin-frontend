@@ -3,14 +3,14 @@ import {
     PayloadAction,
 } from '@reduxjs/toolkit';
 
-import initialText from '../markdown/initialText';
+import initialText from '../../markdown/initialText';
 import {
     AppThunk,
     RootState,
-} from './store';
+} from '../../state/store';
 import {
     selectCookieAuth,
-} from './globalSlice';
+} from '../global/globalSlice';
 
 type Mode = 'editor' | 'preview';
 

@@ -30,19 +30,19 @@ import isEmail from 'validator/lib/isEmail';
 import {
     useAppSelector,
     useAppDispatch,
-} from '../state/hooks';
+} from '../../../state/hooks';
 import {
     selectDarkMode,
-} from '../state/globalSlice';
+} from '../../global/globalSlice';
 import {
     recaptchaSiteKey,
-} from '../constants';
+} from '../../../constants';
 import {
-    selectDocumentKey,
-    selectRequestStatus,
+    selectPublishDocumentKey,
+    selectPublishRequestStatus,
     publishDocument,
     resetPublish,
-} from '../state/publishSlice';
+} from '../publishSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,8 +62,8 @@ const Publish = (props: {
     const darkMode = useAppSelector(selectDarkMode);
 
     // select the current publish request status from state
-    const requestStatus = useAppSelector(selectRequestStatus);
-    const documentKey = useAppSelector(selectDocumentKey);
+    const requestStatus = useAppSelector(selectPublishRequestStatus);
+    const documentKey = useAppSelector(selectPublishDocumentKey);
 
     // state for captcha verification
     const [verified, setVerified] = useState<string | null>(null);
@@ -90,9 +90,19 @@ const Publish = (props: {
 
         if (!formComplete) return;
         if (requestStatus !== 'idle') return;
-        dispatch(publishDocument(email));
+        dispatch(publishDocument(email, verified || ''));
 
     };
+
+    // redirect when publish request is complete
+    useEffect(() => {
+
+        if (requestStatus !== 'success') return;
+        if (!documentKey) return;
+        history.push(`view/${documentKey}`);
+        dispatch(resetPublish());
+
+    }, [requestStatus, documentKey]);
 
     // content when request is idle (not sent yet)
     const idleContent = <>
@@ -165,16 +175,6 @@ const Publish = (props: {
             </Button>
         </DialogActions>
     </DialogContent>;
-
-    // redirect when publish request is complete
-    useEffect(() => {
-
-        if (requestStatus !== 'success') return;
-        if (!documentKey) return;
-        history.push(`view/${documentKey}`);
-        dispatch(resetPublish());
-
-    }, [requestStatus, documentKey]);
 
     return (
         <Dialog

@@ -13,14 +13,14 @@ import {
 import {
     useAppSelector,
     useAppDispatch,
-} from '../state/hooks';
+} from '../../../state/hooks';
 import {
     selectEditMode,
     switchEditMode,
-} from '../state/editSlice';
+} from '../editSlice';
 import {
     MobileOnly,
-} from './utilities';
+} from '../../global/components/utilities';
 
 const useStyles = makeStyles((theme) => ({
     root: {

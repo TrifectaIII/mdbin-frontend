@@ -19,11 +19,11 @@ import {
 import {
     useAppSelector,
     useAppDispatch,
-} from '../state/hooks';
+} from '../../../state/hooks';
 import {
     allowCookies,
     selectCookieAuth,
-} from '../state/globalSlice';
+} from '../globalSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {

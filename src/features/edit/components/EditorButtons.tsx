@@ -28,10 +28,10 @@ import {
 
 import {
     useAppSelector,
-} from '../state/hooks';
+} from '../../../state/hooks';
 import {
     selectDarkMode,
-} from '../state/globalSlice';
+} from '../../global/globalSlice';
 import {
     insertBold,
     insertItalic,
@@ -44,7 +44,7 @@ import {
     insertHorizontalRule,
     undoEvent,
     redoEvent,
-} from '../markdown/mdEditing';
+} from '../../../markdown/mdEditing';
 
 const useStyles = makeStyles((theme) => ({
     root: {

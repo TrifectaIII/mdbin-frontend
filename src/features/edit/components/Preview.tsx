@@ -16,19 +16,19 @@ import {
 
 import {
     useAppSelector,
-} from '../state/hooks';
+} from '../../../state/hooks';
 import {
     selectDarkMode,
-} from '../state/globalSlice';
+} from '../../global/globalSlice';
 import {
     selectEditMode,
     selectEditText,
-} from '../state/editSlice';
-import renderMD from '../markdown/renderMD';
+} from '../editSlice';
+import renderMD from '../../../markdown/renderMD';
 import {
     useElementSize,
-} from '../hooks/UseSize';
-import Publish from './Publish';
+} from '../../../hooks/UseSize';
+import Publish from '../../publish/components/Publish';
 
 const useStyles = makeStyles((theme) => ({
     root: {

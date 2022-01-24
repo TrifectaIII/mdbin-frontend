@@ -21,23 +21,23 @@ import {languages} from '@codemirror/language-data';
 import {
     useAppSelector,
     useAppDispatch,
-} from '../state/hooks';
+} from '../../../state/hooks';
 import {
     selectDarkMode,
-} from '../state/globalSlice';
+} from '../../global/globalSlice';
 import {
     selectEditText,
     selectEditMode,
     updateEditText,
-} from '../state/editSlice';
+} from '../editSlice';
 import EditorButtons from './EditorButtons';
-import Confirm from './Confirm';
+import Confirm from '../../global/components/Confirm';
 import {
     useElementSize,
-} from '../hooks/UseSize';
+} from '../../../hooks/UseSize';
 import {
     clearAll,
-} from '../markdown/mdEditing';
+} from '../../../markdown/mdEditing';
 
 const useStyles = makeStyles((theme) => ({
     root: {
