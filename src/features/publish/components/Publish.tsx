@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
     root: {
 
     },
+    centered: {
+        textAlign: 'center',
+    },
 }));
 
 const Publish = (props: {
@@ -155,7 +158,7 @@ const Publish = (props: {
     </>;
 
     // content when request is pending (loading circle)
-    const pendingContent = <DialogContent>
+    const pendingContent = <DialogContent className={classes.centered}>
         <CircularProgress />
     </DialogContent>;
 
@@ -171,7 +174,7 @@ const Publish = (props: {
                 variant='contained'
                 startIcon={<ResetIcon />}
             >
-                Publish
+                Try Again
             </Button>
         </DialogActions>
     </DialogContent>;
