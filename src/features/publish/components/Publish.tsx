@@ -81,7 +81,8 @@ const Publish = (props: {
 
     const handleClose = () => {
 
-        if (requestStatus !== 'idle') return;
+        const closeableStates = ['idle', 'error'];
+        if (!closeableStates.includes(requestStatus)) return;
         // clear state before closing
         setVerified(null);
         setEmail('');
@@ -163,10 +164,12 @@ const Publish = (props: {
     </DialogContent>;
 
     // content when request has failed
-    const errorContent = <DialogContent>
-        <DialogContentText>
+    const errorContent = <>
+        <DialogContent>
+            <DialogContentText>
             Error: Publish Request Failed.
-        </DialogContentText>
+            </DialogContentText>
+        </DialogContent>
         <DialogActions>
             <Button
                 onClick={() => dispatch(resetPublish())}
@@ -174,10 +177,18 @@ const Publish = (props: {
                 variant='contained'
                 startIcon={<ResetIcon />}
             >
-                Try Again
+        Try Again
+            </Button>
+            <Button
+                onClick={handleClose}
+                color='secondary'
+                variant='contained'
+                startIcon={<CancelIcon />}
+            >
+        Cancel
             </Button>
         </DialogActions>
-    </DialogContent>;
+    </>;
 
     return (
         <Dialog
