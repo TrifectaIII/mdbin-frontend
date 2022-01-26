@@ -89,5 +89,4 @@ export const allowCookies =
 
     };
 
-
 export default globalSlice.reducer;

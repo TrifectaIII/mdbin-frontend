@@ -1,8 +1,7 @@
 # TODO
 
-- rest of the button functions
-- improve look of cookie permission popup
-- fix 404 page
+- improve button functions
+- fix update depth error in Editor component
 
 - create publish pipeline with client side api
 - create page for viewing already-published documents

@@ -29,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
     root: {
 
     },
-    grid: {
-        padding: '0.5rem',
+    gridContainer: {
+        // padding: '0.5rem',
     },
     text: {
-        padding: '1rem',
+        padding: '0.5rem',
     },
     buttonGroup: {
         width: '100%',
@@ -74,9 +74,9 @@ const CookiePermission = (props: {}): JSX.Element => {
                 container
                 component={Paper}
                 alignItems='center'
-                className={classes.grid}
+                className={classes.gridContainer}
             >
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12}>
                     <Typography
                         variant='body1'
                         align='center'
@@ -86,7 +86,7 @@ const CookiePermission = (props: {}): JSX.Element => {
                         Do you want to enable this feature?
                     </Typography>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12}>
                     <ButtonGroup
                         variant='contained'
                         className={classes.buttonGroup}
