@@ -21,7 +21,7 @@ import ViewPage from './features/view/ViewPage';
 
 import Header from './features/global/components/Header';
 import MenuDrawer from './features/global/components/MenuDrawer';
-import CookiePermission from './features/global/components/CookiePermission';
+// import CookiePermission from './features/global/components/CookiePermission';
 
 import {
     useAppSelector,
@@ -82,7 +82,7 @@ const App = (): JSX.Element => {
                 {/* include some components on every page */}
                 <Header />
                 <MenuDrawer />
-                <CookiePermission />
+                {/* <CookiePermission /> */}
 
                 {/* route based on url */}
                 <Switch>

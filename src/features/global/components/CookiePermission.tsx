@@ -82,7 +82,7 @@ const CookiePermission = (props: {}): JSX.Element => {
                         align='center'
                         className={classes.text}
                     >
-                        This site uses the localStorage API to save your work.
+                        This site uses the localStorage API to save your work and settings.
                         Do you want to enable this feature?
                     </Typography>
                 </Grid>

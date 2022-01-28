@@ -20,7 +20,8 @@ export interface GlobalState {
 const initialState: GlobalState = {
     darkMode: !localStorage.getItem('lightMode'),
     menuDrawerOpen: false,
-    cookieAuth: Boolean(localStorage.getItem('cookieAuth')),
+    // cookieAuth: Boolean(localStorage.getItem('cookieAuth')),
+    cookieAuth: true,
 };
 
 export const globalSlice = createSlice({
