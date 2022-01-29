@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 const EditorButtons = (props: {
     applyToView: (toApply: (view: EditorView) => void) => () => void,
     clearAllFunc: () => void,
-    innerRef: (node: HTMLDivElement| null) => void,
+    innerRef?: (node: HTMLDivElement| null) => void,
 }): JSX.Element => {
 
     const classes = useStyles();

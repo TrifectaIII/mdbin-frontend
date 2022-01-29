@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 // component to switch between editor and preview on mobile
 const NotFound = (props: {
-
+    type?: 'page' | 'document',
+    documentKey?: string,
 }): JSX.Element => {
 
     const classes = useStyles();
@@ -50,16 +51,27 @@ const NotFound = (props: {
                 variant='h2'
                 align='center'
             >
-        404: Not Found
+        404: {props.type === 'document' ? 'Document ' : ''}Not Found
             </Typography>
             <Typography
                 variant='body1'
                 align='center'
                 className={classes.topGap}
             >
-                <code className={classes.route}>
-                    {location.pathname}
-                </code> could not be found.
+                {props.type === 'document'
+                    ? <>
+                        No document found with key of&nbsp;
+                        <code className={classes.route}>
+                            {props.documentKey}
+                        </code>
+                    </>
+                    : <>
+                        <code className={classes.route}>
+                            {location.pathname}
+                        </code>
+                        &nbsp;could not be found.
+                    </>
+                }
             </Typography>
             <ButtonGroup
                 variant='contained'

@@ -107,7 +107,10 @@ const ViewPage = (props: RouteComponentProps<{}>): JSX.Element => {
     // content when document has failed to load
     const errorContent = <>
         <Box className={classes.root}>
-            <NotFound />
+            <NotFound
+                type='document'
+                documentKey={documentKey}
+            />
         </Box>
     </>;
 

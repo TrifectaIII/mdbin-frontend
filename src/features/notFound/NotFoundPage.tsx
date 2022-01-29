@@ -12,7 +12,7 @@ import NotFound from './components/NotFound';
 const NotFoundPage = (props: RouteComponentProps<{}>): JSX.Element => (
     <>
         <PlaceholderHeader />
-        <NotFound />
+        <NotFound type='page' />
     </>
 );
 
