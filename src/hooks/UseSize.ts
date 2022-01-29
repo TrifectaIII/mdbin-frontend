@@ -1,6 +1,5 @@
 import {
     useEffect,
-    useLayoutEffect,
     useState,
     DependencyList,
 } from 'react';
@@ -59,7 +58,7 @@ export const useElementSize = <T extends HTMLElement = HTMLDivElement>(
     const [ref, setRef] = useState<T | null>(null);
 
     // update when element or dependencies changes
-    useLayoutEffect(
+    useEffect(
         () => setElementSize({
             width: ref?.offsetWidth || 0,
             height: ref?.offsetHeight || 0,
