@@ -4,6 +4,7 @@ import React, {
 import {
     Link,
 } from 'react-router-dom';
+import clsx from 'clsx';
 
 import {
     Button,
@@ -25,7 +26,6 @@ import {
     Menu as MenuIcon,
     ArrowDropDown as ExpandIcon,
 } from '@material-ui/icons';
-import clsx from 'clsx';
 
 import {
     navMap,
@@ -111,8 +111,10 @@ const Header = (props: {}): JSX.Element => {
                 classes.noDec,
             )}
         >
-            <Button className={classes.navButton}>
-                <point.icon className={classes.spaceRight} />
+            <Button
+                className={classes.navButton}
+                startIcon={<point.icon />}
+            >
                 <Typography variant='body1'>
                     {name}
                 </Typography>
