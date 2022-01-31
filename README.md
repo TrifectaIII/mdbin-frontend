@@ -21,10 +21,12 @@ documents with [Markdown](https://www.markdownguide.org/).
 
 - [CodeMirror 6](https://codemirror.net/6/)
 
-- [React CodeMirror](https://uiwjs.github.io/react-codemirror/)
+- [React-CodeMirror](https://uiwjs.github.io/react-codemirror/)
 
-- [Marked](https://github.com/markedjs/marked)
+- [react-markdown](https://github.com/remarkjs/react-markdown)
 
-- [DOMPurify](https://github.com/cure53/DOMPurify)
+- [react-google-recaptcha](https://github.com/dozoisch/react-google-recaptcha)
 
 - [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
+
+- [validator](https://github.com/validatorjs/validator.js)
