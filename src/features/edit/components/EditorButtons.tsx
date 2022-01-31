@@ -25,7 +25,6 @@ import {
     EditorView,
 } from '@uiw/react-codemirror';
 
-
 import {
     useAppSelector,
 } from '../../../state/hooks';
