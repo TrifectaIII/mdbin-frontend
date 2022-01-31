@@ -1,4 +1,4 @@
-# mdbin
+# mdbin-frontend
 
 A pastebin-type tool for easily creating and sharing 
 documents with [Markdown](https://www.markdownguide.org/).
