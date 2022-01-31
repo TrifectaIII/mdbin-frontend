@@ -20,7 +20,7 @@ import infoText from '../../markdown/infoText';
 import {
     PlaceholderHeader,
 } from '../global/components/Header';
-import renderMD from '../../markdown/renderMD';
+import RenderMarkdown from '../../markdown/RenderMarkdown';
 import {
     useElementSize,
     useWindowSize,
@@ -58,11 +58,7 @@ const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
                 height={`${infoHeight}px`}
             >
                 <Container>
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: renderMD(infoText),
-                        }}
-                    />
+                    <RenderMarkdown md={infoText} />
                 </Container>
             </Box>
         </>

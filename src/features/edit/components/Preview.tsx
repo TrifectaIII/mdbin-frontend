@@ -24,11 +24,11 @@ import {
     selectEditMode,
     selectEditText,
 } from '../editSlice';
-import renderMD from '../../../markdown/renderMD';
+import Publish from '../../publish/components/Publish';
+import RenderMarkdown from '../../../markdown/RenderMarkdown';
 import {
     useElementSize,
 } from '../../../hooks/UseSize';
-import Publish from '../../publish/components/Publish';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -87,11 +87,7 @@ const Preview = (props: {
                             height: `${previewHeight}px`,
                         }}
                     >
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: renderMD(editText),
-                            }}
-                        />
+                        <RenderMarkdown md={editText} />
                     </Container>
                 </Grid>
                 <Grid item xs={12}>

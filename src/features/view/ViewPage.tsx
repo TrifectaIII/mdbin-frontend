@@ -31,11 +31,11 @@ import {
     PlaceholderHeader,
 } from '../global/components/Header';
 import NotFound from '../notFound/components/NotFound';
+import RenderMarkdown from '../../markdown/RenderMarkdown';
 import {
     useElementSize,
     useWindowSize,
 } from '../../hooks/UseSize';
-import renderMD from '../../markdown/renderMD';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -95,11 +95,7 @@ const ViewPage = (props: RouteComponentProps<{}>): JSX.Element => {
             height={`${viewHeight}px`}
         >
             <Container>
-                <div
-                    dangerouslySetInnerHTML={{
-                        __html: renderMD(text || ''),
-                    }}
-                />
+                <RenderMarkdown md={text || ''} />
             </Container>
         </Box>
     </>;
