@@ -167,6 +167,9 @@ const EditorButtons = (props: {
                 <IconButton
                     size='small'
                     onClick={props.clearAllFunc}
+                    style={{
+                        color: 'red',
+                    }}
                 >
                     <ClearIcon />
                 </IconButton>
