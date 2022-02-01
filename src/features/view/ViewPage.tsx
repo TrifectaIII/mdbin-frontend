@@ -9,8 +9,10 @@ import clsx from 'clsx';
 import {
     Box,
     Container,
+    Typography,
     CircularProgress,
     makeStyles,
+    Button,
 } from '@material-ui/core';
 
 import {
@@ -24,7 +26,7 @@ import {
     selectViewRequestStatus,
     selectViewDocumentKey,
     selectViewText,
-    // selectViewPublished,
+    selectViewPublished,
     viewDocument,
 } from './viewSlice';
 import {
@@ -42,9 +44,14 @@ const useStyles = makeStyles((theme) => ({
     root: {
         overflow: 'auto',
     },
-    centered: {
-        marginTop: '30vh',
-        textAlign: 'center',
+    main: {
+        paddingTop: '2rem',
+    },
+    util: {
+
+    },
+    text: {
+        paddingTop: '1rem',
     },
 }));
 
@@ -63,7 +70,8 @@ const ViewPage = (props: RouteComponentProps<{}>): JSX.Element => {
     const requestStatus = useAppSelector(selectViewRequestStatus);
     const documentKeyState = useAppSelector(selectViewDocumentKey);
     const text = useAppSelector(selectViewText);
-    // const published = useAppSelector(selectViewPublished);
+    const published = useAppSelector(selectViewPublished);
+    const publishedDate = new Date(published || 0).toLocaleString();
 
     // fetch document when needed
     useEffect(() => {
@@ -85,17 +93,48 @@ const ViewPage = (props: RouteComponentProps<{}>): JSX.Element => {
     // content when document is loaded
     const successContent = <>
         <Box
-            className={clsx(
-                classes.root,
-                'markdown-body',
-                darkMode
-                    ? 'markdown-dark'
-                    : 'markdown-light',
-            )}
+            className={classes.root}
             height={`${viewHeight}px`}
+            style={{
+                // colors match github markdown style
+                backgroundColor: darkMode
+                    ? '#0d1117'
+                    : '#ffffff',
+            }}
         >
-            <Container>
-                <RenderMarkdown md={text || ''} />
+            <Container className={classes.main}>
+                <Box
+                    className={classes.util}
+                    display='flex'
+                    flexDirection='column'
+                    justifyContent='center'
+                >
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        style={{
+                            margin: 'auto',
+                        }}
+                    >
+                        Copy Link
+                    </Button>
+                    <Typography
+                        variant='body2'
+                        align='center'
+                    >
+                        Published: {publishedDate}
+                    </Typography>
+                </Box>
+                <RenderMarkdown
+                    md={text || ''}
+                    className={clsx(
+                        classes.text,
+                        'markdown-body',
+                        darkMode
+                            ? 'markdown-dark'
+                            : 'markdown-light',
+                    )}
+                />
             </Container>
         </Box>
     </>;
@@ -113,7 +152,12 @@ const ViewPage = (props: RouteComponentProps<{}>): JSX.Element => {
     // content when document is loaded
     const pendingContent = <>
         <Box className={classes.root}>
-            <Container className={classes.centered}>
+            <Container
+                style={{
+                    marginTop: '30vh',
+                    textAlign: 'center',
+                }}
+            >
                 <CircularProgress />
             </Container>
         </Box>

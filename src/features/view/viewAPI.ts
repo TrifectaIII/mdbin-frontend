@@ -4,7 +4,7 @@ import {
 
 export interface ViewResponse {
     text: string
-    published: string
+    published: number
     documentKey: string
 }
 
@@ -18,7 +18,7 @@ export const requestViewDocument =
 
         const data = await req.json() as {
             text: string
-            published: string
+            published: number
         };
 
         return {

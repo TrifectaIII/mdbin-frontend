@@ -16,7 +16,7 @@ export interface ViewState {
     requestStatus: RequestStatus;
     documentKey: string | null;
     text: string | null;
-    published: string | null;
+    published: number | null;
 }
 
 // fetch data from local, or start with defaults
@@ -98,6 +98,6 @@ export const selectViewText =
     (state: RootState): string | null => state.view.text;
 
 export const selectViewPublished =
-    (state: RootState): string | null => state.view.published;
+    (state: RootState): number | null => state.view.published;
 
 export default viewSlice.reducer;

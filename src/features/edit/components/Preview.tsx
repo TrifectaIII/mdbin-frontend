@@ -97,7 +97,7 @@ const Preview = (props: {
                         variant='dense'
                         disableGutters
                         style={{
-                            // colors match github css style
+                            // colors match github markdown style
                             backgroundColor: darkMode
                                 ? '#0d1117'
                                 : '#ffffff',
