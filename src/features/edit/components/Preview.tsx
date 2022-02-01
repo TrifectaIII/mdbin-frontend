@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
     text: {
         overflowY: 'auto',
+        paddingTop: '1rem',
     },
     button: {
         width: '100%',
