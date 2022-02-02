@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 // Page to view a published document
 const ViewPage = (props: RouteComponentProps<{
-    documentKey: string
+    documentKey: string,
 }>): JSX.Element => {
 
     const classes = useStyles();
@@ -73,14 +73,10 @@ const ViewPage = (props: RouteComponentProps<{
         <>
             <PlaceholderHeader innerRef={headerRef} />
             <Box className={classes.root}>
+                {requestStatus === 'pending' ? <ViewPending /> : <></>}
                 {
                     requestStatus === 'success'
                         ? <ViewSuccess height={viewHeight} />
-                        : <></>
-                }
-                {
-                    requestStatus === 'pending'
-                        ? <ViewPending />
                         : <></>
                 }
                 {
@@ -88,8 +84,7 @@ const ViewPage = (props: RouteComponentProps<{
                         ? <NotFound
                             type='document'
                             documentKey={documentKey}
-                        />
-                        : <></>
+                        /> : <></>
                 }
             </Box>
         </>
