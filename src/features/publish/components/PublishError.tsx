@@ -44,7 +44,7 @@ const PublishError = (props: {
         <>
             <DialogContent className={classes.content}>
                 <DialogContentText>
-                    Error: {errorMessage || 'Request Failed'}.
+                    Error: {errorMessage || 'Request Failed'}
                 </DialogContentText>
             </DialogContent>
             <DialogActions className={classes.actions}>
