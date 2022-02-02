@@ -121,7 +121,7 @@ const ViewSuccess = (props: {
                     >
                         <Button
                             variant='contained'
-                            color='primary'
+                            color='secondary'
                             style={{
                                 margin: 'auto',
                                 marginTop: '1rem',
