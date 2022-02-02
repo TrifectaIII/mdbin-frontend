@@ -9,12 +9,20 @@ export interface PublishData {
 }
 
 export interface PublishResponse {
+    type: 'response'
     key: string
 }
 
+export interface PublishError {
+    type: 'error'
+    message: string
+}
+
+const STATUS_SUCCESS = 200;
+
 // Hits the API endpoint for publishing documents
 export const requestPublishDocument =
-    async (data: PublishData): Promise<PublishResponse> => {
+    async (data: PublishData): Promise<PublishResponse | PublishError> => {
 
         const URL = `${apiURL}/document/publish/`;
 
@@ -25,6 +33,16 @@ export const requestPublishDocument =
             body: JSON.stringify(data),
         });
 
-        return await req.json() as PublishResponse;
+        // return an error if the request did not succeed
+        if (req.status !== STATUS_SUCCESS) return {
+            type: 'error',
+            message: await req.text(),
+        } as PublishError;
+
+        // otherwise return sucessful response
+        return {
+            type: 'response',
+            ...await req.json(),
+        } as PublishResponse;
 
     };

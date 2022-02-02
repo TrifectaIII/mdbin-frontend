@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-    Container,
+    DialogContent,
     CircularProgress,
     makeStyles,
 } from '@material-ui/core';
@@ -12,17 +12,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// pending display for viewing documents
-const ViewPending = (props: {}): JSX.Element => {
+// display for publish modal when request is pending
+const PublishPending = (props: {}): JSX.Element => {
 
     const classes = useStyles();
 
     return (
-        <Container className={classes.root}>
+        <DialogContent className={classes.root}>
             <CircularProgress />
-        </Container>
+        </DialogContent>
     );
 
 };
 
-export default ViewPending;
+export default PublishPending;
