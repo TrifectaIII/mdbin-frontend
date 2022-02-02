@@ -84,7 +84,8 @@ const ViewPage = (props: RouteComponentProps<{
                         ? <NotFound
                             type='document'
                             documentKey={documentKey}
-                        /> : <></>
+                        />
+                        : <></>
                 }
             </Box>
         </>
