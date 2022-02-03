@@ -12,7 +12,7 @@ export interface ViewResponse {
 export const requestViewDocument =
     async (documentKey: string): Promise<ViewResponse> => {
 
-        const URL = `${apiURL}/document/get/${documentKey}/`;
+        const URL = `${apiURL}/document/?key=${documentKey}`;
 
         const req = await fetch(URL);
 

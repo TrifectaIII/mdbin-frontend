@@ -24,7 +24,7 @@ const STATUS_SUCCESS = 200;
 export const requestPublishDocument =
     async (data: PublishData): Promise<PublishResponse | PublishError> => {
 
-        const URL = `${apiURL}/document/publish/`;
+        const URL = `${apiURL}/document/`;
 
         const req = await fetch(URL, {
             method: 'POST',
