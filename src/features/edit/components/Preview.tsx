@@ -117,8 +117,8 @@ const Preview = (props: {
             </Grid>
 
             <Publish
-                open={publishOpen}
-                handleClose={closePublish}
+                isOpen={publishOpen}
+                close={closePublish}
             />
         </>
     );

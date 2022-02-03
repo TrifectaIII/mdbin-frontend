@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 // modal dialog for publishing documents
 const Publish = (props: {
-    open: boolean,
-    handleClose: () => void,
+    isOpen: boolean,
+    close: () => void,
 }): JSX.Element => {
 
     const classes = useStyles();
@@ -69,7 +69,7 @@ const Publish = (props: {
         // clear state before closing
         setVerified(null);
         setEmail('');
-        props.handleClose();
+        props.close();
 
     };
 
@@ -94,7 +94,7 @@ const Publish = (props: {
     return (
         <Dialog
             className={classes.root}
-            open={props.open}
+            open={props.isOpen}
             onClose={handleClose}
         >
             <DialogTitle>
