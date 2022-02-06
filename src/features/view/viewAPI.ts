@@ -1,5 +1,5 @@
 import {
-    apiURL,
+    apiEndpoint,
 } from '../../constants';
 
 export interface ViewResponse {
@@ -12,7 +12,7 @@ export interface ViewResponse {
 export const requestViewDocument =
     async (documentKey: string): Promise<ViewResponse> => {
 
-        const URL = `${apiURL}/document/?key=${documentKey}`;
+        const URL = `${apiEndpoint}?key=${encodeURIComponent(documentKey)}`;
 
         const req = await fetch(URL);
 

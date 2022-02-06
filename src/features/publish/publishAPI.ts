@@ -1,5 +1,5 @@
 import {
-    apiURL,
+    apiEndpoint,
 } from '../../constants';
 
 export interface PublishData {
@@ -24,9 +24,7 @@ const STATUS_SUCCESS = 200;
 export const requestPublishDocument =
     async (data: PublishData): Promise<PublishResponse | PublishError> => {
 
-        const URL = `${apiURL}/document/`;
-
-        const req = await fetch(URL, {
+        const req = await fetch(apiEndpoint, {
             method: 'POST',
             cache: 'no-cache',
             headers: {'Content-Type': 'application/json'},
