@@ -23,7 +23,7 @@ export interface PublishState {
     documentKey: string | null;
 }
 
-const initialState: PublishState = {
+export const initialState: PublishState = {
     requestStatus: 'idle',
     errorMessage: null,
     documentKey: null,

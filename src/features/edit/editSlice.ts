@@ -21,7 +21,7 @@ export interface EditState {
 }
 
 // fetch data from local, or start with defaults
-const initialState: EditState = {
+export const initialState: EditState = {
     text: localStorage.getItem('editText') || initialText,
     mode: localStorage.getItem('editMode') as Mode || 'editor',
 };

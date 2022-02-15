@@ -20,7 +20,7 @@ export interface ViewState {
 }
 
 // fetch data from local, or start with defaults
-const initialState: ViewState = {
+export const initialState: ViewState = {
     requestStatus: 'idle',
     documentKey: null,
     text: null,

@@ -17,7 +17,7 @@ export interface GlobalState {
     cookieAuth: boolean;
 }
 
-const initialState: GlobalState = {
+export const initialState: GlobalState = {
     darkMode: !localStorage.getItem('lightMode'),
     menuDrawerOpen: false,
     // cookieAuth: Boolean(localStorage.getItem('cookieAuth')),
