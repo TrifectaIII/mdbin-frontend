@@ -12,18 +12,18 @@ import {
     selectCookieAuth,
 } from '../global/globalSlice';
 
-type Mode = 'editor' | 'preview';
+type EditMode = 'editor' | 'preview';
 
 // Slice of state for counter page
 export interface EditState {
     text: string;
-    mode: Mode;
+    mode: EditMode;
 }
 
 // fetch data from local, or start with defaults
 export const initialState: EditState = {
     text: localStorage.getItem('editText') || initialText,
-    mode: localStorage.getItem('editMode') as Mode || 'editor',
+    mode: localStorage.getItem('editMode') as EditMode || 'editor',
 };
 
 export const editSlice = createSlice({
@@ -31,12 +31,12 @@ export const editSlice = createSlice({
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        updateEditText: (state, action: PayloadAction<string>) => {
+        updateEditTextAction: (state, action: PayloadAction<string>) => {
 
             state.text = action.payload;
 
         },
-        switchEditMode: (state, action: PayloadAction<Mode>) => {
+        switchEditModeAction: (state, action: PayloadAction<EditMode>) => {
 
             state.mode = action.payload;
 
@@ -45,23 +45,23 @@ export const editSlice = createSlice({
 });
 
 // export reducers as actions
-// export const {
-//     updateText,
-//     switchMode,
-// } = editSlice.actions;
+export const {
+    updateEditTextAction,
+    switchEditModeAction,
+} = editSlice.actions;
 
 // selectors
 export const selectEditText =
     (state: RootState): string => state.edit.text;
 
 export const selectEditMode =
-    (state: RootState): Mode => state.edit.mode;
+    (state: RootState): EditMode => state.edit.mode;
 
 // thunks which dispatch the reducers
 export const updateEditText =
     (text: string): AppThunk => (dispatch, getState) => {
 
-        dispatch(editSlice.actions.updateEditText(text));
+        dispatch(updateEditTextAction(text));
         if (selectCookieAuth(getState())) localStorage.setItem(
             'editText',
             text,
@@ -70,9 +70,9 @@ export const updateEditText =
     };
 
 export const switchEditMode =
-    (mode: Mode): AppThunk => (dispatch, getState) => {
+    (mode: EditMode): AppThunk => (dispatch, getState) => {
 
-        dispatch(editSlice.actions.switchEditMode(mode));
+        dispatch(switchEditModeAction(mode));
         if (selectCookieAuth(getState())) localStorage.setItem(
             'editMode',
             mode,

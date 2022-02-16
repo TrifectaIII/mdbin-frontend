@@ -17,12 +17,7 @@ describe('viewSlice', () => {
                 published: 1,
             };
             expect(viewReducer(previousState, resetView())).
-                toEqual({
-                    requestStatus: 'idle',
-                    documentKey: null,
-                    text: null,
-                    published: null,
-                });
+                toEqual(initialState);
 
         });
 
