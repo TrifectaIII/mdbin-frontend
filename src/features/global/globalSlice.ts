@@ -7,7 +7,7 @@ import {
     RootState,
 } from '../../state/store';
 import {
-    saveToLocal,
+    saveEditToLocalStorage,
 } from '../edit/editSlice';
 
 // Slice of global state
@@ -29,13 +29,9 @@ export const globalSlice = createSlice({
     initialState,
     reducers: {
         // toggle the mode and save to localstorage
-        toggleDarkMode: (state) => {
+        toggleDarkModeAction: (state) => {
 
             state.darkMode = !state.darkMode;
-            if (state.cookieAuth) localStorage.setItem(
-                'lightMode',
-                state.darkMode ? '' : 'on',
-            );
 
         },
         openMenuDrawer: (state) => {
@@ -48,17 +44,9 @@ export const globalSlice = createSlice({
             state.menuDrawerOpen = false;
 
         },
-        allowCookies: (state) => {
+        allowCookiesAction: (state) => {
 
             state.cookieAuth = true;
-            localStorage.setItem(
-                'cookieAuth',
-                'allow',
-            );
-            localStorage.setItem(
-                'lightMode',
-                state.darkMode ? '' : 'on',
-            );
 
         },
     },
@@ -66,9 +54,10 @@ export const globalSlice = createSlice({
 
 // extract actions
 export const {
-    toggleDarkMode,
+    toggleDarkModeAction,
     openMenuDrawer,
     closeMenuDrawer,
+    allowCookiesAction,
 } = globalSlice.actions;
 
 // selectors
@@ -82,11 +71,33 @@ export const selectCookieAuth =
     (state: RootState): boolean => state.global.cookieAuth;
 
 // thunks which dispatch the reducers
+export const toggleDarkMode =
+    (): AppThunk => (dispatch, getState) => {
+
+        dispatch(toggleDarkModeAction());
+        const state = getState();
+        if (state.global.cookieAuth) localStorage.setItem(
+            'lightMode',
+            state.global.darkMode ? '' : 'on',
+        );
+
+    };
+
 export const allowCookies =
     (): AppThunk => (dispatch, getState) => {
 
-        dispatch(globalSlice.actions.allowCookies());
-        dispatch(saveToLocal());
+        dispatch(globalSlice.actions.allowCookiesAction());
+
+        localStorage.setItem(
+            'cookieAuth',
+            'allow',
+        );
+        localStorage.setItem(
+            'lightMode',
+            getState().global.darkMode ? '' : 'on',
+        );
+
+        dispatch(saveEditToLocalStorage());
 
     };
 

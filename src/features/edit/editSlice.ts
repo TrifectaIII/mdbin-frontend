@@ -80,14 +80,13 @@ export const switchEditMode =
 
     };
 
-export const saveToLocal =
+export const saveEditToLocalStorage =
     (): AppThunk => (dispatch, getState) => {
 
         localStorage.setItem(
             'editText',
             selectEditText(getState()),
         );
-
         localStorage.setItem(
             'editMode',
             selectEditMode(getState()),

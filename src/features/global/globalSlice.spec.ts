@@ -1,13 +1,14 @@
 import globalReducer, {
     GlobalState,
-    toggleDarkMode,
+    toggleDarkModeAction,
     openMenuDrawer,
     closeMenuDrawer,
+    allowCookiesAction,
 } from './globalSlice';
 
 describe('globalSlice', () => {
 
-    describe('toggleDarkMode', () => {
+    describe('toggleDarkModeAction', () => {
 
         it('should disable dark mode when enabled', () => {
 
@@ -16,7 +17,7 @@ describe('globalSlice', () => {
                 menuDrawerOpen: true,
                 cookieAuth: true,
             };
-            expect(globalReducer(previousState, toggleDarkMode())).
+            expect(globalReducer(previousState, toggleDarkModeAction())).
                 toEqual({
                     darkMode: false,
                     menuDrawerOpen: true,
@@ -32,7 +33,7 @@ describe('globalSlice', () => {
                 menuDrawerOpen: true,
                 cookieAuth: true,
             };
-            expect(globalReducer(previousState, toggleDarkMode())).
+            expect(globalReducer(previousState, toggleDarkModeAction())).
                 toEqual({
                     darkMode: true,
                     menuDrawerOpen: true,
@@ -101,6 +102,38 @@ describe('globalSlice', () => {
                 cookieAuth: true,
             };
             expect(globalReducer(previousState, closeMenuDrawer())).
+                toEqual(previousState);
+
+        });
+
+    });
+
+    describe('allowCookiesAction', () => {
+
+        it('should allow when disallowed', () => {
+
+            const previousState: GlobalState = {
+                darkMode: true,
+                menuDrawerOpen: true,
+                cookieAuth: false,
+            };
+            expect(globalReducer(previousState, allowCookiesAction())).
+                toEqual({
+                    darkMode: true,
+                    menuDrawerOpen: true,
+                    cookieAuth: true,
+                });
+
+        });
+
+        it('should do nothing when allowed', () => {
+
+            const previousState: GlobalState = {
+                darkMode: true,
+                menuDrawerOpen: true,
+                cookieAuth: true,
+            };
+            expect(globalReducer(previousState, allowCookiesAction())).
                 toEqual(previousState);
 
         });
