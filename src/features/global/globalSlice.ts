@@ -76,9 +76,9 @@ export const toggleDarkMode =
 
         dispatch(toggleDarkModeAction());
         const state = getState();
-        if (state.global.cookieAuth) localStorage.setItem(
+        if (selectCookieAuth(state)) localStorage.setItem(
             'lightMode',
-            state.global.darkMode ? '' : 'on',
+            selectDarkMode(state) ? '' : 'on',
         );
 
     };
@@ -94,7 +94,7 @@ export const allowCookies =
         );
         localStorage.setItem(
             'lightMode',
-            getState().global.darkMode ? '' : 'on',
+            selectDarkMode(getState()) ? '' : 'on',
         );
 
         dispatch(saveEditToLocalStorage());
