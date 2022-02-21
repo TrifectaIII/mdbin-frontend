@@ -1,33 +1,19 @@
 import React from 'react';
 
-import {marked} from 'marked';
-import DOMPurify from 'dompurify';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // component to pass markdown which it will then render
 const RenderMarkdown = (props: {
     md: string,
     className?: string,
 }): JSX.Element => (
-    <div
+    <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
         className={props.className}
-        dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(marked(props.md))}}
-    />
+    >
+        {props.md}
+    </ReactMarkdown>
 );
 
 export default RenderMarkdown;
-
-// import ReactMarkdown from 'react-markdown';
-// import remarkGfm from 'remark-gfm';
-
-// // component to pass markdown which it will then render
-// const RenderMarkdown = (props: {
-//     md: string,
-//     className?: string,
-// }): JSX.Element => (
-//     <ReactMarkdown
-//         remarkPlugins={[remarkGfm]}
-//         className={props.className}
-//     >
-//         {props.md}
-//     </ReactMarkdown>
-// );
