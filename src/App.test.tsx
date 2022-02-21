@@ -33,7 +33,7 @@ export const handlers = [
 
             console.log(req);
             return res(ctx.json({
-                text: 'Hello',
+                text: 'TestDocumentContents',
                 published: 1,
             }));
 
@@ -63,7 +63,8 @@ describe('viewPage', () => {
             </MemoryRouter>
         </Provider>);
 
-        expect(await screen.findByText(/Hello/u)).toBeInTheDocument();
+        expect(await screen.findByText('TestDocumentContents', {exact: false})).
+            toBeInTheDocument();
 
     });
 
