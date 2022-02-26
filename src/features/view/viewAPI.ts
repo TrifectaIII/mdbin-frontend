@@ -1,6 +1,6 @@
 import {
     apiEndpoint,
-} from '../../constants';
+} from '../../config';
 
 export interface ViewResponse {
     text: string

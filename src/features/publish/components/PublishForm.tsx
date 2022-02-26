@@ -23,7 +23,7 @@ import {
 } from '../../global/globalSlice';
 import {
     recaptchaSiteKey,
-} from '../../../constants';
+} from '../../../config';
 
 const useStyles = makeStyles((theme) => ({
     content: {
