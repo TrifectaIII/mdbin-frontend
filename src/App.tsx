@@ -42,23 +42,23 @@ const createAppTheme =
 const lightThemeOptions: ThemeOptions = {
     palette: {
         type: 'light',
-        // primary: {
-        //     main: '#e65100',
-        // },
-        // secondary: {
-        //     main: '#794bc4',
-        // },
+        primary: {
+            main: '#e65100',
+        },
+        secondary: {
+            main: '#794bc4',
+        },
     },
 };
 const darkThemeOptions: ThemeOptions = {
     palette: {
         type: 'dark',
-        // primary: {
-        //     main: '#794bc4',
-        // },
-        // secondary: {
-        //     main: '#e65100',
-        // },
+        primary: {
+            main: '#794bc4',
+        },
+        secondary: {
+            main: '#e65100',
+        },
     },
 };
 
