@@ -1,63 +1,48 @@
-import React from 'react';
-
+import { IconButton, makeStyles, Toolbar, Tooltip } from "@material-ui/core";
 import {
-    Toolbar,
-    IconButton,
-    Tooltip,
-    makeStyles,
-} from '@material-ui/core';
-import {
+    Code as CodeIcon,
+    DeleteForeverOutlined as ClearIcon,
     FormatBold as BoldIcon,
     FormatItalic as ItalicIcon,
-    FormatQuote as QuoteIcon,
     FormatListBulleted as ListBulletedIcon,
     FormatListNumbered as ListNumberedIcon,
+    FormatQuote as QuoteIcon,
     FormatStrikethrough as StrikethroughIcon,
-    Remove as RuleIcon,
-    Code as CodeIcon,
     Link as LinkIcon,
-    DeleteForeverOutlined as ClearIcon,
-    Undo as UndoIcon,
     Redo as RedoIcon,
-} from '@material-ui/icons';
-
+    Remove as RuleIcon,
+    Undo as UndoIcon,
+} from "@material-ui/icons";
+import { EditorView } from "@uiw/react-codemirror";
+import React from "react";
 import {
-    EditorView,
-} from '@uiw/react-codemirror';
-
-import {
-    useAppSelector,
-} from '../../../state/hooks';
-import {
-    selectDarkMode,
-} from '../../global/globalSlice';
-import {
-    insertBold,
-    insertItalic,
-    insertStrikethrough,
-    insertBulletedList,
-    insertNumberedList,
     insertBlockQuote,
+    insertBold,
+    insertBulletedList,
     insertCodeBlock,
-    insertLink,
     insertHorizontalRule,
-    undoEvent,
+    insertItalic,
+    insertLink,
+    insertNumberedList,
+    insertStrikethrough,
     redoEvent,
-} from '../../../markdown/mdEditing';
+    undoEvent,
+} from "../../../markdown/mdEditing";
+import { useAppSelector } from "../../../state/hooks";
+import { selectDarkMode } from "../../global/globalSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        justifyContent: 'space-around',
+        justifyContent: "space-around",
     },
 }));
 
 // markdown editor component
 const EditorButtons = (props: {
-    applyToView: (toApply: (view: EditorView) => void) => () => void,
-    clearAllFunc: () => void,
-    innerRef?: (node: HTMLDivElement| null) => void,
+    applyToView: (toApply: (view: EditorView) => void) => () => void;
+    clearAllFunc: () => void;
+    innerRef?: (node: HTMLDivElement | null) => void;
 }): JSX.Element => {
-
     const classes = useStyles();
 
     // current global dark mode state
@@ -65,107 +50,105 @@ const EditorButtons = (props: {
 
     return (
         <Toolbar
-            variant='dense'
+            variant="dense"
             className={classes.root}
             ref={props.innerRef}
             style={{
                 // colors match github css style
-                backgroundColor: darkMode
-                    ? '#282c34'
-                    : '#fafafa',
+                backgroundColor: darkMode ? "#282c34" : "#fafafa",
             }}
         >
-            <Tooltip title='Bold'>
+            <Tooltip title="Bold">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(insertBold)}
                 >
                     <BoldIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Italics'>
+            <Tooltip title="Italics">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(insertItalic)}
                 >
                     <ItalicIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Strikethrough'>
+            <Tooltip title="Strikethrough">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(insertStrikethrough)}
                 >
                     <StrikethroughIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Start Bulleted List'>
+            <Tooltip title="Start Bulleted List">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(insertBulletedList)}
                 >
                     <ListBulletedIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Start Numbered List'>
+            <Tooltip title="Start Numbered List">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(insertNumberedList)}
                 >
                     <ListNumberedIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Start Block Quote'>
+            <Tooltip title="Start Block Quote">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(insertBlockQuote)}
                 >
                     <QuoteIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Start Code Block'>
+            <Tooltip title="Start Code Block">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(insertCodeBlock)}
                 >
                     <CodeIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Insert Link'>
+            <Tooltip title="Insert Link">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(insertLink)}
                 >
                     <LinkIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Insert Horizontal Rule'>
+            <Tooltip title="Insert Horizontal Rule">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(insertHorizontalRule)}
                 >
                     <RuleIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Undo'>
+            <Tooltip title="Undo">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(undoEvent)}
                 >
                     <UndoIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Redo'>
+            <Tooltip title="Redo">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.applyToView(redoEvent)}
                 >
                     <RedoIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title='Clear All'>
+            <Tooltip title="Clear All">
                 <IconButton
-                    size='small'
+                    size="small"
                     onClick={props.clearAllFunc}
                     // style={{
                     //     color: 'red',
@@ -176,7 +159,6 @@ const EditorButtons = (props: {
             </Tooltip>
         </Toolbar>
     );
-
 };
 
 export default EditorButtons;

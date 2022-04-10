@@ -1,48 +1,30 @@
-import React, {
-    useState,
-    useEffect,
-} from 'react';
+import { Dialog, DialogTitle, makeStyles } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import isEmail from "validator/lib/isEmail";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import {
-    useHistory,
-} from 'react-router-dom';
-
-import {
-    Dialog,
-    DialogTitle,
-    makeStyles,
-} from '@material-ui/core';
-
-import isEmail from 'validator/lib/isEmail';
-
-import {
-    useAppSelector,
-    useAppDispatch,
-} from '../../../state/hooks';
-import {
-    selectPublishDocumentKey,
-    selectPublishRequestStatus,
     publishDocument,
     resetPublish,
-} from '../publishSlice';
-import PublishForm from './PublishForm';
-import PublishPending from './PublishPending';
-import PublishError from './PublishError';
+    selectPublishDocumentKey,
+    selectPublishRequestStatus,
+} from "../publishSlice";
+import PublishError from "./PublishError";
+import PublishForm from "./PublishForm";
+import PublishPending from "./PublishPending";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-
-    },
+    root: {},
     centered: {
-        textAlign: 'center',
+        textAlign: "center",
     },
 }));
 
 // modal dialog for publishing documents
 const Publish = (props: {
-    isOpen: boolean,
-    close: () => void,
+    isOpen: boolean;
+    close: () => void;
 }): JSX.Element => {
-
     const classes = useStyles();
     const dispatch = useAppDispatch();
     const history = useHistory();
@@ -55,7 +37,7 @@ const Publish = (props: {
     const [verified, setVerified] = useState<string | null>(null);
 
     // state for email input
-    const [email, setEmail] = useState<string>('');
+    const [email, setEmail] = useState<string>("");
 
     // flags for completed form
     const emailValid = isEmail(email);
@@ -63,32 +45,26 @@ const Publish = (props: {
     const formComplete = emailValid && Boolean(verified);
 
     const handleClose = () => {
-
-        const closeableStates = ['idle', 'error'];
+        const closeableStates = ["idle", "error"];
         if (!closeableStates.includes(requestStatus)) return;
         // clear state before closing
         setVerified(null);
-        setEmail('');
+        setEmail("");
         props.close();
-
     };
 
     const handlePublish = () => {
-
         if (!formComplete) return;
-        if (requestStatus !== 'idle') return;
-        dispatch(publishDocument(email, verified || ''));
-
+        if (requestStatus !== "idle") return;
+        dispatch(publishDocument(email, verified || ""));
     };
 
     // redirect when publish request is complete
     useEffect(() => {
-
-        if (requestStatus !== 'success') return;
+        if (requestStatus !== "success") return;
         if (!documentKey) return;
         history.push(`view/${documentKey}`);
         dispatch(resetPublish());
-
     }, [requestStatus, documentKey]);
 
     return (
@@ -97,31 +73,28 @@ const Publish = (props: {
             open={props.isOpen}
             onClose={handleClose}
         >
-            <DialogTitle>
-                Publish
-            </DialogTitle>
-            {requestStatus === 'pending' ? <PublishPending /> : <></>}
-            {
-                requestStatus === 'idle'
-                    ? <PublishForm
-                        email={email}
-                        setEmail={setEmail}
-                        emailError={emailError}
-                        formComplete={formComplete}
-                        setVerified={setVerified}
-                        handleClose={handleClose}
-                        handlePublish={handlePublish}
-                    />
-                    : <></>
-            }
-            {
-                requestStatus === 'error'
-                    ? <PublishError handleClose={handleClose}/>
-                    : <></>
-            }
+            <DialogTitle>Publish</DialogTitle>
+            {requestStatus === "pending" ? <PublishPending /> : <></>}
+            {requestStatus === "idle" ? (
+                <PublishForm
+                    email={email}
+                    setEmail={setEmail}
+                    emailError={emailError}
+                    formComplete={formComplete}
+                    setVerified={setVerified}
+                    handleClose={handleClose}
+                    handlePublish={handlePublish}
+                />
+            ) : (
+                <></>
+            )}
+            {requestStatus === "error" ? (
+                <PublishError handleClose={handleClose} />
+            ) : (
+                <></>
+            )}
         </Dialog>
     );
-
 };
 
 export default Publish;

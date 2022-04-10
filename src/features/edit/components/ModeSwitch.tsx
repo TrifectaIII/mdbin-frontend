@@ -1,45 +1,30 @@
-import React from 'react';
-
+import { Button, makeStyles, Toolbar } from "@material-ui/core";
 import {
-    Toolbar,
-    Button,
-    makeStyles,
-} from '@material-ui/core';
-import {
-    Edit as EditorIcon,
     Description as PreviewIcon,
-} from '@material-ui/icons';
-
-import {
-    useAppSelector,
-    useAppDispatch,
-} from '../../../state/hooks';
-import {
-    selectEditMode,
-    switchEditMode,
-} from '../editSlice';
-import {
-    MobileOnly,
-} from '../../global/components/utilities';
+    Edit as EditorIcon,
+} from "@material-ui/icons";
+import React from "react";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { MobileOnly } from "../../global/components/utilities";
+import { selectEditMode, switchEditMode } from "../editSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
-        justifyContent: 'space-around',
+        display: "flex",
+        justifyContent: "space-around",
     },
     button: {
-        width: '50%',
-        height: '100%',
-        marginLeft: '5px',
-        marginRight: '5px',
+        width: "50%",
+        height: "100%",
+        marginLeft: "5px",
+        marginRight: "5px",
     },
 }));
 
 // component to switch between editor and preview on mobile
 const ModeSwitch = (props: {
-    innerRef: (node: HTMLDivElement| null) => void,
+    innerRef: (node: HTMLDivElement | null) => void;
 }): JSX.Element => {
-
     const classes = useStyles();
     const dispatch = useAppDispatch();
 
@@ -50,31 +35,23 @@ const ModeSwitch = (props: {
             <Toolbar
                 className={classes.root}
                 ref={props.innerRef}
-                variant='dense'
+                variant="dense"
                 disableGutters
             >
                 <Button
-                    onClick={() => dispatch(switchEditMode('editor'))}
+                    onClick={() => dispatch(switchEditMode("editor"))}
                     startIcon={<EditorIcon />}
-                    color='primary'
-                    variant={
-                        editMode === 'editor'
-                            ? 'contained'
-                            : 'outlined'
-                    }
+                    color="primary"
+                    variant={editMode === "editor" ? "contained" : "outlined"}
                     className={classes.button}
                 >
                     Edit
                 </Button>
                 <Button
-                    onClick={() => dispatch(switchEditMode('preview'))}
+                    onClick={() => dispatch(switchEditMode("preview"))}
                     startIcon={<PreviewIcon />}
-                    color='secondary'
-                    variant={
-                        editMode === 'preview'
-                            ? 'contained'
-                            : 'outlined'
-                    }
+                    color="secondary"
+                    variant={editMode === "preview" ? "contained" : "outlined"}
                     className={classes.button}
                 >
                     Preview
@@ -82,7 +59,6 @@ const ModeSwitch = (props: {
             </Toolbar>
         </MobileOnly>
     );
-
 };
 
 export default ModeSwitch;

@@ -1,16 +1,8 @@
-import {
-    createSlice,
-    createAsyncThunk,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../state/store";
+import { requestViewDocument } from "./viewAPI";
 
-import {
-    RootState,
-} from '../../state/store';
-import {
-    requestViewDocument,
-} from './viewAPI';
-
-type RequestStatus = 'idle' | 'pending' | 'success' | 'error';
+type RequestStatus = "idle" | "pending" | "success" | "error";
 
 export interface ViewState {
     requestStatus: RequestStatus;
@@ -21,7 +13,7 @@ export interface ViewState {
 
 // fetch data from local, or start with defaults
 export const initialState: ViewState = {
-    requestStatus: 'idle',
+    requestStatus: "idle",
     documentKey: null,
     text: null,
     published: null,
@@ -33,71 +25,57 @@ export const initialState: ViewState = {
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
 export const viewDocument = createAsyncThunk(
-    'view/viewDocument',
+    "view/viewDocument",
     async (documentKey: string) => {
-
         const response = await requestViewDocument(documentKey);
         // The value we return becomes the `fulfilled` action payload
         return response;
-
     },
 );
 
 export const viewSlice = createSlice({
-    name: 'view',
+    name: "view",
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
         resetView: (state) => {
-
-            state.requestStatus = 'idle';
+            state.requestStatus = "idle";
             state.documentKey = null;
             state.text = null;
             state.published = null;
-
         },
     },
     extraReducers: (builder) => {
-
-        builder.
-            addCase(viewDocument.pending, (state) => {
-
-                state.requestStatus = 'pending';
-
-            }).
-            addCase(viewDocument.fulfilled, (state, action) => {
-
-                state.requestStatus = 'success';
+        builder
+            .addCase(viewDocument.pending, (state) => {
+                state.requestStatus = "pending";
+            })
+            .addCase(viewDocument.fulfilled, (state, action) => {
+                state.requestStatus = "success";
                 state.documentKey = action.payload.documentKey;
                 state.text = action.payload.text;
                 state.published = action.payload.published;
-
-            }).
-            addCase(viewDocument.rejected, (state) => {
-
-                state.requestStatus = 'error';
-
+            })
+            .addCase(viewDocument.rejected, (state) => {
+                state.requestStatus = "error";
             });
-
     },
 });
 
 // export reducers as actions
-export const {
-    resetView,
-} = viewSlice.actions;
+export const { resetView } = viewSlice.actions;
 
 // selectors
-export const selectViewRequestStatus =
-    (state: RootState): RequestStatus => state.view.requestStatus;
+export const selectViewRequestStatus = (state: RootState): RequestStatus =>
+    state.view.requestStatus;
 
-export const selectViewDocumentKey =
-    (state: RootState): string | null => state.view.documentKey;
+export const selectViewDocumentKey = (state: RootState): string | null =>
+    state.view.documentKey;
 
-export const selectViewText =
-    (state: RootState): string | null => state.view.text;
+export const selectViewText = (state: RootState): string | null =>
+    state.view.text;
 
-export const selectViewPublished =
-    (state: RootState): number | null => state.view.published;
+export const selectViewPublished = (state: RootState): number | null =>
+    state.view.published;
 
 export default viewSlice.reducer;

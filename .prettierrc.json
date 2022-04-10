@@ -1,0 +1,7 @@
+{
+    "tabWidth": 4,
+    "quoteProps": "consistent",
+    "trailingComma": "all",
+    "singleAttributePerLine": true,
+    "endOfLine": "crlf"
+}

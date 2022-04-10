@@ -1,29 +1,26 @@
-import {
-    apiEndpoint,
-} from '../../config';
+import { apiEndpoint } from "../../config";
 
 export interface ViewResponse {
-    text: string
-    published: number
-    documentKey: string
+    text: string;
+    published: number;
+    documentKey: string;
 }
 
 // Hit the endpoint for fetching documents
-export const requestViewDocument =
-    async (documentKey: string): Promise<ViewResponse> => {
+export const requestViewDocument = async (
+    documentKey: string,
+): Promise<ViewResponse> => {
+    const URL = `${apiEndpoint}?key=${encodeURIComponent(documentKey)}`;
 
-        const URL = `${apiEndpoint}?key=${encodeURIComponent(documentKey)}`;
+    const req = await fetch(URL);
 
-        const req = await fetch(URL);
-
-        const data = await req.json() as {
-            text: string
-            published: number
-        };
-
-        return {
-            documentKey,
-            ...data,
-        };
-
+    const data = (await req.json()) as {
+        text: string;
+        published: number;
     };
+
+    return {
+        documentKey,
+        ...data,
+    };
+};

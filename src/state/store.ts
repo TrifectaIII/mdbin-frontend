@@ -1,13 +1,8 @@
-import {
-    configureStore,
-    ThunkAction,
-    Action,
-} from '@reduxjs/toolkit';
-
-import globalReducer from '../features/global/globalSlice';
-import editReducer from '../features/edit/editSlice';
-import publishReducer from '../features/publish/publishSlice';
-import viewReducer from '../features/view/viewSlice';
+import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
+import editReducer from "../features/edit/editSlice";
+import globalReducer from "../features/global/globalSlice";
+import publishReducer from "../features/publish/publishSlice";
+import viewReducer from "../features/view/viewSlice";
 
 // Store containing all state slices
 export const store = configureStore({

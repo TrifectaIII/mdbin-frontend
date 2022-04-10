@@ -1,41 +1,32 @@
-import React from 'react';
-
 import {
+    Button,
     Dialog,
-    DialogTitle,
+    DialogActions,
     DialogContent,
     DialogContentText,
-    DialogActions,
-    Button,
+    DialogTitle,
     makeStyles,
-} from '@material-ui/core';
-import {
-    Check as YesIcon,
-    Close as NoIcon,
-} from '@material-ui/icons';
+} from "@material-ui/core";
+import { Check as YesIcon, Close as NoIcon } from "@material-ui/icons";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-
-    },
+    root: {},
 }));
 
 const Confirm = (props: {
-    open: boolean,
-    title: string,
-    content: string,
-    callback: () => void,
-    handleClose: () => void,
+    open: boolean;
+    title: string;
+    content: string;
+    callback: () => void;
+    handleClose: () => void;
 }): JSX.Element => {
-
     const classes = useStyles();
 
     // when user agrees, close confirm and execute the callBack
     const handleYes = () => {
-
         props.handleClose();
         props.callback();
-
     };
 
     return (
@@ -44,27 +35,23 @@ const Confirm = (props: {
             open={props.open}
             onClose={props.handleClose}
         >
-            <DialogTitle>
-                {props.title}
-            </DialogTitle>
+            <DialogTitle>{props.title}</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    {props.content}
-                </DialogContentText>
+                <DialogContentText>{props.content}</DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button
                     onClick={handleYes}
-                    color='primary'
-                    variant='contained'
+                    color="primary"
+                    variant="contained"
                     startIcon={<YesIcon />}
                 >
                     Yes
                 </Button>
                 <Button
                     onClick={props.handleClose}
-                    color='secondary'
-                    variant='contained'
+                    color="secondary"
+                    variant="contained"
                     startIcon={<NoIcon />}
                 >
                     No
@@ -72,7 +59,6 @@ const Confirm = (props: {
             </DialogActions>
         </Dialog>
     );
-
 };
 
 export default Confirm;

@@ -1,40 +1,22 @@
-import React from 'react';
-
 import {
+    Button,
+    DialogActions,
     DialogContent,
     DialogContentText,
-    DialogActions,
-    Button,
     makeStyles,
-} from '@material-ui/core';
-import {
-    Close as CancelIcon,
-    Refresh as ResetIcon,
-} from '@material-ui/icons';
-
-import {
-    useAppSelector,
-    useAppDispatch,
-} from '../../../state/hooks';
-import {
-    selectPublishErrorMessage,
-    resetPublish,
-} from '../publishSlice';
+} from "@material-ui/core";
+import { Close as CancelIcon, Refresh as ResetIcon } from "@material-ui/icons";
+import React from "react";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { resetPublish, selectPublishErrorMessage } from "../publishSlice";
 
 const useStyles = makeStyles((theme) => ({
-    content: {
-
-    },
-    actions: {
-
-    },
+    content: {},
+    actions: {},
 }));
 
 // display for publish modal when request has errored
-const PublishError = (props: {
-    handleClose: () => void,
-}): JSX.Element => {
-
+const PublishError = (props: { handleClose: () => void }): JSX.Element => {
     const classes = useStyles();
     const dispatch = useAppDispatch();
 
@@ -44,22 +26,22 @@ const PublishError = (props: {
         <>
             <DialogContent className={classes.content}>
                 <DialogContentText>
-                    Error: {errorMessage || 'Request Failed'}
+                    Error: {errorMessage || "Request Failed"}
                 </DialogContentText>
             </DialogContent>
             <DialogActions className={classes.actions}>
                 <Button
                     onClick={() => dispatch(resetPublish())}
-                    color='primary'
-                    variant='contained'
+                    color="primary"
+                    variant="contained"
                     startIcon={<ResetIcon />}
                 >
                     Try Again
                 </Button>
                 <Button
                     onClick={props.handleClose}
-                    color='secondary'
-                    variant='contained'
+                    color="secondary"
+                    variant="contained"
                     startIcon={<CancelIcon />}
                 >
                     Cancel
@@ -67,7 +49,6 @@ const PublishError = (props: {
             </DialogActions>
         </>
     );
-
 };
 
 export default PublishError;

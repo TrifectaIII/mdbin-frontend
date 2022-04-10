@@ -1,20 +1,14 @@
-import React from 'react';
-
-import {
-    Container,
-    CircularProgress,
-    makeStyles,
-} from '@material-ui/core';
+import { CircularProgress, Container, makeStyles } from "@material-ui/core";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        textAlign: 'center',
+        textAlign: "center",
     },
 }));
 
 // pending display for viewing documents
 const ViewPending = (props: {}): JSX.Element => {
-
     const classes = useStyles();
 
     return (
@@ -22,7 +16,6 @@ const ViewPending = (props: {}): JSX.Element => {
             <CircularProgress />
         </Container>
     );
-
 };
 
 export default ViewPending;

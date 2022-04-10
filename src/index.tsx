@@ -1,11 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-
-import * as serviceWorker from './serviceWorker';
-
-import App from './App';
-import {store} from './state/store';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { store } from "./state/store";
 
 // Entry point for app
 ReactDOM.render(
@@ -15,7 +13,7 @@ ReactDOM.render(
             <App />
         </Provider>
     </React.StrictMode>,
-    document.getElementById('root'),
+    document.getElementById("root"),
 );
 
 /*

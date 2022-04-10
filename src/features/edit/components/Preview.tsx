@@ -1,56 +1,36 @@
-import React, {
-    useState,
-} from 'react';
-import clsx from 'clsx';
-
 import {
     Button,
-    Toolbar,
-    Grid,
     Container,
+    Grid,
     makeStyles,
-} from '@material-ui/core';
-import {
-    Publish as PublishIcon,
-} from '@material-ui/icons';
-
-import {
-    useAppSelector,
-} from '../../../state/hooks';
-import {
-    selectDarkMode,
-} from '../../global/globalSlice';
-import {
-    selectEditMode,
-    selectEditText,
-} from '../editSlice';
-import Publish from '../../publish/components/Publish';
-import RenderMarkdown from '../../../markdown/RenderMarkdown';
-import {
-    useElementSize,
-} from '../../../hooks/UseSize';
+    Toolbar,
+} from "@material-ui/core";
+import { Publish as PublishIcon } from "@material-ui/icons";
+import clsx from "clsx";
+import React, { useState } from "react";
+import { useElementSize } from "../../../hooks/UseSize";
+import RenderMarkdown from "../../../markdown/RenderMarkdown";
+import { useAppSelector } from "../../../state/hooks";
+import { selectDarkMode } from "../../global/globalSlice";
+import Publish from "../../publish/components/Publish";
+import { selectEditMode, selectEditText } from "../editSlice";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-
-    },
+    root: {},
     text: {
-        overflowY: 'auto',
-        paddingTop: '1rem',
+        overflowY: "auto",
+        paddingTop: "1rem",
     },
     button: {
-        width: '100%',
-        height: '100%',
-        marginLeft: '5px',
-        marginRight: '5px',
+        width: "100%",
+        height: "100%",
+        marginLeft: "5px",
+        marginRight: "5px",
     },
 }));
 
 // rendered markdown preview component
-const Preview = (props: {
-    verticalSpace: number,
-}): JSX.Element => {
-
+const Preview = (props: { verticalSpace: number }): JSX.Element => {
     const classes = useStyles();
 
     // global dark mode determines markdown styling
@@ -75,14 +55,15 @@ const Preview = (props: {
                 container
                 className={classes.root}
             >
-                <Grid item xs={12}>
+                <Grid
+                    item
+                    xs={12}
+                >
                     <Container
                         className={clsx(
                             classes.text,
-                            'markdown-body',
-                            darkMode
-                                ? 'markdown-dark'
-                                : 'markdown-light',
+                            "markdown-body",
+                            darkMode ? "markdown-dark" : "markdown-light",
                         )}
                         style={{
                             height: `${previewHeight}px`,
@@ -91,22 +72,23 @@ const Preview = (props: {
                         <RenderMarkdown md={editText} />
                     </Container>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid
+                    item
+                    xs={12}
+                >
                     <Toolbar
                         ref={buttonRef}
-                        variant='dense'
+                        variant="dense"
                         disableGutters
                         style={{
                             // colors match github markdown style
-                            backgroundColor: darkMode
-                                ? '#0d1117'
-                                : '#ffffff',
+                            backgroundColor: darkMode ? "#0d1117" : "#ffffff",
                         }}
                     >
                         <Button
                             className={classes.button}
-                            variant='contained'
-                            color='primary'
+                            variant="contained"
+                            color="primary"
                             startIcon={<PublishIcon />}
                             onClick={openPublish}
                         >
@@ -122,7 +104,6 @@ const Preview = (props: {
             />
         </>
     );
-
 };
 
 export default Preview;

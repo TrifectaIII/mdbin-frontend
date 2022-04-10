@@ -1,14 +1,6 @@
-import {
-    createSlice,
-} from '@reduxjs/toolkit';
-
-import {
-    AppThunk,
-    RootState,
-} from '../../state/store';
-import {
-    saveEditToLocalStorage,
-} from '../edit/editSlice';
+import { createSlice } from "@reduxjs/toolkit";
+import { AppThunk, RootState } from "../../state/store";
+import { saveEditToLocalStorage } from "../edit/editSlice";
 
 // Slice of global state
 export interface GlobalState {
@@ -18,36 +10,28 @@ export interface GlobalState {
 }
 
 export const initialState: GlobalState = {
-    darkMode: !localStorage.getItem('lightMode'),
+    darkMode: !localStorage.getItem("lightMode"),
     menuDrawerOpen: false,
     // cookieAuth: Boolean(localStorage.getItem('cookieAuth')),
     cookieAuth: true,
 };
 
 export const globalSlice = createSlice({
-    name: 'global',
+    name: "global",
     initialState,
     reducers: {
         // toggle the mode and save to localstorage
         toggleDarkModeAction: (state) => {
-
             state.darkMode = !state.darkMode;
-
         },
         openMenuDrawer: (state) => {
-
             state.menuDrawerOpen = true;
-
         },
         closeMenuDrawer: (state) => {
-
             state.menuDrawerOpen = false;
-
         },
         allowCookiesAction: (state) => {
-
             state.cookieAuth = true;
-
         },
     },
 });
@@ -61,44 +45,30 @@ export const {
 } = globalSlice.actions;
 
 // selectors
-export const selectDarkMode =
-    (state: RootState): boolean => state.global.darkMode;
+export const selectDarkMode = (state: RootState): boolean =>
+    state.global.darkMode;
 
-export const selectMenuDrawerOpen =
-    (state: RootState): boolean => state.global.menuDrawerOpen;
+export const selectMenuDrawerOpen = (state: RootState): boolean =>
+    state.global.menuDrawerOpen;
 
-export const selectCookieAuth =
-    (state: RootState): boolean => state.global.cookieAuth;
+export const selectCookieAuth = (state: RootState): boolean =>
+    state.global.cookieAuth;
 
 // thunks which dispatch the reducers
-export const toggleDarkMode =
-    (): AppThunk => (dispatch, getState) => {
+export const toggleDarkMode = (): AppThunk => (dispatch, getState) => {
+    dispatch(toggleDarkModeAction());
+    const state = getState();
+    if (selectCookieAuth(state))
+        localStorage.setItem("lightMode", selectDarkMode(state) ? "" : "on");
+};
 
-        dispatch(toggleDarkModeAction());
-        const state = getState();
-        if (selectCookieAuth(state)) localStorage.setItem(
-            'lightMode',
-            selectDarkMode(state) ? '' : 'on',
-        );
+export const allowCookies = (): AppThunk => (dispatch, getState) => {
+    dispatch(globalSlice.actions.allowCookiesAction());
 
-    };
+    localStorage.setItem("cookieAuth", "allow");
+    localStorage.setItem("lightMode", selectDarkMode(getState()) ? "" : "on");
 
-export const allowCookies =
-    (): AppThunk => (dispatch, getState) => {
-
-        dispatch(globalSlice.actions.allowCookiesAction());
-
-        localStorage.setItem(
-            'cookieAuth',
-            'allow',
-        );
-        localStorage.setItem(
-            'lightMode',
-            selectDarkMode(getState()) ? '' : 'on',
-        );
-
-        dispatch(saveEditToLocalStorage());
-
-    };
+    dispatch(saveEditToLocalStorage());
+};
 
 export default globalSlice.reducer;

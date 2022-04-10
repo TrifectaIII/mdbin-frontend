@@ -1,61 +1,31 @@
-import React, {
-    useRef,
-    useState,
-} from 'react';
-
-import {
-    Grid,
-    makeStyles,
-} from '@material-ui/core';
-
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+import { languages } from "@codemirror/language-data";
+import { Grid, makeStyles } from "@material-ui/core";
 import CodeMirror, {
     EditorView,
     ReactCodeMirrorRef,
-} from '@uiw/react-codemirror';
-import {
-    markdown,
-    markdownLanguage,
-} from '@codemirror/lang-markdown';
-import {languages} from '@codemirror/language-data';
-
-import {
-    useAppSelector,
-    useAppDispatch,
-} from '../../../state/hooks';
-import {
-    selectDarkMode,
-} from '../../global/globalSlice';
-import {
-    selectEditText,
-    selectEditMode,
-    updateEditText,
-} from '../editSlice';
-import EditorButtons from './EditorButtons';
-import Confirm from '../../global/components/Confirm';
-import {
-    useElementSize,
-} from '../../../hooks/UseSize';
-import {
-    clearAll,
-} from '../../../markdown/mdEditing';
+} from "@uiw/react-codemirror";
+import React, { useRef, useState } from "react";
+import { useElementSize } from "../../../hooks/UseSize";
+import { clearAll } from "../../../markdown/mdEditing";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import Confirm from "../../global/components/Confirm";
+import { selectDarkMode } from "../../global/globalSlice";
+import { selectEditMode, selectEditText, updateEditText } from "../editSlice";
+import EditorButtons from "./EditorButtons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: '100%',
+        height: "100%",
     },
-    codeMirrorGrid: {
-
-    },
+    codeMirrorGrid: {},
     buttonBar: {
-        justifyContent: 'space-around',
+        justifyContent: "space-around",
     },
 }));
 
 // markdown editor component
-const Editor = (props: {
-    verticalSpace: number,
-}): JSX.Element => {
-
+const Editor = (props: { verticalSpace: number }): JSX.Element => {
     const classes = useStyles();
     const dispatch = useAppDispatch();
 
@@ -82,9 +52,8 @@ const Editor = (props: {
 
     // handler for clearing all text (called by Confirm)
     const handleClearAll = () => {
-
         if (!codeMirrorRef.current?.view) return;
-        const {view} = codeMirrorRef.current;
+        const { view } = codeMirrorRef.current;
         clearAll(view);
         // not sure why I need this timeout instead of just calling the function
         // but it doesn't work if I just call it directly.
@@ -92,26 +61,28 @@ const Editor = (props: {
         // the button directly, so it has something to do with the
         // Confirm dialog
         setTimeout(() => view.focus());
-
     };
 
     // returns a function which applies the input function
     // to the view if it exists, then returns focus to the view
     const applyToView = (toApply: (view: EditorView) => void) => () => {
-
         if (!codeMirrorRef.current?.view) return;
-        const {view} = codeMirrorRef.current;
+        const { view } = codeMirrorRef.current;
         toApply(view);
         view.focus();
-
     };
 
     return (
         <>
-            <Grid container className={classes.root}>
-
+            <Grid
+                container
+                className={classes.root}
+            >
                 {/* Toolbar With helper buttons */}
-                <Grid item xs={12}>
+                <Grid
+                    item
+                    xs={12}
+                >
                     <EditorButtons
                         applyToView={applyToView}
                         clearAllFunc={openClearConfirm}
@@ -121,15 +92,16 @@ const Editor = (props: {
 
                 {/* CodeMirror Editor */}
                 <Grid
-                    item xs={12}
+                    item
+                    xs={12}
                     className={classes.codeMirrorGrid}
                 >
                     <CodeMirror
-                        theme={darkMode ? 'dark' : 'light'}
+                        theme={darkMode ? "dark" : "light"}
                         height={`${editorHeight}px`}
                         value={editText}
                         onChange={handleChange}
-                        placeholder='Markdown goes here...'
+                        placeholder="Markdown goes here..."
                         extensions={[
                             markdown({
                                 base: markdownLanguage,
@@ -145,14 +117,13 @@ const Editor = (props: {
             {/* confirm dialog for clear all button */}
             <Confirm
                 open={clearConfirmOpen}
-                title='Clear All'
-                content='Are you sure you want to delete everything?'
+                title="Clear All"
+                content="Are you sure you want to delete everything?"
                 callback={handleClearAll}
                 handleClose={closeClearConfirm}
             />
         </>
     );
-
 };
 
 export default Editor;

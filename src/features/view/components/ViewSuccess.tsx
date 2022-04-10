@@ -1,44 +1,29 @@
-import React, {
-    useState,
-} from 'react';
-import {
-    useLocation,
-} from 'react-router-dom';
-import clsx from 'clsx';
-
 import {
     Box,
-    Container,
-    Typography,
-    makeStyles,
     Button,
+    Container,
+    makeStyles,
     Tooltip,
-} from '@material-ui/core';
-
-import {
-    useAppSelector,
-} from '../../../state/hooks';
-import {
-    selectDarkMode,
-} from '../../global/globalSlice';
-import {
-    selectViewText,
-    selectViewPublished,
-} from '../viewSlice';
-import RenderMarkdown from '../../../markdown/RenderMarkdown';
+    Typography,
+} from "@material-ui/core";
+import clsx from "clsx";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import RenderMarkdown from "../../../markdown/RenderMarkdown";
+import { useAppSelector } from "../../../state/hooks";
+import { selectDarkMode } from "../../global/globalSlice";
+import { selectViewPublished, selectViewText } from "../viewSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        overflow: 'auto',
+        overflow: "auto",
     },
     main: {
-        paddingTop: '2rem',
+        paddingTop: "2rem",
     },
-    util: {
-
-    },
+    util: {},
     text: {
-        paddingTop: '1rem',
+        paddingTop: "1rem",
     },
 }));
 
@@ -46,10 +31,7 @@ const useStyles = makeStyles((theme) => ({
 const TOOLTIP_TIMEOUT = 1000;
 
 // view a published document after successful fetch
-const ViewSuccess = (props: {
-    height: number,
-}): JSX.Element => {
-
+const ViewSuccess = (props: { height: number }): JSX.Element => {
     const classes = useStyles();
 
     const location = useLocation();
@@ -61,13 +43,12 @@ const ViewSuccess = (props: {
     const published = useAppSelector(selectViewPublished);
     const publishedDate = published
         ? new Date(published).toLocaleString()
-        : 'Unavailable';
+        : "Unavailable";
 
     // state & handler for copy button
     const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
     const [timeoutID, setTimeoutID] = useState<number>();
     const handleCopy = () => {
-
         // string to copy
         const toCopy = window.location.origin + location.pathname;
 
@@ -78,14 +59,13 @@ const ViewSuccess = (props: {
         setTooltipOpen(true);
         // clear old timeout & create new one
         clearTimeout(timeoutID);
-        setTimeoutID(window.setTimeout(() => {
-
-            setTooltipOpen(false);
-            // eslint-disable-next-line no-undefined
-            setTimeoutID(undefined);
-
-        }, TOOLTIP_TIMEOUT));
-
+        setTimeoutID(
+            window.setTimeout(() => {
+                setTooltipOpen(false);
+                // eslint-disable-next-line no-undefined
+                setTimeoutID(undefined);
+            }, TOOLTIP_TIMEOUT),
+        );
     };
 
     // content when document is loaded
@@ -95,57 +75,52 @@ const ViewSuccess = (props: {
             height={`${props.height}px`}
             style={{
                 // colors match github markdown style
-                backgroundColor: darkMode
-                    ? '#0d1117'
-                    : '#ffffff',
+                backgroundColor: darkMode ? "#0d1117" : "#ffffff",
             }}
         >
             <Container className={classes.main}>
                 <Box
                     className={classes.util}
-                    display='flex'
-                    flexDirection='column'
-                    justifyContent='center'
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
                 >
                     <Typography
-                        variant='body2'
-                        align='center'
+                        variant="body2"
+                        align="center"
                     >
                         Published: {publishedDate}
                     </Typography>
                     <Tooltip
                         open={tooltipOpen}
-                        title='Copied!'
-                        placement='bottom'
+                        title="Copied!"
+                        placement="bottom"
                         arrow
                     >
                         <Button
-                            variant='contained'
-                            color='secondary'
+                            variant="contained"
+                            color="secondary"
                             style={{
-                                margin: 'auto',
-                                marginTop: '1rem',
+                                margin: "auto",
+                                marginTop: "1rem",
                             }}
                             onClick={handleCopy}
                         >
-                        Copy Link
+                            Copy Link
                         </Button>
                     </Tooltip>
                 </Box>
                 <RenderMarkdown
-                    md={text || ''}
+                    md={text || ""}
                     className={clsx(
                         classes.text,
-                        'markdown-body',
-                        darkMode
-                            ? 'markdown-dark'
-                            : 'markdown-light',
+                        "markdown-body",
+                        darkMode ? "markdown-dark" : "markdown-light",
                     )}
                 />
             </Container>
         </Box>
     );
-
 };
 
 export default ViewSuccess;

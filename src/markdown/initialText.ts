@@ -1,5 +1,4 @@
-export default
-`# mdbin
+export default `# mdbin
 
 ### A simple [Markdown](https://www.markdownguide.org/) tool to easily write and share documents
 

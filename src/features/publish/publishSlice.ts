@@ -1,21 +1,9 @@
-import {
-    createSlice,
-    createAsyncThunk,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AppThunk, RootState } from "../../state/store";
+import { selectEditText } from "../edit/editSlice";
+import { PublishData, requestPublishDocument } from "./publishAPI";
 
-import {
-    RootState,
-    AppThunk,
-} from '../../state/store';
-import {
-    PublishData,
-    requestPublishDocument,
-} from './publishAPI';
-import {
-    selectEditText,
-} from '../edit/editSlice';
-
-type RequestStatus = 'idle' | 'pending' | 'success' | 'error';
+type RequestStatus = "idle" | "pending" | "success" | "error";
 
 export interface PublishState {
     requestStatus: RequestStatus;
@@ -24,7 +12,7 @@ export interface PublishState {
 }
 
 export const initialState: PublishState = {
-    requestStatus: 'idle',
+    requestStatus: "idle",
     errorMessage: null,
     documentKey: null,
 };
@@ -40,88 +28,70 @@ const publishDocumentAsync = createAsyncThunk<
     // type of input
     PublishData,
     // AsyncThunkConfig settings
-    {rejectValue: string}
->(
-    'publish/publishDocument',
-    async (data: PublishData, {rejectWithValue}) => {
+    { rejectValue: string }
+>("publish/publishDocument", async (data: PublishData, { rejectWithValue }) => {
+    const response = await requestPublishDocument(data);
+    const { type } = response;
 
-        const response = await requestPublishDocument(data);
-        const {type} = response;
+    // if there was an error, reject with a message
+    if (type === "error") return rejectWithValue(response.message);
 
-        // if there was an error, reject with a message
-        if (type === 'error') return rejectWithValue(response.message);
-
-        // The value we return becomes the `fulfilled` action payload
-        return response.key;
-
-    },
-);
+    // The value we return becomes the `fulfilled` action payload
+    return response.key;
+});
 
 export const publishSlice = createSlice({
-    name: 'publish',
+    name: "publish",
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
         resetPublish: (state) => {
-
-            state.requestStatus = 'idle';
+            state.requestStatus = "idle";
             state.errorMessage = null;
             state.documentKey = null;
-
         },
     },
     extraReducers: (builder) => {
-
-        builder.
-            addCase(publishDocumentAsync.pending, (state) => {
-
-                state.requestStatus = 'pending';
-
-            }).
-            addCase(publishDocumentAsync.fulfilled, (state, {payload}) => {
-
-                state.requestStatus = 'success';
+        builder
+            .addCase(publishDocumentAsync.pending, (state) => {
+                state.requestStatus = "pending";
+            })
+            .addCase(publishDocumentAsync.fulfilled, (state, { payload }) => {
+                state.requestStatus = "success";
                 state.documentKey = payload;
-
-            }).
-            addCase(publishDocumentAsync.rejected, (state, {payload}) => {
-
-                state.requestStatus = 'error';
+            })
+            .addCase(publishDocumentAsync.rejected, (state, { payload }) => {
+                state.requestStatus = "error";
                 state.errorMessage = payload || null;
-
             });
-
     },
 });
 
 // export reducers as actions
-export const {
-    resetPublish,
-} = publishSlice.actions;
+export const { resetPublish } = publishSlice.actions;
 
 // selectors
-export const selectPublishRequestStatus =
-    (state: RootState): RequestStatus => state.publish.requestStatus;
+export const selectPublishRequestStatus = (state: RootState): RequestStatus =>
+    state.publish.requestStatus;
 
-export const selectPublishDocumentKey =
-    (state: RootState): string | null => state.publish.documentKey;
+export const selectPublishDocumentKey = (state: RootState): string | null =>
+    state.publish.documentKey;
 
-export const selectPublishErrorMessage =
-    (state: RootState): string | null => state.publish.errorMessage;
+export const selectPublishErrorMessage = (state: RootState): string | null =>
+    state.publish.errorMessage;
 
 // thunk to fetch editor text directly
-export const publishDocument = (
-    creator: string,
-    recaptchaToken: string,
-): AppThunk => (dispatch, getState) => {
-
-    const text = selectEditText(getState());
-    dispatch(publishDocumentAsync({
-        text,
-        creator,
-        recaptchaToken,
-    }));
-
-};
+export const publishDocument =
+    (creator: string, recaptchaToken: string): AppThunk =>
+    (dispatch, getState) => {
+        const text = selectEditText(getState());
+        dispatch(
+            publishDocumentAsync({
+                text,
+                creator,
+                recaptchaToken,
+            }),
+        );
+    };
 
 export default publishSlice.reducer;

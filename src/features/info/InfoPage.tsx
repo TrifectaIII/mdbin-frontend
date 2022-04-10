@@ -1,40 +1,22 @@
-import React from 'react';
-import {
-    RouteComponentProps,
-} from 'react-router-dom';
-import clsx from 'clsx';
-
-import {
-    Box,
-    Container,
-    makeStyles,
-} from '@material-ui/core';
-
-import {
-    useAppSelector,
-} from '../../state/hooks';
-import {
-    selectDarkMode,
-} from '../global/globalSlice';
-import infoText from '../../markdown/infoText';
-import {
-    PlaceholderHeader,
-} from '../global/components/Header';
-import RenderMarkdown from '../../markdown/RenderMarkdown';
-import {
-    useElementSize,
-    useWindowSize,
-} from '../../hooks/UseSize';
+import { Box, Container, makeStyles } from "@material-ui/core";
+import clsx from "clsx";
+import React from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { useElementSize, useWindowSize } from "../../hooks/UseSize";
+import infoText from "../../markdown/infoText";
+import RenderMarkdown from "../../markdown/RenderMarkdown";
+import { useAppSelector } from "../../state/hooks";
+import { PlaceholderHeader } from "../global/components/Header";
+import { selectDarkMode } from "../global/globalSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        overflow: 'auto',
+        overflow: "auto",
     },
 }));
 
 // An information page
 const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
-
     const classes = useStyles();
 
     const darkMode = useAppSelector(selectDarkMode);
@@ -50,10 +32,8 @@ const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
             <Box
                 className={clsx(
                     classes.root,
-                    'markdown-body',
-                    darkMode
-                        ? 'markdown-dark'
-                        : 'markdown-light',
+                    "markdown-body",
+                    darkMode ? "markdown-dark" : "markdown-light",
                 )}
                 height={`${infoHeight}px`}
             >
@@ -63,7 +43,6 @@ const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
             </Box>
         </>
     );
-
 };
 
 export default InfoPage;

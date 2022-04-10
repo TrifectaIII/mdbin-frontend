@@ -1,41 +1,34 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-
 import {
     Box,
-    SwipeableDrawer,
+    Divider,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
-    Divider,
     makeStyles,
-} from '@material-ui/core';
+    SwipeableDrawer,
+} from "@material-ui/core";
+import { ArrowRightAlt as InnerIcon } from "@material-ui/icons";
+import React from "react";
+import { Link } from "react-router-dom";
+import { navMap } from "../../../Navigation";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import {
-    ArrowRightAlt as InnerIcon,
-} from '@material-ui/icons';
-
-import {navMap} from '../../../Navigation';
-import {MobileOnly} from './utilities';
-import {
-    useAppSelector,
-    useAppDispatch,
-} from '../../../state/hooks';
-import {
-    selectMenuDrawerOpen,
-    openMenuDrawer,
     closeMenuDrawer,
-} from '../globalSlice';
+    openMenuDrawer,
+    selectMenuDrawerOpen,
+} from "../globalSlice";
+import { MobileOnly } from "./utilities";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: '1rem',
+        padding: "1rem",
     },
     linkText: {
-        textDecoration: 'none',
-        color: theme.palette.text.primary,
-        '&:hover': {
-            textDecoration: 'underline',
+        "textDecoration": "none",
+        "color": theme.palette.text.primary,
+        "&:hover": {
+            textDecoration: "underline",
         },
     },
     inactive: {
@@ -48,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 // drawer for navigation on mobile view
 const MenuDrawer = (props: {}): JSX.Element => {
-
     const classes = useStyles();
 
     const dispatch = useAppDispatch();
@@ -57,26 +49,26 @@ const MenuDrawer = (props: {}): JSX.Element => {
 
     // Generate navitems jsx from navmap
     const navItems: JSX.Element[] = [];
-    Object.entries(navMap).
-        forEach(([name, point], index) => {
-
-            if ('route' in point) navItems.push(<Link
-                to={point.route}
-                key={name}
-                className={classes.linkText}
-                onClick={() => dispatch(closeMenuDrawer())}
-            >
-                <ListItem>
-                    <ListItemIcon>
-                        <point.icon />
-                    </ListItemIcon>
-                    <ListItemText primary={name} />
-                </ListItem>
-            </Link>);
-
-            else {
-
-                navItems.push(<ListItem
+    Object.entries(navMap).forEach(([name, point], index) => {
+        if ("route" in point)
+            navItems.push(
+                <Link
+                    to={point.route}
+                    key={name}
+                    className={classes.linkText}
+                    onClick={() => dispatch(closeMenuDrawer())}
+                >
+                    <ListItem>
+                        <ListItemIcon>
+                            <point.icon />
+                        </ListItemIcon>
+                        <ListItemText primary={name} />
+                    </ListItem>
+                </Link>,
+            );
+        else {
+            navItems.push(
+                <ListItem
                     key={name}
                     className={classes.inactive}
                 >
@@ -84,56 +76,51 @@ const MenuDrawer = (props: {}): JSX.Element => {
                         <point.icon />
                     </ListItemIcon>
                     <ListItemText primary={name} />
-                </ListItem>);
+                </ListItem>,
+            );
 
-                Object.entries(point.children).
-                    forEach(([cName, cPoint]) => {
+            Object.entries(point.children).forEach(([cName, cPoint]) => {
+                navItems.push(
+                    <Link
+                        to={cPoint.route}
+                        key={cName}
+                        className={classes.linkText}
+                        onClick={() => dispatch(closeMenuDrawer())}
+                    >
+                        <ListItem>
+                            <ListItemIcon>
+                                <InnerIcon className={classes.hidden} />
+                            </ListItemIcon>
+                            <ListItemIcon>
+                                <cPoint.icon />
+                            </ListItemIcon>
+                            <ListItemText primary={cName} />
+                        </ListItem>
+                    </Link>,
+                );
+            });
+        }
 
-                        navItems.push(<Link
-                            to={cPoint.route}
-                            key={cName}
-                            className={classes.linkText}
-                            onClick={() => dispatch(closeMenuDrawer())}
-                        >
-                            <ListItem>
-                                <ListItemIcon>
-                                    <InnerIcon className={classes.hidden}/>
-                                </ListItemIcon>
-                                <ListItemIcon>
-                                    <cPoint.icon />
-                                </ListItemIcon>
-                                <ListItemText primary={cName} />
-                            </ListItem>
-                        </Link>);
-
-                    });
-
-            }
-
-            // add a divider it its not the last point
-            // eslint-disable-next-line max-len
-            if (index < Object.keys(navMap).length - 1) navItems.push(<Divider key={`div${index}`} />);
-
-
-        });
+        // add a divider it its not the last point
+        // eslint-disable-next-line max-len
+        if (index < Object.keys(navMap).length - 1)
+            navItems.push(<Divider key={`div${index}`} />);
+    });
 
     return (
         <MobileOnly>
             <SwipeableDrawer
-                anchor='left'
+                anchor="left"
                 open={open}
                 onOpen={() => dispatch(openMenuDrawer())}
                 onClose={() => dispatch(closeMenuDrawer())}
             >
                 <Box className={classes.root}>
-                    <List>
-                        {navItems}
-                    </List>
+                    <List>{navItems}</List>
                 </Box>
             </SwipeableDrawer>
         </MobileOnly>
     );
-
 };
 
 export default MenuDrawer;

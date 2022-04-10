@@ -1,51 +1,35 @@
-import React, {
-    useState,
-} from 'react';
-
 import {
-    Typography,
-    Grid,
-    Paper,
     Button,
     ButtonGroup,
-    Snackbar,
+    Grid,
     makeStyles,
-} from '@material-ui/core';
-import {
-    Check as AcceptIcon,
-    Close as RejectIcon,
-} from '@material-ui/icons';
-
-import {
-    useAppSelector,
-    useAppDispatch,
-} from '../../../state/hooks';
-import {
-    allowCookies,
-    selectCookieAuth,
-} from '../globalSlice';
+    Paper,
+    Snackbar,
+    Typography,
+} from "@material-ui/core";
+import { Check as AcceptIcon, Close as RejectIcon } from "@material-ui/icons";
+import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { allowCookies, selectCookieAuth } from "../globalSlice";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-
-    },
+    root: {},
     gridContainer: {
         // padding: '0.5rem',
     },
     text: {
-        padding: '0.5rem',
+        padding: "0.5rem",
     },
     buttonGroup: {
-        width: '100%',
+        width: "100%",
     },
     button: {
-        width: '50%',
+        width: "50%",
     },
 }));
 
 // component to ask for user cookie permission
 const CookiePermission = (props: {}): JSX.Element => {
-
     const classes = useStyles();
     const dispatch = useAppDispatch();
 
@@ -55,10 +39,8 @@ const CookiePermission = (props: {}): JSX.Element => {
     const [open, setOpen] = useState<boolean>(!cookieAuth);
 
     const handleAccept = () => {
-
         dispatch(allowCookies());
         setOpen(false);
-
     };
 
     return (
@@ -66,35 +48,41 @@ const CookiePermission = (props: {}): JSX.Element => {
             className={classes.root}
             open={open}
             anchorOrigin={{
-                horizontal: 'center',
-                vertical: 'bottom',
+                horizontal: "center",
+                vertical: "bottom",
             }}
         >
             <Grid
                 container
                 component={Paper}
-                alignItems='center'
+                alignItems="center"
                 className={classes.gridContainer}
             >
-                <Grid item xs={12}>
+                <Grid
+                    item
+                    xs={12}
+                >
                     <Typography
-                        variant='body1'
-                        align='center'
+                        variant="body1"
+                        align="center"
                         className={classes.text}
                     >
-                        This site uses the localStorage API to save your work and settings.
-                        Do you want to enable this feature?
+                        This site uses the localStorage API to save your work
+                        and settings. Do you want to enable this feature?
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid
+                    item
+                    xs={12}
+                >
                     <ButtonGroup
-                        variant='contained'
+                        variant="contained"
                         className={classes.buttonGroup}
                     >
                         <Button
                             onClick={handleAccept}
                             startIcon={<AcceptIcon />}
-                            color='primary'
+                            color="primary"
                             className={classes.button}
                         >
                             Accept
@@ -102,7 +90,7 @@ const CookiePermission = (props: {}): JSX.Element => {
                         <Button
                             onClick={() => setOpen(false)}
                             startIcon={<RejectIcon />}
-                            color='secondary'
+                            color="secondary"
                             className={classes.button}
                         >
                             Close
@@ -112,7 +100,6 @@ const CookiePermission = (props: {}): JSX.Element => {
             </Grid>
         </Snackbar>
     );
-
 };
 
 export default CookiePermission;
