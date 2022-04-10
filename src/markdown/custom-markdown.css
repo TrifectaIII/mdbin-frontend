@@ -1,0 +1,14 @@
+/* .markdown-body li.task-list-item {
+    display: flex;
+}
+
+.markdown-body [type="checkbox"] {
+    display: none;
+}
+
+.markdown-body [type="checkbox"][disabled]::after {
+    content: "❌";
+}
+.markdown-body [type="checkbox"][disabled][checked]::after {
+    content: "✔️";
+} */

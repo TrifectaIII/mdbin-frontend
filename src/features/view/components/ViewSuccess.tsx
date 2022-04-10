@@ -6,7 +6,6 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
-import clsx from "clsx";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import RenderMarkdown from "../../../markdown/RenderMarkdown";
@@ -16,7 +15,7 @@ import { selectViewPublished, selectViewText } from "../viewSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        overflow: "auto",
+        overflowY: "auto",
     },
     main: {
         paddingTop: "2rem",
@@ -112,11 +111,8 @@ const ViewSuccess = (props: { height: number }): JSX.Element => {
                 </Box>
                 <RenderMarkdown
                     md={text || ""}
-                    className={clsx(
-                        classes.text,
-                        "markdown-body",
-                        darkMode ? "markdown-dark" : "markdown-light",
-                    )}
+                    darkMode={darkMode}
+                    className={classes.text}
                 />
             </Container>
         </Box>

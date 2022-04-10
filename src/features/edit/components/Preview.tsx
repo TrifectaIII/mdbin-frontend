@@ -1,12 +1,5 @@
-import {
-    Button,
-    Container,
-    Grid,
-    makeStyles,
-    Toolbar,
-} from "@material-ui/core";
+import { Box, Button, Grid, makeStyles, Toolbar } from "@material-ui/core";
 import { Publish as PublishIcon } from "@material-ui/icons";
-import clsx from "clsx";
 import React, { useState } from "react";
 import { useElementSize } from "../../../hooks/UseSize";
 import RenderMarkdown from "../../../markdown/RenderMarkdown";
@@ -59,18 +52,19 @@ const Preview = (props: { verticalSpace: number }): JSX.Element => {
                     item
                     xs={12}
                 >
-                    <Container
-                        className={clsx(
-                            classes.text,
-                            "markdown-body",
-                            darkMode ? "markdown-dark" : "markdown-light",
-                        )}
+                    <Box
+                        className={classes.text}
+                        height={`${previewHeight}px`}
                         style={{
-                            height: `${previewHeight}px`,
+                            // colors match github markdown style
+                            backgroundColor: darkMode ? "#0d1117" : "#ffffff",
                         }}
                     >
-                        <RenderMarkdown md={editText} />
-                    </Container>
+                        <RenderMarkdown
+                            md={editText}
+                            darkMode={darkMode}
+                        />
+                    </Box>
                 </Grid>
                 <Grid
                     item

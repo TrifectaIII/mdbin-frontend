@@ -1,5 +1,4 @@
-import { Box, Container, makeStyles } from "@material-ui/core";
-import clsx from "clsx";
+import { Box, makeStyles } from "@material-ui/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useElementSize, useWindowSize } from "../../hooks/UseSize";
@@ -11,7 +10,8 @@ import { selectDarkMode } from "../global/globalSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        overflow: "auto",
+        overflowY: "auto",
+        paddingTop: "2rem",
     },
 }));
 
@@ -30,16 +30,17 @@ const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
         <>
             <PlaceholderHeader innerRef={headerRef} />
             <Box
-                className={clsx(
-                    classes.root,
-                    "markdown-body",
-                    darkMode ? "markdown-dark" : "markdown-light",
-                )}
+                className={classes.root}
                 height={`${infoHeight}px`}
+                style={{
+                    // colors match github markdown style
+                    backgroundColor: darkMode ? "#0d1117" : "#ffffff",
+                }}
             >
-                <Container>
-                    <RenderMarkdown md={infoText} />
-                </Container>
+                <RenderMarkdown
+                    md={infoText}
+                    darkMode={darkMode}
+                />
             </Box>
         </>
     );

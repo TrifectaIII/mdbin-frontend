@@ -16,8 +16,6 @@ import { selectDarkMode } from "./features/global/globalSlice";
 import InfoPage from "./features/info/InfoPage";
 import NotFoundPage from "./features/notFound/NotFoundPage";
 import ViewPage from "./features/view/ViewPage";
-import "./markdown/github-markdown.css";
-// import CookiePermission from './features/global/components/CookiePermission';
 import { useAppSelector } from "./state/hooks";
 
 // helper function for generating themes
