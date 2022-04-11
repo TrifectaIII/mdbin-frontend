@@ -1,12 +1,11 @@
 import { Box, Button, Grid, makeStyles, Toolbar } from "@material-ui/core";
 import { Publish as PublishIcon } from "@material-ui/icons";
 import React, { useState } from "react";
-import { useElementSize } from "../../../hooks/UseSize";
 import RenderMarkdown from "../../../markdown/RenderMarkdown";
 import { useAppSelector } from "../../../state/hooks";
 import { selectDarkMode } from "../../global/globalSlice";
 import Publish from "../../publish/components/Publish";
-import { selectEditMode, selectEditText } from "../editSlice";
+import { selectEditText } from "../editSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // rendered markdown preview component
-const Preview = (props: { verticalSpace: number }): JSX.Element => {
+const Preview = (props: {}): JSX.Element => {
     const classes = useStyles();
 
     // global dark mode determines markdown styling
@@ -31,12 +30,6 @@ const Preview = (props: { verticalSpace: number }): JSX.Element => {
 
     // get text from the editor
     const editText = useAppSelector(selectEditText);
-
-    // height of preview can take the rest of the screen
-    // pass mode as a dependency so the size updates properly
-    const editMode = useAppSelector(selectEditMode);
-    const [buttonSize, buttonRef] = useElementSize(editMode);
-    const previewHeight = props.verticalSpace - buttonSize.height;
 
     const [publishOpen, setPublishOpen] = useState<boolean>(false);
     const openPublish = () => setPublishOpen(true);
@@ -54,7 +47,6 @@ const Preview = (props: { verticalSpace: number }): JSX.Element => {
                 >
                     <Box
                         className={classes.text}
-                        height={`${previewHeight}px`}
                         style={{
                             // colors match github markdown style
                             backgroundColor: darkMode ? "#0d1117" : "#ffffff",
@@ -71,7 +63,6 @@ const Preview = (props: { verticalSpace: number }): JSX.Element => {
                     xs={12}
                 >
                     <Toolbar
-                        ref={buttonRef}
                         variant="dense"
                         disableGutters
                         style={{

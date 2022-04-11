@@ -1,9 +1,7 @@
 import { Box, makeStyles } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { useElementSize, useWindowSize } from "../../hooks/UseSize";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { PlaceholderHeader } from "../global/components/Header";
 import NotFound from "../notFound/components/NotFound";
 import ViewPending from "./components/ViewPending";
 import ViewSuccess from "./components/ViewSuccess";
@@ -44,21 +42,11 @@ const ViewPage = (
             dispatch(viewDocument(documentKey));
     }, [documentKey, documentKeyState, requestStatus]);
 
-    // determine height of main element
-    const windowSize = useWindowSize();
-    const [headerSize, headerRef] = useElementSize();
-    const viewHeight = windowSize.height - headerSize.height;
-
     return (
         <>
-            <PlaceholderHeader innerRef={headerRef} />
             <Box className={classes.root}>
                 {requestStatus === "pending" ? <ViewPending /> : <></>}
-                {requestStatus === "success" ? (
-                    <ViewSuccess height={viewHeight} />
-                ) : (
-                    <></>
-                )}
+                {requestStatus === "success" ? <ViewSuccess /> : <></>}
                 {requestStatus === "error" ? (
                     <NotFound
                         type="document"
