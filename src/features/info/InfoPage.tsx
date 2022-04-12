@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // An information page
-const InfoPage = (props: RouteComponentProps<{}>): JSX.Element => {
+const InfoPage = (props: RouteComponentProps): JSX.Element => {
     const classes = useStyles();
 
     const darkMode = useAppSelector(selectDarkMode);

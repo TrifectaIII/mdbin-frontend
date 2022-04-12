@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // rendered markdown preview component
-const Preview = (props: {}): JSX.Element => {
+const Preview = (): JSX.Element => {
     const classes = useStyles();
 
     // global dark mode determines markdown styling

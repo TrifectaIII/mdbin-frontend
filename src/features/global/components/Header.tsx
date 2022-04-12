@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Main page header for navigation, global state
-const Header = (props: {}): JSX.Element => {
+const Header = (): JSX.Element => {
     const classes = useStyles();
 
     const dispatch = useAppDispatch();

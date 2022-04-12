@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // pending display for viewing documents
-const ViewPending = (props: {}): JSX.Element => {
+const ViewPending = (): JSX.Element => {
     const classes = useStyles();
 
     return (

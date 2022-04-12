@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // display for publish modal when request is pending
-const PublishPending = (props: {}): JSX.Element => {
+const PublishPending = (): JSX.Element => {
     const classes = useStyles();
 
     return (

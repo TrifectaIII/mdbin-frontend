@@ -8,49 +8,61 @@ import Preview from "./components/Preview";
 import { selectEditMode } from "./editSlice";
 
 const useStyles = makeStyles((theme) => ({
-    root: {},
+    root: {
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
+        overflowY: "auto",
+    },
+    panelGrid: {
+        flexGrow: 1,
+        overflowY: "auto",
+    },
+    panel: {
+        flexGrow: 1,
+        overflowY: "auto",
+        maxHeight: "100%",
+    },
 }));
 
 // main editing interface
-const EditPage = (props: RouteComponentProps<{}>): JSX.Element => {
+const EditPage = (props: RouteComponentProps): JSX.Element => {
     const classes = useStyles();
 
     const editMode = useAppSelector(selectEditMode);
 
     return (
-        <Grid
-            container
-            direction="row"
-            className={classes.root}
-        >
+        <Grid className={classes.root}>
+            <ModeSwitch />
             <Grid
-                item
-                xs={12}
-            >
-                <ModeSwitch />
-            </Grid>
-            <Grid
-                item
-                xs={12}
-                md={6}
+                container
+                className={classes.panelGrid}
             >
                 <Hidden
                     smDown={editMode === "preview"}
-                    implementation="css"
+                    implementation="js"
                 >
-                    <Editor />
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        className={classes.panel}
+                    >
+                        <Editor />
+                    </Grid>
                 </Hidden>
-            </Grid>
-            <Grid
-                item
-                xs={12}
-                md={6}
-            >
                 <Hidden
                     smDown={editMode === "editor"}
-                    implementation="css"
+                    implementation="js"
                 >
-                    <Preview />
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        className={classes.panel}
+                    >
+                        <Preview />
+                    </Grid>
                 </Hidden>
             </Grid>
         </Grid>

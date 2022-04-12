@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const TOOLTIP_TIMEOUT = 1000;
 
 // view a published document after successful fetch
-const ViewSuccess = (props: {}): JSX.Element => {
+const ViewSuccess = (): JSX.Element => {
     const classes = useStyles();
 
     const location = useLocation();

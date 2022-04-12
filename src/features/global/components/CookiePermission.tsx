@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // component to ask for user cookie permission
-const CookiePermission = (props: {}): JSX.Element => {
+const CookiePermission = (): JSX.Element => {
     const classes = useStyles();
     const dispatch = useAppDispatch();
 

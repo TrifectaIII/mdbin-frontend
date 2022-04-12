@@ -11,18 +11,17 @@ import { selectEditMode, switchEditMode } from "../editSlice";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
+        margin: "6px",
     },
     button: {
-        width: "50%",
+        width: "calc(50% - 3px)",
         height: "100%",
-        marginLeft: "5px",
-        marginRight: "5px",
     },
 }));
 
 // component to switch between editor and preview on mobile
-const ModeSwitch = (props: {}): JSX.Element => {
+const ModeSwitch = (): JSX.Element => {
     const classes = useStyles();
     const dispatch = useAppDispatch();
 

@@ -6,14 +6,14 @@ import { Edit as EditPublishIcon, Info as InfoIcon } from "@material-ui/icons";
 export interface NavMapType {
     [key: string]:
         | {
-              icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+              icon: OverridableComponent<SvgIconTypeMap>;
               route: string;
           }
         | {
-              icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+              icon: OverridableComponent<SvgIconTypeMap>;
               children: {
                   [key: string]: {
-                      icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+                      icon: OverridableComponent<SvgIconTypeMap>;
                       route: string;
                   };
               };
