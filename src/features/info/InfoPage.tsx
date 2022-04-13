@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         overflowY: "auto",
         paddingTop: "2rem",
+        flexGrow: 1,
     },
 }));
 

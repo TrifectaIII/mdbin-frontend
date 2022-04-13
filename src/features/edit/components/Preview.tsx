@@ -1,4 +1,4 @@
-import { Box, Button, Grid, makeStyles, Toolbar } from "@material-ui/core";
+import { Box, Button, makeStyles, Toolbar } from "@material-ui/core";
 import { Publish as PublishIcon } from "@material-ui/icons";
 import React, { useState } from "react";
 import RenderMarkdown from "../../../markdown/RenderMarkdown";
@@ -8,16 +8,23 @@ import Publish from "../../publish/components/Publish";
 import { selectEditText } from "../editSlice";
 
 const useStyles = makeStyles((theme) => ({
-    root: {},
-    text: {
+    root: {
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
         overflowY: "auto",
-        paddingTop: "1rem",
+        height: "100%",
     },
+    text: {
+        // uncomment to fix publish button at bottom
+        // overflowY: "auto",
+        paddingTop: "1rem",
+        flexGrow: 1,
+    },
+    buttonBar: { padding: "6px" },
     button: {
         width: "100%",
         height: "100%",
-        marginLeft: "5px",
-        marginRight: "5px",
     },
 }));
 
@@ -37,51 +44,39 @@ const Preview = (): JSX.Element => {
 
     return (
         <>
-            <Grid
-                container
-                className={classes.root}
-            >
-                <Grid
-                    item
-                    xs={12}
+            <Box className={classes.root}>
+                <Box
+                    className={classes.text}
+                    style={{
+                        // colors match github markdown style
+                        backgroundColor: darkMode ? "#0d1117" : "#ffffff",
+                    }}
                 >
-                    <Box
-                        className={classes.text}
-                        style={{
-                            // colors match github markdown style
-                            backgroundColor: darkMode ? "#0d1117" : "#ffffff",
-                        }}
-                    >
-                        <RenderMarkdown
-                            md={editText}
-                            darkMode={darkMode}
-                        />
-                    </Box>
-                </Grid>
-                <Grid
-                    item
-                    xs={12}
+                    <RenderMarkdown
+                        md={editText}
+                        darkMode={darkMode}
+                    />
+                </Box>
+                <Toolbar
+                    variant="dense"
+                    disableGutters
+                    className={classes.buttonBar}
+                    style={{
+                        // colors match github markdown style
+                        backgroundColor: darkMode ? "#0d1117" : "#ffffff",
+                    }}
                 >
-                    <Toolbar
-                        variant="dense"
-                        disableGutters
-                        style={{
-                            // colors match github markdown style
-                            backgroundColor: darkMode ? "#0d1117" : "#ffffff",
-                        }}
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        color="primary"
+                        startIcon={<PublishIcon />}
+                        onClick={openPublish}
                     >
-                        <Button
-                            className={classes.button}
-                            variant="contained"
-                            color="primary"
-                            startIcon={<PublishIcon />}
-                            onClick={openPublish}
-                        >
-                            Publish
-                        </Button>
-                    </Toolbar>
-                </Grid>
-            </Grid>
+                        Publish
+                    </Button>
+                </Toolbar>
+            </Box>
 
             <Publish
                 isOpen={publishOpen}
