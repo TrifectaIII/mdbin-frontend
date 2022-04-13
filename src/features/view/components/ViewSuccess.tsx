@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const TOOLTIP_TIMEOUT = 1000;
 
 // view a published document after successful fetch
-const ViewSuccess = (props: { height: number }): JSX.Element => {
+const ViewSuccess = (): JSX.Element => {
     const classes = useStyles();
 
     const location = useLocation();
@@ -71,7 +71,6 @@ const ViewSuccess = (props: { height: number }): JSX.Element => {
     return (
         <Box
             className={classes.root}
-            height={`${props.height}px`}
             style={{
                 // colors match github markdown style
                 backgroundColor: darkMode ? "#0d1117" : "#ffffff",

@@ -1,29 +1,35 @@
-import { Box, Button, Grid, makeStyles, Toolbar } from "@material-ui/core";
+import { Box, Button, makeStyles, Toolbar } from "@material-ui/core";
 import { Publish as PublishIcon } from "@material-ui/icons";
 import React, { useState } from "react";
-import { useElementSize } from "../../../hooks/UseSize";
 import RenderMarkdown from "../../../markdown/RenderMarkdown";
 import { useAppSelector } from "../../../state/hooks";
 import { selectDarkMode } from "../../global/globalSlice";
 import Publish from "../../publish/components/Publish";
-import { selectEditMode, selectEditText } from "../editSlice";
+import { selectEditText } from "../editSlice";
 
 const useStyles = makeStyles((theme) => ({
-    root: {},
-    text: {
+    root: {
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
         overflowY: "auto",
-        paddingTop: "1rem",
+        height: "100%",
     },
+    text: {
+        // uncomment to fix publish button at bottom
+        // overflowY: "auto",
+        paddingTop: "1rem",
+        flexGrow: 1,
+    },
+    buttonBar: { padding: "6px" },
     button: {
         width: "100%",
         height: "100%",
-        marginLeft: "5px",
-        marginRight: "5px",
     },
 }));
 
 // rendered markdown preview component
-const Preview = (props: { verticalSpace: number }): JSX.Element => {
+const Preview = (): JSX.Element => {
     const classes = useStyles();
 
     // global dark mode determines markdown styling
@@ -32,65 +38,45 @@ const Preview = (props: { verticalSpace: number }): JSX.Element => {
     // get text from the editor
     const editText = useAppSelector(selectEditText);
 
-    // height of preview can take the rest of the screen
-    // pass mode as a dependency so the size updates properly
-    const editMode = useAppSelector(selectEditMode);
-    const [buttonSize, buttonRef] = useElementSize(editMode);
-    const previewHeight = props.verticalSpace - buttonSize.height;
-
     const [publishOpen, setPublishOpen] = useState<boolean>(false);
     const openPublish = () => setPublishOpen(true);
     const closePublish = () => setPublishOpen(false);
 
     return (
         <>
-            <Grid
-                container
-                className={classes.root}
-            >
-                <Grid
-                    item
-                    xs={12}
+            <Box className={classes.root}>
+                <Box
+                    className={classes.text}
+                    style={{
+                        // colors match github markdown style
+                        backgroundColor: darkMode ? "#0d1117" : "#ffffff",
+                    }}
                 >
-                    <Box
-                        className={classes.text}
-                        height={`${previewHeight}px`}
-                        style={{
-                            // colors match github markdown style
-                            backgroundColor: darkMode ? "#0d1117" : "#ffffff",
-                        }}
-                    >
-                        <RenderMarkdown
-                            md={editText}
-                            darkMode={darkMode}
-                        />
-                    </Box>
-                </Grid>
-                <Grid
-                    item
-                    xs={12}
+                    <RenderMarkdown
+                        md={editText}
+                        darkMode={darkMode}
+                    />
+                </Box>
+                <Toolbar
+                    variant="dense"
+                    disableGutters
+                    className={classes.buttonBar}
+                    style={{
+                        // colors match github markdown style
+                        backgroundColor: darkMode ? "#0d1117" : "#ffffff",
+                    }}
                 >
-                    <Toolbar
-                        ref={buttonRef}
-                        variant="dense"
-                        disableGutters
-                        style={{
-                            // colors match github markdown style
-                            backgroundColor: darkMode ? "#0d1117" : "#ffffff",
-                        }}
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        color="primary"
+                        startIcon={<PublishIcon />}
+                        onClick={openPublish}
                     >
-                        <Button
-                            className={classes.button}
-                            variant="contained"
-                            color="primary"
-                            startIcon={<PublishIcon />}
-                            onClick={openPublish}
-                        >
-                            Publish
-                        </Button>
-                    </Toolbar>
-                </Grid>
-            </Grid>
+                        Publish
+                    </Button>
+                </Toolbar>
+            </Box>
 
             <Publish
                 isOpen={publishOpen}

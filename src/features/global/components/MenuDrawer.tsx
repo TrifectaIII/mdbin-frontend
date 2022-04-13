@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // drawer for navigation on mobile view
-const MenuDrawer = (props: {}): JSX.Element => {
+const MenuDrawer = (): JSX.Element => {
     const classes = useStyles();
 
     const dispatch = useAppDispatch();

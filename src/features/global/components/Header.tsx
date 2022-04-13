@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Main page header for navigation, global state
-const Header = (props: {}): JSX.Element => {
+const Header = (): JSX.Element => {
     const classes = useStyles();
 
     const dispatch = useAppDispatch();
@@ -156,7 +156,7 @@ const Header = (props: {}): JSX.Element => {
 
     return (
         <AppBar
-            position="fixed"
+            position="sticky"
             className={classes.root}
         >
             <Toolbar>
@@ -202,8 +202,3 @@ const Header = (props: {}): JSX.Element => {
 };
 
 export default Header;
-
-// placeholder component for properly offsetting pages
-export const PlaceholderHeader = (props: {
-    innerRef?: (node: HTMLDivElement | null) => void;
-}): JSX.Element => <Toolbar ref={props.innerRef} />;

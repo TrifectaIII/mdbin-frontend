@@ -1,31 +1,34 @@
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
-import { Grid, makeStyles } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import CodeMirror, {
     EditorView,
     ReactCodeMirrorRef,
 } from "@uiw/react-codemirror";
 import React, { useRef, useState } from "react";
-import { useElementSize } from "../../../hooks/UseSize";
 import { clearAll } from "../../../markdown/mdEditing";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import Confirm from "../../global/components/Confirm";
 import { selectDarkMode } from "../../global/globalSlice";
-import { selectEditMode, selectEditText, updateEditText } from "../editSlice";
+import { selectEditText, updateEditText } from "../editSlice";
 import EditorButtons from "./EditorButtons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
+        overflowY: "auto",
         height: "100%",
     },
-    codeMirrorGrid: {},
-    buttonBar: {
-        justifyContent: "space-around",
+    codeMirrorBox: {
+        flexGrow: 1,
+        overflowY: "auto",
     },
 }));
 
 // markdown editor component
-const Editor = (props: { verticalSpace: number }): JSX.Element => {
+const Editor = (): JSX.Element => {
     const classes = useStyles();
     const dispatch = useAppDispatch();
 
@@ -38,12 +41,6 @@ const Editor = (props: { verticalSpace: number }): JSX.Element => {
     // text from state & update handler
     const editText = useAppSelector(selectEditText);
     const handleChange = (value: string) => dispatch(updateEditText(value));
-
-    // calculate height of codemirror editor
-    // pass mode as a dependency so the size updates properly
-    const editMode = useAppSelector(selectEditMode);
-    const [buttonsSize, buttonsRef] = useElementSize(editMode);
-    const editorHeight = props.verticalSpace - buttonsSize.height;
 
     // state for clear all confirm dialog
     const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
@@ -72,33 +69,32 @@ const Editor = (props: { verticalSpace: number }): JSX.Element => {
         view.focus();
     };
 
+    // puts focus on codemirror editor
+    const focusEditor = () => {
+        if (!codeMirrorRef.current?.view) return;
+        const { view } = codeMirrorRef.current;
+        view.focus();
+    };
+
     return (
         <>
-            <Grid
-                container
+            <Box
                 className={classes.root}
+                style={{
+                    backgroundColor: darkMode ? "#282c34" : "#fafafa",
+                }}
+                onClick={focusEditor}
             >
                 {/* Toolbar With helper buttons */}
-                <Grid
-                    item
-                    xs={12}
-                >
-                    <EditorButtons
-                        applyToView={applyToView}
-                        clearAllFunc={openClearConfirm}
-                        innerRef={buttonsRef}
-                    />
-                </Grid>
+                <EditorButtons
+                    applyToView={applyToView}
+                    clearAllFunc={openClearConfirm}
+                />
 
                 {/* CodeMirror Editor */}
-                <Grid
-                    item
-                    xs={12}
-                    className={classes.codeMirrorGrid}
-                >
+                <Box className={classes.codeMirrorBox}>
                     <CodeMirror
                         theme={darkMode ? "dark" : "light"}
-                        height={`${editorHeight}px`}
                         value={editText}
                         onChange={handleChange}
                         placeholder="Markdown goes here..."
@@ -111,8 +107,8 @@ const Editor = (props: { verticalSpace: number }): JSX.Element => {
                         ]}
                         ref={codeMirrorRef}
                     />
-                </Grid>
-            </Grid>
+                </Box>
+            </Box>
 
             {/* confirm dialog for clear all button */}
             <Confirm

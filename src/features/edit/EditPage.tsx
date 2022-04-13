@@ -1,75 +1,71 @@
 import { Grid, Hidden, makeStyles } from "@material-ui/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { useElementSize, useWindowSize } from "../../hooks/UseSize";
 import { useAppSelector } from "../../state/hooks";
-import { PlaceholderHeader } from "../global/components/Header";
 import Editor from "./components/Editor";
 import ModeSwitch from "./components/ModeSwitch";
 import Preview from "./components/Preview";
 import { selectEditMode } from "./editSlice";
 
 const useStyles = makeStyles((theme) => ({
-    root: {},
+    root: {
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
+        overflowY: "auto",
+    },
+    panelGrid: {
+        flexGrow: 1,
+        overflowY: "auto",
+    },
+    panel: {
+        flexGrow: 1,
+        overflowY: "auto",
+        maxHeight: "100%",
+    },
 }));
 
 // main editing interface
-const EditPage = (props: RouteComponentProps<{}>): JSX.Element => {
+const EditPage = (props: RouteComponentProps): JSX.Element => {
     const classes = useStyles();
 
     const editMode = useAppSelector(selectEditMode);
 
-    // size of window & components
-    const windowSize = useWindowSize();
-    const [switchSize, switchRef] = useElementSize();
-    const [headerSize, headerRef] = useElementSize();
-
-    const verticalSpace =
-        windowSize.height - (switchSize.height + headerSize.height);
-
     return (
-        <>
-            {/* placeholder header for offsets */}
-            <PlaceholderHeader innerRef={headerRef} />
-
-            {/* main contents */}
+        <Grid className={classes.root}>
+            <ModeSwitch />
             <Grid
                 container
-                direction="row"
-                className={classes.root}
+                className={classes.panelGrid}
             >
-                <Grid
-                    item
-                    xs={12}
+                <Hidden
+                    smDown={editMode === "preview"}
+                    implementation="js"
                 >
-                    <ModeSwitch innerRef={switchRef} />
-                </Grid>
-                <Grid
-                    item
-                    xs={12}
-                    md={6}
-                >
-                    <Hidden
-                        smDown={editMode === "preview"}
-                        implementation="css"
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        className={classes.panel}
                     >
-                        <Editor verticalSpace={verticalSpace} />
-                    </Hidden>
-                </Grid>
-                <Grid
-                    item
-                    xs={12}
-                    md={6}
+                        <Editor />
+                    </Grid>
+                </Hidden>
+                <Hidden
+                    smDown={editMode === "editor"}
+                    implementation="js"
                 >
-                    <Hidden
-                        smDown={editMode === "editor"}
-                        implementation="css"
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        className={classes.panel}
                     >
-                        <Preview verticalSpace={verticalSpace} />
-                    </Hidden>
-                </Grid>
+                        <Preview />
+                    </Grid>
+                </Hidden>
             </Grid>
-        </>
+        </Grid>
     );
 };
 

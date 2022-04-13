@@ -1,9 +1,8 @@
 import { Box, makeStyles } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { useElementSize, useWindowSize } from "../../hooks/UseSize";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { PlaceholderHeader } from "../global/components/Header";
+import { selectDarkMode } from "../global/globalSlice";
 import NotFound from "../notFound/components/NotFound";
 import ViewPending from "./components/ViewPending";
 import ViewSuccess from "./components/ViewSuccess";
@@ -14,7 +13,11 @@ import {
 } from "./viewSlice";
 
 const useStyles = makeStyles((theme) => ({
-    root: {},
+    root: {
+        overflowY: "auto",
+        paddingTop: "2rem",
+        flexGrow: 1,
+    },
 }));
 
 // Page to view a published document
@@ -25,6 +28,8 @@ const ViewPage = (
 ): JSX.Element => {
     const classes = useStyles();
     const dispatch = useAppDispatch();
+
+    const darkMode = useAppSelector(selectDarkMode);
 
     // get documentKey from props
     const { documentKey } = props.match.params;
@@ -44,21 +49,17 @@ const ViewPage = (
             dispatch(viewDocument(documentKey));
     }, [documentKey, documentKeyState, requestStatus]);
 
-    // determine height of main element
-    const windowSize = useWindowSize();
-    const [headerSize, headerRef] = useElementSize();
-    const viewHeight = windowSize.height - headerSize.height;
-
     return (
         <>
-            <PlaceholderHeader innerRef={headerRef} />
-            <Box className={classes.root}>
+            <Box
+                className={classes.root}
+                style={{
+                    // colors match github markdown style
+                    backgroundColor: darkMode ? "#0d1117" : "#ffffff",
+                }}
+            >
                 {requestStatus === "pending" ? <ViewPending /> : <></>}
-                {requestStatus === "success" ? (
-                    <ViewSuccess height={viewHeight} />
-                ) : (
-                    <></>
-                )}
+                {requestStatus === "success" ? <ViewSuccess /> : <></>}
                 {requestStatus === "error" ? (
                     <NotFound
                         type="document"

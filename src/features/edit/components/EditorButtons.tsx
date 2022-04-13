@@ -28,8 +28,6 @@ import {
     redoEvent,
     undoEvent,
 } from "../../../markdown/mdEditing";
-import { useAppSelector } from "../../../state/hooks";
-import { selectDarkMode } from "../../global/globalSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,18 +43,11 @@ const EditorButtons = (props: {
 }): JSX.Element => {
     const classes = useStyles();
 
-    // current global dark mode state
-    const darkMode = useAppSelector(selectDarkMode);
-
     return (
         <Toolbar
             variant="dense"
             className={classes.root}
             ref={props.innerRef}
-            style={{
-                // colors match github css style
-                backgroundColor: darkMode ? "#282c34" : "#fafafa",
-            }}
         >
             <Tooltip title="Bold">
                 <IconButton
