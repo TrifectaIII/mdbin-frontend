@@ -50,26 +50,24 @@ const ViewPage = (
     }, [documentKey, documentKeyState, requestStatus]);
 
     return (
-        <>
-            <Box
-                className={classes.root}
-                style={{
-                    // colors match github markdown style
-                    backgroundColor: darkMode ? "#0d1117" : "#ffffff",
-                }}
-            >
-                {requestStatus === "pending" ? <ViewPending /> : <></>}
-                {requestStatus === "success" ? <ViewSuccess /> : <></>}
-                {requestStatus === "error" ? (
-                    <NotFound
-                        type="document"
-                        documentKey={documentKey}
-                    />
-                ) : (
-                    <></>
-                )}
-            </Box>
-        </>
+        <Box
+            className={classes.root}
+            style={{
+                // colors match github markdown style
+                backgroundColor: darkMode ? "#0d1117" : "#ffffff",
+            }}
+        >
+            {requestStatus === "pending" ? <ViewPending /> : <></>}
+            {requestStatus === "success" ? <ViewSuccess /> : <></>}
+            {requestStatus === "error" ? (
+                <NotFound
+                    type="document"
+                    documentKey={documentKey}
+                />
+            ) : (
+                <></>
+            )}
+        </Box>
     );
 };
 

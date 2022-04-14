@@ -1,4 +1,4 @@
-import { Grid, Hidden, makeStyles } from "@material-ui/core";
+import { Box, Grid, Hidden, makeStyles } from "@material-ui/core";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useAppSelector } from "../../state/hooks";
@@ -32,7 +32,7 @@ const EditPage = (props: RouteComponentProps): JSX.Element => {
     const editMode = useAppSelector(selectEditMode);
 
     return (
-        <Grid className={classes.root}>
+        <Box className={classes.root}>
             <ModeSwitch />
             <Grid
                 container
@@ -65,7 +65,7 @@ const EditPage = (props: RouteComponentProps): JSX.Element => {
                     </Grid>
                 </Hidden>
             </Grid>
-        </Grid>
+        </Box>
     );
 };
 

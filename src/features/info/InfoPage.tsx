@@ -21,20 +21,18 @@ const InfoPage = (props: RouteComponentProps): JSX.Element => {
     const darkMode = useAppSelector(selectDarkMode);
 
     return (
-        <>
-            <Box
-                className={classes.root}
-                style={{
-                    // colors match github markdown style
-                    backgroundColor: darkMode ? "#0d1117" : "#ffffff",
-                }}
-            >
-                <RenderMarkdown
-                    md={infoText}
-                    darkMode={darkMode}
-                />
-            </Box>
-        </>
+        <Box
+            className={classes.root}
+            style={{
+                // colors match github markdown style
+                backgroundColor: darkMode ? "#0d1117" : "#ffffff",
+            }}
+        >
+            <RenderMarkdown
+                md={infoText}
+                darkMode={darkMode}
+            />
+        </Box>
     );
 };
 
