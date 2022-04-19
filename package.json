@@ -10,6 +10,7 @@
         "eject": "react-scripts eject",
         "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
         "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+        "lint:fix:watch": "onchange \"**/*\" -- eslint --fix --ext .js,.jsx,.ts,.tsx {{changed}}",
         "format": "prettier -w .",
         "format:watch": "onchange \"**/*\" -- prettier -w -u {{changed}}"
     },

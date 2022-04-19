@@ -102,7 +102,6 @@ const MenuDrawer = (): JSX.Element => {
         }
 
         // add a divider it its not the last point
-        // eslint-disable-next-line max-len
         if (index < Object.keys(navMap).length - 1)
             navItems.push(<Divider key={`div${index}`} />);
     });

@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 import { redo as historyRedo, undo as historyUndo } from "@codemirror/history";
 import {
     EditorView,
